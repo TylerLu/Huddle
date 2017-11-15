@@ -1,0 +1,146 @@
+﻿using Huddle.BotWebApp.Models;
+using Microsoft.Graph;
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Huddle.BotWebApp.Services
+{
+    public class IdeaService
+    {
+        private GraphServiceClient graphServiceClient;
+        private PlannerService plannerService;
+        private TeamService teamService;
+
+        public IdeaService(GraphServiceClient graphServiceClient)
+        {
+            this.graphServiceClient = graphServiceClient;
+            this.plannerService = new PlannerService(graphServiceClient);
+            this.teamService = new TeamService(graphServiceClient);
+        }
+
+        public async Task<Idea[]> GetAsync(Team team, string planId, string status, DateTime? from)
+        {
+            var bucketName = GetBucketName(status);
+            var buckets = await plannerService.GetBucketsAsync(planId);
+            var bucketDict = buckets.ToDictionary(b => b.Id);
+            var bucket = buckets.FirstOrDefault(i => i.Name == bucketName);
+
+            var members = await teamService.GetTeamMembersAsync(team.Id);
+            var membersDict = members.ToDictionary(m => m.Id);
+
+            //await plannerService.GetNewIdeaBucketAsync(plan);
+
+            var tasks = await graphServiceClient.Planner.Plans[planId].Tasks.Request().GetAllAsync();
+            // No HTTP resource was found that matches the request URI 'https://tasks.office.com:444/taskapi/v2.0/plans('NST-vWZbOUa-rQAZ6Fp8ymQADbhi')/buckets('CvDR5JNrfkOHYzsG7KWDI2QAENg7')/tasks
+            // await graphServiceClient.Planner.Plans[planId].Buckets[bucket.Id].Tasks.Request().GetAllAsync();
+
+            if (bucket != null)
+                tasks = tasks.Where(i => i.BucketId == bucket.Id).ToArray();
+
+            return tasks.Select(i => new Idea
+            {
+                Id = i.Id,
+                Bucket = bucketDict[i.BucketId].Name,
+                Title = i.Title,
+                StartDate = i.StartDateTime,
+                Owners = i.Assignments
+                    .Select(a => membersDict[a.Key])
+                    .ToArray()
+            }).ToArray();
+        }
+
+        public async Task<PlannerTask> CreateAsync(string planId, Idea idea)
+        {
+            var newIdearBucket = await plannerService.GetNewIdeaBucketAsync(planId);
+            if (newIdearBucket == null) throw new ApplicationException("Could not found New Idea bucket.");
+
+            var plannerTask = new PlannerTask
+            {
+                PlanId = planId,
+                BucketId = newIdearBucket.Id,
+                Title = idea.Title,
+                StartDateTime = idea.StartDate,
+                Assignments = new PlannerAssignments()
+            };
+            foreach (var owner in idea.Owners)
+                plannerTask.Assignments.AddAssignee(owner.Id);
+            plannerTask = await graphServiceClient.Planner.Tasks.Request().AddAsync(plannerTask);
+            //await Task.Delay(3000);
+
+            var planerTaskDetails = new PlannerTaskDetails { Description = idea.Description };
+            var plannerTaskRequestBuilder = graphServiceClient.Planner.Tasks[plannerTask.Id];
+
+            PlannerTaskDetails details = null;
+
+            int count = 1;
+            while (true)
+            {
+                try
+                {
+                    details = await plannerTaskRequestBuilder.Details.Request().GetAsync();
+                    break;
+                }
+                catch(Exception ex)
+                {
+                    if (count < 6)
+                        await Task.Delay(1000);
+                    else
+                        throw new Exception("Task created. But failed to create its details. ", ex);
+                }
+                count++;
+            }
+
+            details = await plannerTaskRequestBuilder.Details
+                .Request(new[] { new HeaderOption("If-Match", details.GetEtag()) })
+                .UpdateAsync(planerTaskDetails);
+
+            return plannerTask;
+        }
+
+        public async Task GetDetailsAsync(Idea idea)
+        {
+            var details = await graphServiceClient.Planner.Tasks[idea.Id].Details.Request().GetAsync();
+            if (details != null)
+                idea.Description = details.Description;
+
+        }
+
+        public string GetIdeaUrl(string groupId, string planId, string taskId)
+        {
+            return $"https://tasks.office.com/{Constants.AADTenantId}/EN-US/Home/Planner#/plantaskboard?groupId={groupId}&planId={planId}&taskId={taskId}";
+        }
+
+        private string GetNextStepsFromDetails(PlannerTaskDetails details)
+        {
+            return Regex.Match(
+                details.Description,
+                "(?<=Next Steps(\r\n)+).*(?=(\r\n)+Aligned to Metric)",
+                RegexOptions.Compiled | RegexOptions.Multiline).Value;
+        }
+
+        private string GetAlignedToMetricFromDetails(PlannerTaskDetails details)
+        {
+            return Regex.Match(
+                details.Description,
+                "(?<=Aligned to Metric\r\n).*",
+                RegexOptions.Compiled | RegexOptions.Multiline).Value;
+        }
+
+        private string GetBucketName(string status)
+        {
+            if (status.IsNullOrEmpty()) return null;
+
+            switch (status.ToLower())
+            {
+                case "new":
+                    return Constants.IdeasPlan.Buckets.NewIdea;
+                case "in progress":
+                    return Constants.IdeasPlan.Buckets.InProgress;
+                default:
+                    return status;
+            }
+        }
+    }
+}

@@ -1,0 +1,59 @@
+﻿<div class="add-issue-dialog">
+    <div class="ms-Dialog ms-Dialog--blocking ms-Dialog--close" [ngClass]="{'is-open': isShown}">
+        <button class="ms-Dialog-button ms-Dialog-buttonClose" [disabled]="isSaving" (click)="close()">
+            <i class="ms-Icon ms-Icon--Cancel"></i>
+        </button>
+        <div class="ms-Dialog-title">Add New Issue</div>
+        <div class="ms-Dialog-content">
+            <div class="content-block">
+                <div class="left"></div>
+                <div class="right">
+                    <div class="ms-TextField">
+                        <label class="ms-Label">Name<span class="required">*</span></label>
+                        <input class="ms-TextField-field" type="text" placeholder="Required" [(ngModel)]="toAddIssue.name">
+                    </div>
+                    <div class="ms-TextField">
+                        <label class="ms-Label">Metric<span class="required">*</span></label>
+                        <input class="ms-TextField-field" type="text" placeholder="Required" [(ngModel)]="toAddIssue.metric">
+                    </div>
+                    <div class="ms-TextField">
+                        <label class="ms-Label">Target Goal</label>
+                        <input class="ms-TextField-field" type="text" [(ngModel)]="toAddIssue.targetGoal">
+                    </div>
+                    <div class="dropdown-container">
+                        <label class="ms-Label">Pillar</label>
+                        <div class="ms-Dropdown">
+                            <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--ChevronDown"></i>
+                            <select class="ms-Dropdown-select" [(ngModel)]="selectedCategory" (ngModelChange)="selectCategory($event)">
+                                <option *ngFor="let category of categories">{{category.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-block">
+                <div class="left">
+                    <div class="divider"></div>
+                </div>
+                <div class="right">
+                    <div class="divider"></div>
+                </div>
+            </div>
+            <div class="content-block">
+                <div class="left">Reasons:</div>
+                <div class="right">
+                    <div class="ms-TextField" *ngFor="let reason of toAddReasons; let i = index;">
+                        <label class="ms-Label">{{i+1}}</label>
+                        <input class="ms-TextField-field" type="text" [(ngModel)]="reason.name">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ms-Dialog-actions">
+            <button class="ms-Button ms-Dialog-action ms-Button--primary" [disabled]="isSaveDisabled()" (click)="saveIssue()">
+                <span class="ms-Button-label">Save</span>
+            </button>
+        </div>
+    </div>
+    <div class="ms-Overlay ms-Overlay--dark"></div>
+</div> 

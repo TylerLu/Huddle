@@ -1,0 +1,33 @@
+﻿.main-content{
+    padding-top: 20px;
+    padding-bottom: 4px;
+}
+.main-content>*{
+    display:inline-block;
+}
+.main-content .btns{
+    padding-left:30px;
+    line-height:0;
+}
+.main-content .btns>*{
+    display:inline-block;
+}
+.main-content .btns .previous-selector{
+    margin-right:4px;
+}
+.main-content .btns .selector{
+    width:16px;
+    height:16px;
+    display:inline-block;
+    text-align: center;
+    vertical-align: middle;
+    cursor:pointer;
+}
+.main-content .dates label{
+    padding-left:20px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.33;
+    text-align: left;
+    color: #464646;
+}

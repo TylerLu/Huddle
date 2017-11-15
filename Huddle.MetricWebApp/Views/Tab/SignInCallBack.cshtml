@@ -1,0 +1,13 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_TeamsTabLayout.cshtml";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        microsoftTeams.initialize();
+        microsoftTeams.authentication.notifySuccess();
+    </script>
+}
+
+Signed in successfully. Please close the window and go ahead.

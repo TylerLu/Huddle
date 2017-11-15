@@ -1,0 +1,10 @@
+﻿.container{
+    max-width:1366px;
+    width:1366px;
+    padding-left:0;
+    padding-right:0;
+}
+.container > *{
+    display:inline-block;
+    vertical-align:top;
+}

@@ -1,0 +1,89 @@
+﻿div.add-reason-dialog{
+    position:relative;
+}
+div.add-reason-dialog .close-icon{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-image: url(/images/icons-8-delete-64-px-2-copy.png);
+    background-repeat: no-repeat;
+    top: -41px;
+    left: 676px;
+    z-index: 2;
+    cursor:pointer;
+}
+div.add-reason-dialog .ms-Dialog{
+    padding:0;
+    background-color: #fff;
+    width:697px;
+    max-width:697px;
+    border-radius: 5px;
+}
+div.add-reason-dialog .ms-Dialog .ms-Dialog-title{
+    margin-bottom: 0;
+    font-family: OpenSans;
+    font-weight: 700;
+    height: 30px;
+    background-color: #ebebeb;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 2.14;
+    text-align: left;
+    color: #464646;
+    padding-left: 30px;
+    text-transform:uppercase;
+}
+div.add-reason-dialog .ms-Dialog .ms-Dialog-content{
+    padding-left:98px;
+    padding-top: 10px;
+}
+div.add-reason-dialog .ms-Dialog-subText{
+    font-family: OpenSans;
+    font-size: 18px;
+    line-height: 1.67;
+    text-align: left;
+    color: #464646;
+    margin-bottom:15px;
+}
+div.add-reason-dialog .ms-Dialog-subText.issue{
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 2.14;
+    color: #464646;
+    text-transform:uppercase;
+    margin-bottom: 4px;
+}
+div.add-reason-dialog .ms-Dialog .input-container{
+    padding-left: 0;
+    padding-right: 25px;
+    padding-bottom:2px;
+}
+div.add-reason-dialog .ms-Dialog .input-container textarea{
+    width: 500px;
+    height: 113px;
+    max-width: 500px;
+    border-radius: 5px;
+    border: solid 1px #a1a1a1;
+}
+div.add-reason-dialog .ms-Dialog .button-container{
+    text-align: center;
+    margin-top: 0;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    padding-left:0;
+}
+div.add-reason-dialog .ms-Dialog .button-container .ms-Button{
+    width: 108px;
+    height: 34px;
+    border-radius: 5px;
+    background-color: #018fbf;
+    padding-top: 1px;
+}
+div.add-reason-dialog .ms-Dialog .button-container .ms-Button span{
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 2.14;
+    color: #ffffff;
+    text-transform:uppercase;
+}

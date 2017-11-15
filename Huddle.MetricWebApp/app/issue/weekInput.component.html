@@ -1,0 +1,14 @@
+﻿<ul [hidden]="!(weekInputViewModel.isIssueMetric)">
+    <li *ngFor="let weekDay of currentWeekDays;let i = index" [ngClass]="{'odd': rowIndex%2!=0}">
+        <div class="ms-TextField times-field">
+            <input class="ms-TextField-field" type="text" placeholder=""  [(ngModel)]="weekInputViewModel?.issueMetricArray[i].metricValues" >
+        </div>
+    </li>
+</ul>
+<ul [hidden]="weekInputViewModel.isIssueMetric">
+    <li *ngFor="let weekDay of currentWeekDays;let i = index" [ngClass]="{'odd': rowIndex%2!=0}">
+        <div class="ms-TextField times-field">
+            <input class="ms-TextField-field" type="text" placeholder="" [(ngModel)]="weekInputViewModel?.reasonMetricArray[i].reasonMetricValues">
+        </div>
+    </li>
+</ul>

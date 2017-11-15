@@ -1,0 +1,18 @@
+﻿h1 {
+    background-color: #00539d;
+    color: #fff;
+    margin-top: 0;
+    padding-top: 11px;
+    padding-bottom: 5px;
+    padding-left:31.5%;
+    height: 57px;
+    font-family: OpenSans;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 0;
+    background-repeat: no-repeat;
+    background-image: url('/images/logo.png');
+    background-position: 28.1%;
+
+    border-bottom:5px solid #fec842;
+}

@@ -1,0 +1,33 @@
+﻿<div class="relative-container">
+    <div class="issue-list-container">
+        <div class="issue-filter" tabindex="0">
+            <h4>issues</h4>
+            <div class="radio-active">
+                <input type="radio" name="active-issue" [value]="1" [(ngModel)]="selectedIssueState.value" (click)="filterIssueState(1,true)" /><label class="ms-Label">open</label>
+            </div>
+            <div class="radio-closed">
+                <input type="radio" name="closed-issue" [value]="0" [(ngModel)]="selectedIssueState.value" (click)="filterIssueState(0,true)"/><label class="ms-Label">closed</label>
+            </div>
+        </div>
+        <div class="issue-list-section">
+            <span class="arrow-up" (click)="resetDisplayIssueArray(true)"></span>
+            <div class="ms-Spinner" [hidden]="isRequestCompleted">
+            </div>
+            <ul class="ms-List issue-list" [hidden]="!isRequestCompleted">
+                <li class="ms-ListItem is-unread is-selectable" [ngClass]="item.IsSelected? 'is-selected' : ''" tabindex="{{item.Issue.id}}" (click)="clickIssue(item)" *ngFor="let item of displayedIssueArray">
+                    <span class="ms-ListItem-tertiaryText">{{item.Issue.name}}</span>
+                    <div class="list-line">
+                        <h5>Start Date:</h5>
+                        <span class="ms-ListItem-secondaryText">{{item.Issue.startDate}}</span>
+                    </div>
+                </li>
+            </ul>
+            <span class="arrow-down" (click)="resetDisplayIssueArray(false)"></span>
+        </div>
+        <button [hidden]="!isCreateBtnVisible" class="ms-Button ms-Button--hero" (click)="createIssue()">
+            <span class="ms-Button-icon"></span>
+            <span class="ms-Button-label">Add New Issue</span>
+        </button>
+    </div>
+    <add-issue (afterAddedIssue)="issueAdded($event)"></add-issue>
+</div>

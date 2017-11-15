@@ -1,0 +1,20 @@
+﻿<div id="{{popupId}}" class="invalid-input-dialog" [ngClass]="isConfirmInput? 'confirm' : 'no-confirm'">
+    <div class="ms-Dialog">
+        <div class="ms-Dialog-content">
+            <p class="ms-Dialog-subText">{{inputTip}}</p>
+        </div>
+        <div class="ms-Dialog-actions button-container"  [hidden]="isConfirmInput">
+            <button class="ms-Button ms-Dialog-action ms-Button--primary" (click)="clickOkay()">
+                <span class="ms-Button-label">Okay</span>
+            </button>
+        </div>
+        <div class="ms-Dialog-actions button-container"  [hidden]="!isConfirmInput">
+            <button class="ms-Button ms-Dialog-action ms-Button--primary confirm" (click)="clickConfirmOrCancel(true)" >
+                <span class="ms-Button-label">Confirm</span>
+            </button>
+            <button class="ms-Button ms-Dialog-action ms-Button--primary cancel" (click)="clickConfirmOrCancel(false)">
+                <span class="ms-Button-label">Cancel</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "SignIn";
+    Layout = "~/Views/Shared/_TeamsTabLayout.cshtml";
+
+    var authRedirectUri = Url.Action("SignInCallBack");
+    var authUrl = Url.Action("SignIn", "Account", new { redirectUri = authRedirectUri }, protocol: Request.Url.Scheme);
+    var teamId = Request.Params["teamId"];
+}
+
+<button id="signIn" type="button">Sign In</button>
+
+@section scripts{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        microsoftTeams.initialize();
+        $(function () {
+            $('#signIn').on('click', function () {
+                microsoftTeams.getContext(function (context) {
+                    microsoftTeams.authentication.authenticate({
+                        url: '@authUrl' + '&loginHint=' + context.upn,
+                            width: 600,
+                            height: 480,
+                            successCallback: function () {
+                                window.location = '/?teamId=@teamId'
+                            },
+                            failureCallback: function () {
+                                window.location = '/?teamId=@teamId'
+                            }
+                        });
+                    });
+            });
+        });
+    </script>
+}

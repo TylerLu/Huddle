@@ -1,0 +1,337 @@
+﻿.container-right{
+    margin-left:351px;
+    padding-left:20px;
+    padding-right:20px;
+}
+.container-right .ms-Overlay{
+    background-color: rgba(0,0,0,0.2);
+}
+.padding-left-table{padding-left:33px;}
+.sub-title > label{
+    text-align:left;
+    height: 48px;
+    padding-top: 10px;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1.25;
+    color: #464646;
+    max-width:855px;
+    display:inline-block;
+    width: 81%;
+}
+
+li.main span.edit-mode input{
+    border-radius: 5px;
+    border: solid 1px #a1a1a1;
+    width:235px;
+}
+li.toggle {
+    padding-left:13px;
+}
+li.toggle .ms-Toggle {
+    padding-top: 5px;
+    padding-left:8px;
+}
+li.toggle .ms-Toggle-field {
+    width: 27px;
+    height: 15px;
+    border-color:#333333;
+    background-color:#333333;
+}
+li.toggle .ms-Toggle-field.is-selected{
+    border-color: #6B8E23;
+    background-color: #6B8E23;
+}
+li.toggle .ms-Toggle-field:before{
+    top: -0.5px;
+    width: 12px;
+    height: 12px;
+    left: 1px;
+}
+li.toggle .ms-Toggle-field.is-selected:before{
+    left: 11px;
+}
+li.toggle .ms-Toggle-field > span{
+    margin-top: 16px;
+    margin-left: -48px;
+    text-transform:uppercase;
+    font-family: OpenSans;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1.6;
+}
+.edit{
+    margin-right: 15px;
+    padding-top: 4px;
+    cursor: pointer;
+    display: inline-block;
+    width: 26px;
+}
+.edit>span{
+    display:block;
+}
+.edit > span.icon{
+    width:15px;
+    height:15px;
+    background-image:url('/images/icons-8-edit-64-px-1.png');
+    background-repeat:no-repeat;
+    background-size:15px 15px;
+    margin-left: 5px;
+}
+.edit > span.icon.save{
+    background-image:url('/images/icons-8-save-64-px.png');
+}
+.edit > span.title{
+    font-family: OpenSans;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1.6;
+    text-align: center;
+    color: #018fbf;
+    text-transform:uppercase;
+    -webkit-transform: scale(0.7);
+    -moz-transform: scale(0.7);
+    transform: scale(0.7);
+}
+.edit > span.title.save{
+    color:#212121;
+}
+div.edit.issue{
+    padding-left: 3px;
+    vertical-align: bottom;
+}
+div.edit.issue > span.icon{
+    margin-right: 21px;
+}
+input.edit{
+    border-radius: 5px;
+    border: solid 1px #a1a1a1;
+    min-width:800px;
+    cursor:auto;
+}
+.metric-section{
+    max-width:973px;
+    width:973px;
+    border-radius: 5px;
+    border: solid 1px #a1a1a1;
+    padding:20px 45px 20px 33px;
+}
+.metric-section ul,.reason-section ul{list-style:none;}
+.metric-section ul>*,.reason-section ul >*{display:inline-block;vertical-align:top;}
+.metric-section ul.header {
+    margin-bottom:3px;
+    padding-left:0;
+}
+.metric-section ul.header li{
+    background-color:transparent;
+    height:33px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.14;
+    color: #454545;
+    text-transform:uppercase;
+}
+.metric-section ul li.main{
+    width: 26.9%;
+    padding-top: 4px;
+    margin-right:0px;
+    padding-right:1px;
+}
+.metric-section ul li.target-goal{
+    width: 6%;
+    padding-top: 4px;
+    margin-right:21px;
+    font-size:12px;
+}
+.metric-section ul li.date{
+    width:12%;
+    padding-top: 4px;
+    margin-right:-3px;
+}
+.metric-section ul.header li.week-day{
+    margin-right:1px;
+    width:50px;
+    text-align: center;
+    padding-top: 5px;
+}
+.metric-section ul.header li.toggle{
+    width:50px;
+    text-align:center;
+    padding-top:5px;
+    margin-left:-4px;
+}
+.metric-section ul.body {
+    padding-left:0;
+}
+.metric-section ul.body li{
+    background-color:transparent;
+    height:45px;
+}
+.metric-section ul.body li.main,.metric-section ul.body li.date{
+    font-size:14px;
+}
+
+.reason-section {
+    max-width: 973px;
+    width: 973px;
+    margin-top: 30px;
+    border-radius: 5px;
+    border: solid 1px #a1a1a1;
+    padding: 20px 45px 20px 33px;
+}
+.reason-section .padding-left-table {
+    padding-left: 11px;
+}
+.reason-section .header-title{background-color:#0090BA;text-align:center;}
+.reason-section .header-title label{
+    color:#fff;
+    font-size:17px;
+    padding-top: 0px;
+    padding-bottom: 3px;
+}
+.reason-section .filter{
+    background-color:transparent;
+    margin-bottom: 0;
+}
+.reason-section .reason-filter >*{
+    vertical-align:top;
+}
+.reason-section .reason-filter > h4{
+    font-size:14px;
+    font-weight: bold;
+    display:inline-block;
+    text-transform:uppercase;
+    width:45px;
+    margin-top:1px;
+    margin-bottom:0;
+    margin-right: 17px;
+    font-family: OpenSans;
+}
+.reason-section .reason-filter  > div {
+    display: inline-block;
+    width: auto;
+    min-width: 20%;
+    margin-top: -3px;
+}
+.reason-section .reason-filter > div.radio-active{
+    margin-left: 15px;
+}
+.reason-section .reason-filter > div.radio-closed{
+    width: 25%;
+}
+.reason-section .reason-filter  > div > label{
+    text-transform:uppercase;
+    display:inline-block;
+    padding-left: 5px;
+    vertical-align: top;
+    font-weight: bold;
+    color: #464646;
+}
+.reason-section .reason-filter  > div > input:checked + label {
+    color: #000000;
+}
+.reason-section ul li.toggle{
+    margin-left: -4px;
+    width: 45px;
+}
+.reason-section ul li.edit{
+    margin-right: 22px;
+}
+.reason-section .content{padding-bottom:15px;}
+
+.reason-section .content ul{padding-left:0px;}
+.reason-section .content ul li{height:45px;}
+.reason-section .content ul li.main{
+    width: 32.8%;
+    margin-right:30px;
+}
+.reason-section .content ul.header{margin-bottom:3px;}
+.reason-section .content ul.header li{
+    background-color:transparent;
+    color: #464646;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.14;
+    height: 30px;
+    text-transform:uppercase;
+}
+.reason-section .content ul.header li.main button{
+    width: 30px;
+    height: 20px;
+    display: inline-block;
+    background-color: transparent;
+    left: 167px;
+    top: -1px;
+    position:relative;
+}
+.reason-section ul li.main {
+    width: 35.1%;
+    font-size: 17px;
+    padding-top:4px;
+}
+.reason-section ul li.date{
+    width:12%;
+    font-size:17px;
+    margin-left:-3px;
+    margin-right:-3px;
+    padding-top:4px;
+}
+.reason-section ul.header li.week-day {
+    margin-right: 1px;
+    width: 50px;
+    text-align: center;
+    padding-top: 5px;
+}
+.reason-section ul.header li.toggle {
+        text-align: center;
+    padding-top: 4px;
+}
+.reason-section ul.body{margin-bottom:1px;}
+.reason-section ul.body li.main,.reason-section ul.body li.date{
+    font-size:14px;
+}
+.reason-section ul.body:nth-child(even) li.main,
+.reason-section ul.body:nth-child(even) li.date,
+.reason-section ul.body:nth-child(even) li.toggle{
+    background-color:transparent;
+}
+.reason-section ul.body:nth-child(odd) li.main,
+.reason-section ul.body:nth-child(odd) li.date,
+.reason-section ul.body:nth-child(odd) li.toggle
+{
+    background-color:transparent;
+}
+.ms-Button.add-reason-btn{
+    height:39px;
+}
+.ms-Button.add-reason-btn .ms-Button-icon{
+    width: 20px;
+    height: 20px;
+    background-size: 20px 20px;
+}
+.ms-Button.add-reason-btn .ms-Button-label{
+    font-size: 12px;
+    line-height: 1.33;
+}
+.submit{
+    padding-top: 15px;
+    padding-left: 18px;
+    text-align:right;
+    max-width: 973px;
+}
+.submit .ms-Button{
+    position:relative;
+    width: 108px;
+    height: 34px;
+    border-radius: 5px;
+    background-color: #018fbf;
+    padding-top:0;
+    padding-left: 19px;
+}
+.submit .ms-Button span{
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 2.14;
+    color: #ffffff;
+    text-transform:uppercase;
+}

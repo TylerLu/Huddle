@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Configure";
+    Layout = "~/Views/Shared/_TeamsTabLayout.cshtml";
+    var url = Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
+}
+
+@section scripts{
+    <script type="text/javascript">
+        microsoftTeams.initialize();
+        microsoftTeams.settings.setValidityState(true);
+        microsoftTeams.getContext(function (context) {
+            microsoftTeams.settings.setSettings({
+                entityId: "metricinput",
+                suggestedDisplayName: "Metric Input",
+                contentUrl: '@url' + '?teamId=' + context.groupId
+            });
+        });
+    </script>
+}
