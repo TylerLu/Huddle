@@ -66,11 +66,13 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 :: ----------
 
 :: 0. Install npm dependencies for app and build
-echo Installing npm packages for app and build in %~dp0% 
-call :ExecuteCmd cd "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp"
-call :ExecuteCmd npm install
-IF !ERRORLEVEL! NEQ 0 goto error
-
+IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+  echo Installing npm packages for app and build in %~dp0% 
+  pushd "%DEPLOYMENT_TARGET%"
+  call :ExecuteCmd npm install
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
 
 
 echo Handling .NET Web Application deployment.
