@@ -98,7 +98,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 :: 4. Copy node_modules
-call :ExecuteCmd xcopy "%DEPLOYMENT_SOURCE%\node_modules" "%DEPLOYMENT_TARGET%\node_modules" /s/h/e/k/c
+call :ExecuteCmd xcopy "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\node_modules" "%DEPLOYMENT_TARGET%\Huddle.MetricWebApp\node_modules" /s/h/e/k/c
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
