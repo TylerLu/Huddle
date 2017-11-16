@@ -66,9 +66,9 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 :: ----------
 
 :: 0. Install npm dependencies for app and build
-IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (
-  echo Installing npm packages
-  pushd "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp"
+IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+  echo Installing npm packages for app and build in %~dp0% 
+  pushd "%DEPLOYMENT_TARGET%"
   call :ExecuteCmd npm install
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
@@ -90,7 +90,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\Huddle.MetricWebApp.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%\.\\" %SCM_BUILD_ARGS%
 )
 
-:: IF !ERRORLEVEL! NEQ 0 goto error
+IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 3. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
