@@ -3,68 +3,54 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "luisAppId": {
-      "type": "string",
-      "defaultValue": "1cd1b9f5-a4bd-4a1a-b74f-409e6143120d"
+      "type": "string"
     },
     "botId": {
-      "type": "string",
-      "defaultValue": "HuddleBotBuid3"
+      "type": "string"
     },
     "microsoftAppId": {
-      "type": "string",
-      "defaultValue": "ad2a58bb-0021-456c-a9df-2d2bb3af5e77"
+      "type": "string"
     },
     "microsoftAppPassword": {
-      "type": "string",
-      "defaultValue": "sbLAJ995)cwnrnLQNW42:^:"
+      "type": "securestring "
     },
     "tenantId": {
-      "type": "string",
-      "defaultValue": "0534985e-032e-430a-9b95-60f5277b96f4"
+      "type": "string"
     },
     "botClientId": {
-      "type": "string",
-      "defaultValue": "01227567-ecd2-4042-bff8-64230eeaa96a"
+      "type": "string"
     },
     "botClientSecret": {
-      "type": "string",
-      "defaultValue": "Sx3r6XjMEFPw7UVOBFTgmA4m7CFxbN+US58RiQzYoaE="
+      "type": "securestring"
     },
     "metricClientId": {
-      "type": "string",
-      "defaultValue": "9a286665-eeea-4ca1-a2fe-1b3c9e8c4060"
+      "type": "string"
     },
     "metricClientSecret": {
-      "type": "string",
-      "defaultValue": "opHJK8Dy+/L/iinj64bT57zb79NfCXH9L4sXOfWvkME="
+      "type": "securestring"
     },
     "graphClientId": {
-      "type": "string",
-      "defaultValue": "626a91e9-8f90-45d8-8111-1bf8b9fae87e"
+      "type": "string"
     },
     "graphClientSecret": {
-      "type": "string",
-      "defaultValue": "R4L9bK1cbzwvxlG8ABh6g3eX4FNyevOjVK0hrfDaXrI="
+      "type": "securestring"
     },
     "certificatePfxBase64": {
-      "type": "string",
-      "defaultValue": "MIIJ8gIBAzCCCa4GCSqGSIb3DQEHAaCCCZ8EggmbMIIJlzCCBgAGCSqGSIb3DQEHAaCCBfEEggXtMIIF6TCCBeUGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAjUfRhSRuzv/wICB9AEggTYt8UTKQHzGg1eiUDL/IogC66x5TE/BcWswnglquwEVn3e9PnGHDXwG92EY4ibC4duoDP1KlhyFkkTXSgqeqzJXnU5m125h1NE2fpglUz+4zAmKz2SmKtEzUHa+MsW1d7ZEhBi2ChUFj7P47h5J3QQbRoc3I7alsOsgLIoHmMXyhB3a8UHFV7TA0nCf1cZc/p0iT3EFpA8qTJmXcftLC+3kykS+XNAz1JCSQM09gMUgeXf8vwWhEVVkKOO7HQk3acSbLKoTbGt5ttrmWnEptMgVF6HvAkCEhsNgMWZZWUPljEzL78bS3pi/C4MmT+ganDpEBi3iKVRtbV50ohbfrdQdu87L1bjM5H1F1FV/pA2WBqArHLIiEJhzdqdkYEjmS81k58vJP2xWTj8oQr/Y2Pm5zPrheYaE71vDLDZmWDLQsDj71N9xc29IX3qlA8LCb7REM4L0Bo20cH2bYTdllju4+fjsBH9FO/ilCqSiGC1yq6JjnX+Ssp4ilk3KqdOzGRMWBY2Zp3sS/46qRmIXwKUyeOm1SZjvQ+9LEfpVlblRlANxl+7DaHElQoBePwGs6S4a8bXmWXU2K3S9vdvDWmlbA5LRWtezDiX2qk0pv6W2kK+86m8x+iC67Ro4s6MoOR5dlLbuDlWMJTPRJ/ItEIn1rZmlm87JIOd85HGlwsrzQ94+dGBqoH/zT64HZiJdBhzCUd1byGdJ1QBiT8V5PcW76Pt05MxUP5r7nfsz267AE/oIFOjMFnj+xB9FvX8ky/0UAWtMgQN1mCc4dw0CAJC3VGXPgQt/0iX+WGhXuHqq6bg8qymoVTRJmvjmmx/Ff6i4uDuuv2ZyGnT3nuszKcfYYg3BcgSgv52dRjApwA0z6jGo+zW+/wg/LlXIBHQirRsZMYfbiTBGeLBm6c9lLyIJoJX541K42mbHcuEfziUVEs2B0j3UQdttKDkjqfTvT7tawgAIlqg9SwXCgVv2Jto5AAJ7EHKUfCg8iJ3qnoOgI40SCRe8a6AAuB2nmsSB/x3yvEu7lqVtbpZjPcCuHLsyz95tsQ6BcZwdH2o/eMolRHZqdU9Hz6Y9dd/1PV0ECKp9eOPfjORwMJtaxikhaovg5m/KocPVKe30p8ncnUEMt1bF6l+RyM/mNhJXxowdmpUirvqBQ/y1f642ngrIL5wE+1XzMjoaFGIrEbMaaP28OTKEmCvr7ZppaebnrYN6evz+l7dtKT5rRg9T/zcKoz04MwogzTsz0YPt9HVHEGMEXvXbxVmwWzDuEMHf+wapLYCx3qwV5yC56TW0EhuNly/6HHu42Mk4xbqW7EkClZiTfOwJ+MnnsbWVcPIlY532oSykiDmCJq/snm2ZxSBtXrP3l6b8FxMHb54zLmzXwsngugZdWvGEYy3v3ZHppv1fyYAvFtKKB2P+BaVuREITY/cWalb7r6jwoesN+6ufjiBnPrTuTsheQkPgkHrL4YDFNec1XjFjYVuO2ZTiV2B7n+nTK/dvBdBZ/9SV6OE9ckXq5AxPiT9ClA67L+Ef0/R1uSCGNAbH+keF03MfS3dM8O7w9vj/FaTpubUGpd24gGpzbismH0i9DUR9zrKDwxgIEAeyTBmmvPyk09l6mbMTIa02XMAHYhtRLDjX8VqRT7aFYyCHqVUvcMY9TGB0zATBgkqhkiG9w0BCRUxBgQEAQAAADBdBgkqhkiG9w0BCRQxUB5OAHQAZQAtAGEANQAwADQAMQAxADUANwAtADgAZQBmADYALQA0ADUAMQAzAC0AOAAzADIAZQAtAGQAMQA0ADIAZgBmAGYAYwAyADAAZAA0MF0GCSsGAQQBgjcRATFQHk4ATQBpAGMAcgBvAHMAbwBmAHQAIABTAHQAcgBvAG4AZwAgAEMAcgB5AHAAdABvAGcAcgBhAHAAaABpAGMAIABQAHIAbwB2AGkAZABlAHIwggOPBgkqhkiG9w0BBwagggOAMIIDfAIBADCCA3UGCSqGSIb3DQEHATAcBgoqhkiG9w0BDAEDMA4ECF2p3wb1APL2AgIH0ICCA0hlTYb1N5FjG9IciANrJWl5uyqrllLdoHOxIRk3sFgHnIP5sNdZ8LEW+ug1n0EvtSEKsM1PF/UnmgFQ4W3/d3zzDtQq3qlFBj30EZq0JQ0rQbst9NjuNmYy1ES9Whxr+yJ+bfcCCi4yN0//ET0vQBUIfuxA+OPeXew4QXfX5U/j5TToSUN6l7VVrRVks3hdm4CvP9QkpKjVEljarY5yX2n3ah7OTyEGOBKGhsio/Lgpx4RboGEk/gzlwvOWiZYX+NuuP8YZ4GWgzOzUeWHmXomQIr4n/FWqE0QnxyGkh4THGUcYvFvhF+VfPF+CkwrZf63KwdnGSOJ+apHksN668k0PBGG6yVcgwktv9mh+7qZELWJzY1o/HMxfmTlBusms+zoh8P2ZYcIb4gu8hGM26ueUy8tK5gmQkX5Gw9r2h7pndDg+lIHEWx/4W5uWAMI+41YcVm0Av7N8faxK+nu/rf+pcm+e6qkbZ+esLijpK+2NrbC1Xg/IOqo73n0jPERCcZWu2UnYIGqLwPdn5H3qtO0PfUHImhSON8M50D9JhuMlPaUGqz5jsWjh9S5ZcISbi4Ny/6Caq+XVoB+qMfIMes7/yE02PAcJX3KMyxgdw1QY9V5COZZONoEmHr3pDf0tMQa0189eLh5nmPypRYo0tILpmwqZvy5BiVUngXXmmigKNHszI3emjcdtjvjw/4KcHjvX9NXPSsbkOQr+bueHTF/NOPNeLzdVtnS/91ESTfszv04GmUsx2vLAstDfWxvEKKbm/TlMdpXMdoD+Mk6MwiYNKGsMjElwcK92NtzB+FPon0FY0835tLNYjbyMtfwrv3caBQCDz1zI4NvFUSMlKFl5deuP7cVrLgEyYJvnblx9Vy6qw1/kZ91S0hLI5NaBoliMuZ70UyQHNS0s3AqgjwFeD8GydgrYofPh2ZMOtpwQFUnWIu6jGJIs1pDbxIJyK3c7kUIjaeywvjJy3lsrlk9hw91HhHxcltESg5C+92G+C6opXJNKGiRlaie3YxX5jghTHZft3C7vduQh2II8lxHiA/vpNLiS25UlE8xrNzZZfiHTQx5FgzGqxfM/GSw+lVCNnOOR74lderkFx8PkOrS+/3I2UpS4S3AwOzAfMAcGBSsOAwIaBBRmLn+nE7yekfwLJrg1ia6y5iiLUwQUETfve4vLB2Z0HOLr8eaA3P5cz8kCAgfQ"
+      "type": "string"
     },
     "certificatePfxPassword": {
-      "type": "string",
-      "defaultValue": "Beat@Apple"
+      "type": "securestring"
     },
     "baseSPSiteUrl": {
       "type": "string",
-      "defaultValue": "https://cand3.sharepoint.com/sites/huddle"
+      "defaultValue": "https://<Tenant>.sharepoint.com/sites/<Site>"
     },
     "globalTeam": {
-      "type": "string",
-      "defaultValue": "Radiology Global"
+      "type": "string"
     },
     "sourceCodeRepositoryURL": {
       "type": "string",
-      "defaultValue": "https://github.com/TylerLu/Huddle",
+      "defaultValue": "https://github.com/<YourAccount>/Huddle",
       "metadata": {
         "description": "Source code repository URL"
       }
@@ -99,17 +85,6 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Web/certificates",
-      "name": "[variables('certName')]",
-      "apiVersion": "2016-03-01",
-      "location": "[variables('location')]",
-      "scale": null,
-      "properties": {
-        "pfxBlob": "[parameters('certificatePfxBase64')]",
-        "password": "[parameters('certificatePfxPassword')]"
-      }
-    },
-    {
       "type": "Microsoft.Web/serverfarms",
       "sku": {
         "name": "B1",
@@ -125,6 +100,20 @@
         "name": "[variables('hostingPlanName')]",
         "numberOfWorkers": 1
       }
+    },
+    {
+      "type": "Microsoft.Web/certificates",
+      "name": "[variables('certName')]",
+      "apiVersion": "2016-03-01",
+      "location": "[variables('location')]",
+      "scale": null,
+      "properties": {
+        "pfxBlob": "[parameters('certificatePfxBase64')]",
+        "password": "[parameters('certificatePfxPassword')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+      ]
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
