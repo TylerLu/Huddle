@@ -67,7 +67,7 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
                         jQuery("div.add-issue-dialog").find("li.ms-Dropdown-item").first().addClass('is-selected');
                     jQuery("div.add-issue-dialog").find('span.ms-Dropdown-title').html(this.selectedCategory);
                 }
-                this.toAddIssue.category = this.selectedCategory;
+                this.toAddIssue.category = this.getCategoryByName(this.selectedCategory);
             });
     }
 
