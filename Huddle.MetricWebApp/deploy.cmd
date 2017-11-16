@@ -65,7 +65,7 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 :: Deployment
 :: ----------
 
-:: 0. Install npm dependencies for app and build
+:: 0. Install npm dependencies
 IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (
   echo Installing npm packages
   pushd "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp"
@@ -97,9 +97,14 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-:: 4. Copy node_modules
-call :ExecuteCmd xcopy "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\node_modules\*" "%DEPLOYMENT_TARGET%\node_modules" /s/i/h/e/k/c
-
+:: 4. Install npm dependencies
+IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+  echo Installing npm packages
+  pushd "%DEPLOYMENT_TARGET%"
+  call :ExecuteCmd npm install
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
 
