@@ -231,12 +231,16 @@ The base64 string of the certificate is in the generated text file, and will be 
 2. Create a new App Registration:
 
    * Name: Huddle Bot Web App
+
    * Application Type: Web app/API
+
    * Sign-on URL: https://huddle/bot-web-app
+
    * Permissions:
+
       | API                                      | Permission Type | Permissions                              |
       | ---------------------------------------- | --------------- | ---------------------------------------- |
-      | Office 365 SharePoint Online  (Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
+      | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
       | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all users’ full profiles |
 
 3. Copy aside the **Application Id**. It will be used as the values of **Bot Client Id** parameter of the ARM Template.
@@ -257,8 +261,8 @@ The base64 string of the certificate is in the generated text file, and will be 
 
       | API                                      | Permission Type | Permissions                              |
       | ---------------------------------------- | --------------- | ---------------------------------------- |
-      | Office 365 SharePoint Online  (Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
-      | Windows Azure Active Directory (Microsoft.Azure.ActiveDirectory) | Delegated       | Read directory data<br />Sign in and read user profile |
+      | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
+      | Windows Azure Active Directory<br />(Microsoft.Azure.ActiveDirectory) | Delegated       | Read directory data<br />Sign in and read user profile |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Metric Client Id** parameter of the ARM Template.
 
@@ -269,9 +273,13 @@ The base64 string of the certificate is in the generated text file, and will be 
 1. Create a new App Registration:
 
    * Name: Huddle MS Graph Connector
+
    * Application Type: Web app/API
+
    * Sign-on URL: https://huddle/ms-graph-connector
+
    * Permissions:
+
       | API             | Permission Type | Permissions                              |
       | --------------- | --------------- | ---------------------------------------- |
       | Microsoft Graph | Delegated       | Read and write all groups<br />Read all users’ full profiles |
