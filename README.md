@@ -248,9 +248,13 @@ The base64 string of the certificate is in the generated text file, and will be 
 1. Create a new App Registration \:
 
    * Name: Huddle Metric Web App
+
    * Application Type: Web app/API
+
    * Sign-on URL: https://huddle/metric-web-app
+
    * Permissions:
+
       | API                                      | Permission Type | Permissions                              |
       | ---------------------------------------- | --------------- | ---------------------------------------- |
       | Office 365 SharePoint Online  (Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
