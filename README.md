@@ -4,7 +4,7 @@
 
 [Foreword](#foreword)
 
-[Microsoft Teams](#microsoft-teams)
+[Enable and Create Microsoft Teams](#enable-and-create-microsoft-teams)
 
 * [Enable Microsoft Teams feature](#enable-microsoft-teams-feature)
 * [Create Teams](#create-teams)
@@ -69,23 +69,27 @@
 
 ## Foreword
 
-An Azure AAD is required to register the app registrations. In this document, the Azure AAD will be called "Huddle AAD", and an account in Huddle AAD will be called Huddle work account.
+This document will guide you to deploy the solution to your environment.
+
+First, an Azure AAD is required to register the app registrations. In this document, the Azure AAD will be called "Huddle AAD", and an account in Huddle AAD will be called Huddle work account.
 
 * All app registrations should be created in the Huddle AAD. 
 * Bot/Luis/Microsoft App should be registered with a Huddle work account.
 
 
-* SharePoint lists should be created on SharePoint which associated with Huddle AAD.
+* SharePoint lists should be created on SharePoint associating with Huddle AAD.
 
 An Azure Subscription is required to deployment the Azure components. We will use the [ARM Template](azuredeploy.json) to deploy these Azure components automatically. 
 
-## Microsoft Teams
+Please download files in `/Files` folder to you computer.
+
+## Enable and Create Microsoft Teams
 
 ### Enable Microsoft Teams feature
 
-Please following the [Enable Microsoft Teams features in yourOffice 365 organization](https://docs.microsoft.com/en-us/microsoftteams/enable-features-office-365).
+Please follow [Enable Microsoft Teams features in yourOffice 365 organization](https://docs.microsoft.com/en-us/microsoftteams/enable-features-office-365).
 
-Make sure thefollowing options are turned on:
+Make sure the following options are turned on:
 
 * Allow external apps in Microsoft Teams
 
@@ -101,13 +105,13 @@ Global Team
 
 ### Update Each Team
 
-1. Active the default planner associating the team and has the same name.
+For each team you created, please active the default planer and create 4 buckets:
 
-   Open <https://www.office.com>, sign in.
+1. Open <https://www.office.com>, sign in.
 
    ![](Images/ms-planner-01.png)
 
-   Click  **Planner**.
+   Click **Planner**.
 
    Find the planner which has the same name as the team, then click it.
 
@@ -124,7 +128,7 @@ Global Team
 
 ### Import LUIS App
 
-1. Open [https://www.luis.ai/](https://www.luis.ai/),and sign in.
+1. Open [https://www.luis.ai/](https://www.luis.ai/), then sign in with a Huddle work account.
 
 2. Finish or skip the welcome page. Then go to the applications page:
 
@@ -134,10 +138,10 @@ Global Team
 
    ![](Images/luis-02.png)
 
-   * Click**Choose File**, and *select /Files/* *LUISApp.json*.
-   * Click**Import**. 
+   * Click **Choose File**, and select `/Files/LUISApp.json`.
+   * Click **Import**. 
 
-   ![](Images/luis-03.png)
+   ​                        ![](Images/luis-03.png)
 
 4. Copy aside the **App Id**. It will be used as the value of the **Luis App Id** parameter of the ARM Template.
 
@@ -155,7 +159,7 @@ Global Team
 
 ### Train and Publish the App
 
-1. Click **Train& Test** at the left.
+1. Click **Train & Test** at the left.
 
    ![](Images/luis-06.png)
 
@@ -171,7 +175,7 @@ Global Team
 
 ### Create a Bot
 
-1. Open [https://dev.botframework.com](https://dev.botframework.com) in browser, then sign in with a workaccount.
+1. Open [https://dev.botframework.com](https://dev.botframework.com) in browser, then sign in with the Huddle work account.
 
    ![](Images/bot-01.png)
 
@@ -191,7 +195,7 @@ Global Team
 
    ![](Images/bot-04.png)
 
-   Click **Upload custom icon**, then select /Files/*HuddleBotIcon.png*.
+   Click **Upload custom icon**, then select `/Files/HuddleBotIcon.png`.
 
 
 2. Input the fields:
@@ -199,7 +203,9 @@ Global Team
    ![](Images/bot-05.png)
 
    * **Display name**: Huddle Bot
-   * **Bot handle**: HuddleBot*<Prefix>*
+
+   * **Bot handle**: HuddleBot*<Suffix>*
+
    * **Long description**: This is the idea bot used to create and list ideas 
 
      > Note: 
@@ -207,12 +213,12 @@ Global Team
      > - **Bot handle** should be unique, please add some suffix to avoid confliction.
      > - **Bot handle** will be used as the value of **Bot Id** parameter of the ARM Template. Please copy it aside.
 
-3. Leave **Message endpoint** empty
+3. Leave **Message endpoint** empty for now. We will fill it later.
 
    ![](Images/bot-06.png)
 
 
-4. Configure Microsoft App
+4. Configure Microsoft App:
 
    ![](Images/bot-07.png)
 
@@ -220,35 +226,35 @@ Global Team
 
    ![](Images/bot-08.png)
 
-   Login in with the work account.
+   Login in with the Huddle work account.
 
    An app will be created automatically:
 
    ![](Images/bot-09.png)
 
-   Copy aside the App ID. It will be used as the value of **MicrosoftAppId** App setting. It will also be used in the Teams App **manifest.json** file as id and botId.
+   Copy aside the App ID. It will be used as the value of **Microsoft App Id** App setting. It will also be used in the Teams App **manifest.json** file as id.
 
    Then click **Generate an app password to continue**.
 
    ![](Images/bot-10.png)
 
-   Copy aside the password, It will be used as the value of **MicrosoftAppPassword **App setting.
+   Copy aside the password. It will be used as the value of **Microsoft App Password **parameter of the ARM Template.
 
    Then click **OK**.
 
-   Click **Finish** and go back to Bot Framework.
+   Click **Finish and go back to Bot Framework**.
 
    ![](Images/bot-11.png)
 
-5. Skip **Analytics** and **Admin** sections.
+5. Skip **Analytics** and **Admin** section.
 
 6. Go to the end of the page:
 
    ![](Images/bot-12.png)
 
-   Check thecheckbox, and click **Register**.
+   Check the **I agree to ...** checkbox, and click **Register**.
 
-   > Note: Ifyou got error of the Bot handle: Id is already in use. Please use another one.
+   > Note: If you got error of the Bot handle: Id is already in use. Please use another one.
 
 7. Click **OK**. 
 
@@ -278,7 +284,7 @@ Global Team
 
    `https://<YourTenant>-admin.sharepoint.com/_layouts/15/online/SiteCollections.aspx`
 
-2. Click**New** -> **Private Site Collection**.
+2. Click **New** -> **Private Site Collection**.
 
    ![](Images/sp-01.png) 
 
@@ -286,18 +292,19 @@ Global Team
 
    ![](Images/sp-02.png)
 
-   * In the **Title **field,enter site title. 
-   * In the **WebSite Address** field, enter hospital site URL.
+   * In the **Title **field, enter site title. 
+   * In the **Web Site Address** field, enter hospital site URL.
    * **Select a language**: English
    * In the **Template Selection** section, select **Team Site **as **site template.**
-   * **Time Zone** should be (UTC-08:00) Pacific Time (US and Canada)
-   * **Administrator**should be the alias of the individual you want to have full administratorrights on this site. 
-   * ** StorageQuote **is how much space you will need for the assets for the end user
-   * **Leave Server Resource Quota **at 300. (This value can be adjusted later if needed)
+   * Choose a  **Time Zone**.
+   * **Administrator **should be the alias of the individual you want to have full administrator rights on this site. 
+   * Leave Server Resource Quota **at 300. (This value can be adjusted later if needed)
 
-4. Click **OK**
+4. Click **OK**.
 
-### Provision Lists
+5. Copy aside the URL of the site collection. It will be used as the value of **Base SP Site Url** parameter of the ARM Template.
+
+###  Provision Lists
 
 1. Install SharePointPnPPowerShellOnline module, if you have not installed it. 
 
@@ -309,13 +316,13 @@ Global Team
    Connect-PnPOnline –Url https://<Tenant>.sharepoint.com/sites/<Site> –Credentials (Get-Credential)
    ```
 
-   > Note: Please replace *<Tenant>* and *<Site>* 
+   > Note: Please replace `<Tenant>` and `<Site>`.
 
 3. Login in with an admin account.
 
    ![](Images/sp-03.png)
 
-4. Navigate to /Files folder in PowerShell, thenexecute the following command:
+4. Navigate to `/Files` folder in PowerShell, then execute the following command:
 
    ```powershell
    Apply-PnPProvisioningTemplate -Path PnPProvisioningTemplate.xml
@@ -347,7 +354,7 @@ $cert = New-SelfSignedCertificate -Type Custom –KeyExportPolicy Exportable -Ke
 
 Execute the commands below to get keyCredential:
 
-Feel free to change the file path at the end of the command.
+> Note: Feel free to change the file path at the end of the command.
 
 ~~~powershell
 $keyCredential = @{}
@@ -383,15 +390,15 @@ The base64 string of the certificate is in the generated text file, and will be 
 
 ### Get Tenant Id
 
-1. Open the AAD in Azure Portal, then get the **Directory ID**.
+Open the AAD in Azure Portal, then get the **Directory ID**.
 
-   ![](Images/aad-tenant-id.png)
+![](Images/aad-tenant-id.png)
 
-   ​	The **Directory ID** will be used as the value of **Tenant Id** parameter of the ARM Template.
+The **Directory ID** will be used as the value of  **Tenant Id** parameter of the ARM Template.
 
 ### Create App Registration for the Bot Web App
 
-2. Create a new App Registration:
+1. Create a new App Registration:
 
    * Name: Huddle Bot Web App
 
@@ -406,13 +413,13 @@ The base64 string of the certificate is in the generated text file, and will be 
       | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
       | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all users’ full profiles |
 
-3. Copy aside the **Application Id**. It will be used as the values of **Bot Client Id** parameter of the ARM Template.
+2. Copy aside the **Application Id**. It will be used as the values of **Bot Client Id** parameter of the ARM Template.
 
-4. Create a new Key and copy aside its value. The key value will be used as the value of **Bot Client Secret** parameter of the ARM Template.
+3. Create a new Key and copy aside its value. The key value will be used as the value of **Bot Client Secret** parameter of the ARM Template.
 
 ### Create App Registration for the Metric Web App
 
-1. Create a new App Registration \:
+1. Create a new App Registration:
 
    * Name: Huddle Metric Web App
 
@@ -463,7 +470,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
    ![](Images/app-registration-manifest-2.png)
 
-3. Insert the keyCredential into the square bracketsof **keyCredentials** node.
+3. Insert the keyCredential into the square brackets of **keyCredentials** node.
 4. Click **Save**.
 
 
@@ -477,9 +484,9 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
    - Sign into your GitHub account where you forked this repository.
 
-   - Click **Generate Token**
+   - Click **Generate Token**.
 
-   - Enter a value in the **Token description** text box
+   - Enter a value in the **Token description** text box.
 
    - Select the following s (your selections should match the screenshot below):
 
@@ -488,9 +495,9 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
      ![](Images/github-new-personal-access-token.png)
 
-   - Click **Generate token**
+   - Click **Generate token**.
 
-   - Copy the token
+   - Copy the token.
 
 2. Add the GitHub Token to Azure in the Azure Resource Explorer
 
@@ -508,7 +515,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
      ![](Images/update-github-token-in-azure-resource-explorer.png)
 
-   - Click **PUT**
+   - Click **PUT**.
 
 ### Deploy Azure Components
 
@@ -522,17 +529,27 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
    ![](Images/azure-deploy.png)
 
-   Select the **I agree to the terms and conditions stated above** checkbox.
+   You have collected most of the values in previous steps. For the rest parameters:
+
+   * **Global Team**: the name of the global team.
+   * **Source Code Repository**:  use the URL of the repository you just created -`https://github.com/<YourAccount>/Huddle`
+   * **Source Code Branch**: mater
+   * **Source code Manual Integration**: 
+   * Check **I agree to the terms and conditions stated above**.
 
 4. Click **Purchase**.
 
 ### Handle Errors
 
+
+
 # Follow-up Steps
 
 ### Add Reply URL and Admin Consent Bot Web App
 
-1. Get the URL of the Web app, and change the schema to http**s**, we will get a base URL.
+1. Get the URL of the Bot Web app, and change the schema to http**s**, we will get a base URL.
+
+    ![](Images/bot-web-app.png)
 
     For example: `https://huddle-bot.azurewebsites.net`
 
@@ -542,11 +559,13 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
    Add it the Bot App Registration.
 
+   ![](Images/app-registration-reply-urls.png)
+
 3. Append `/admin/consent` to the base URL, we will get the admin consent URL.
 
    For example: `https://huddle-bot.azurewebsites.net/admin/consent`
 
-   Open it in a browser, sign in with an admin account.
+   Open it in a browser, sign in with an Huddle admin account.
 
    ![](Images/bot-web-app-admin-consent.png)
 
@@ -576,15 +595,15 @@ Follow the similar steps in previous chapter to add the reply URL and admin cons
 
 ### Verify the Bot
 
-1. Navigate to the bot you registered.
+1. Navigate to the Bot you registered.
 
    ![](Images/bot-19.png)
 
-2. Click -**>Test**, input “list ideas”, then send.
+2. Click **->Test**, input `list ideas`, then send.
 
    ![](Images/bot-20.png)
 
-3. If you get message like below, the Bot isdeployed successfully.                                   
+3. If you get responses like above, the Bot is deployed successfully.                                   
 
    > Note: If the message could not be send, please click **retry **for a few times**.**
    >
@@ -596,7 +615,7 @@ Follow the similar steps in previous chapter to add the reply URL and admin cons
 
    ![](Images/planner-api-connection-01.png)
 
-2. Click the planner API Connection.
+2. Click the **planner** API Connection.
 
    ![](Images/planner-api-connection-02.png)
 
@@ -607,7 +626,7 @@ Follow the similar steps in previous chapter to add the reply URL and admin cons
 
 4. Click **Authorize**.
 
-   Pick up orinput the Huddle user account mentioned eelier. The user account should be every teams.
+   Pick up or input the Huddle work account. The user account should be in every teams.
 
    Sign in the account.
 
@@ -615,7 +634,9 @@ Follow the similar steps in previous chapter to add the reply URL and admin cons
 
 ### Authorize Teams API Connection
 
-Follow the similar steps in previous chapter to authorize teams API Connection
+Follow the similar steps in previous chapter to authorize **teams** API Connection.
+
+![](Images/teams-api-connection.png)
 
 ### Authorize Microsoft Graph API Connection
 
@@ -643,33 +664,37 @@ Please use the steps below instead.
 
 Follow the step below to start 1:1 conversation with the Bot in Microsoft Teams
 
-1. Find the URL of Microsoft Teams Channel of the Bot, then open it in your browser:
+1. Find the URL of Microsoft Teams Channel of the Bot, 
+
+   ![](Images/bot-16.png)
+
+   Then open it in your browser:
 
    ![](Images/bot-22.png)
 
-2. Click **Open MicrosoftTeams**.
+2. Click **Open Microsoft Teams**.
 
-Another way to start 1:1 talk is using the MicrosoftAppId of the Bot:
+Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
 ![](Images/bot-23.png)
 
 ### Create Teams App Package and Side-load It
 
-1. Open */Files/TeamsAppPackage/manifest.json*with a text editor.
+1. Open `/Files/TeamsAppPackage/manifest.json` with a text editor.
 
-2. Replace the following 2 placeholder with thecorresponding values you got in previous guides
+2. Replace the following 2 placeholders with the corresponding values you got in previous guides:
 
-   * <MicrosoftAppId>: the App Id of theMicrosoft App registered when creating the Bot
+   * `<MicrosoftAppId>`: the App Id of the Microsoft App registered when creating the Bot
 
      ![](Images/ms-teams-01.png)
 
-   * <MetricWebAppDomain>: the domain of the Metric Web App
+   * `<MetricWebAppDomain>`: the domain of the Metric Web App
 
      ![](Images/ms-teams-02.png)
 
 3. Save the changes.
 
-4. Zip the files in */Files/TeamsAppPackage *folder.
+4. Zip the files in `/Files/TeamsAppPackage` folder.
 
    ![](Images/ms-teams-03.png)
 
@@ -692,7 +717,7 @@ Another way to start 1:1 talk is using the MicrosoftAppId of the Bot:
 
    ![](Images/ms-teams-06.png)        
 
-2. Click+
+2. Click **+**
 
    ![](Images/ms-teams-07.png)
 
@@ -712,13 +737,13 @@ Another way to start 1:1 talk is using the MicrosoftAppId of the Bot:
 
    ![](Images/ms-teams-06.png)        
 
-2. Click+
+2. Click **+**
 
    ![](Images/ms-teams-11.png)
 
 3. Click **Planner**.
 
-4. Sign in with the work account.
+4. Sign in with the Huddle work account.
 
    ![](Images/ms-teams-12.png)
 
