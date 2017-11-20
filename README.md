@@ -14,7 +14,6 @@
 
 * [Import LUIS App](#import-luis-app)
 * [Set application as public](#set-application-as-public)
-* [Set Application as Public](#set-application-as-public)
 * [Train and Publish the App](#train-and-publish-the-app)
 
 [Create and configure Bot](#create-and-configure-bot)
@@ -22,7 +21,6 @@
 * [Create a Bot](#create-a-bot)
 * [Customize and Configure the Bot](#customize-and-configure-the-bot)
 * [Add Microsoft Teams Channel](#add-microsoft-teams-channel)
-* [Create SharePoint Site and Lists](#create-sharepoint-site-and-lists)
 
 [Create SharePoint Site and Lists](#create-sharepoint-site-and-lists)
 
@@ -30,7 +28,7 @@
 * [Provision Lists](#provision-lists)
 * [Add preset data](#add-preset-data)
 
-[Generate a self-signed certificate](generate-a-self-signed-certificate)
+[Generate a self-signed certificate](#generate-a-self-signed-certificate)
 
 * [Generate certificate with PowerShell](#generate-certificate-with-powershell)
 * [Get keyCredential](#get-keycredential)
@@ -41,7 +39,7 @@
 * [Get Tenant Id](#get-tenant-id)
 * [Create App Registration for the Bot Web App](#create-app-registration-for-the-bot-web-app)
 * [Create App Registration for the Metric Web App](#create-app-registration-for-the-metric-web-app)
-* [Create App Registration for the MS Graph Connector](create-app-registration-for-the-ms-graph-connector)
+* [Create App Registration for the MS Graph Connector](#create-app-registration-for-the-ms-graph-connector)
 * [Add keyCredential to App Registrations](#add-keycredential-to-app-registrations)
 
 [Deploy Azure Components with ARM Template](#deploy-azure-components-with-arm-template)
