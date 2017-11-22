@@ -1,13 +1,23 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_TeamsTabLayout.cshtml";
+    var embed = string.Equals(Request["embed"], "true", StringComparison.InvariantCultureIgnoreCase);
 }
 
 @section scripts{
-    <script type="text/javascript">
-        microsoftTeams.initialize();
-        microsoftTeams.authentication.notifySuccess();
-    </script>
-}
+    @if (embed)
+    {
+        <script type="text/javascript">
+            window.parent.postMessage('SignInSuccessfully', '*')
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            microsoftTeams.initialize();
+            microsoftTeams.authentication.notifySuccess();
+        </script>
 
-Signed in successfully. Please close the window and go ahead.
+        <p>Signed in successfully. Please close the window and go ahead.</p>
+    }
+}

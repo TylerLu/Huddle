@@ -3,33 +3,48 @@
     ViewBag.Title = "SignIn";
     Layout = "~/Views/Shared/_TeamsTabLayout.cshtml";
 
-    var authRedirectUri = Url.Action("SignInCallBack");
-    var authUrl = Url.Action("SignIn", "Account", new { redirectUri = authRedirectUri }, protocol: Request.Url.Scheme);
     var teamId = Request.Params["teamId"];
+
+    var popUpAuthRedirectUri = Url.Action("SignInCallBack");
+    var popUpAuthUrl = Url.Action("SignIn", "Account", new { redirectUri = popUpAuthRedirectUri }, protocol: Request.Url.Scheme);
+
+    var embedAuthRedirectUri = Url.Action("SignInCallBack", new { embed = true });
+    var embedAuthUrl = Url.Action("SignIn", "Account", new { redirectUri = embedAuthRedirectUri }, protocol: Request.Url.Scheme);
+
 }
 
-<button id="signIn" type="button">Sign In</button>
+
+<p>Signing in ...</p>
+<iframe src="@embedAuthUrl" style="display:none"></iframe>
+
 
 @section scripts{
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script type="text/javascript">
         microsoftTeams.initialize();
-        $(function () {
-            $('#signIn').on('click', function () {
-                microsoftTeams.getContext(function (context) {
-                    microsoftTeams.authentication.authenticate({
-                        url: '@authUrl' + '&loginHint=' + context.upn,
-                            width: 600,
-                            height: 480,
-                            successCallback: function () {
-                                window.location = '/?teamId=@teamId'
-                            },
-                            failureCallback: function () {
-                                window.location = '/?teamId=@teamId'
-                            }
-                        });
-                    });
+        var popupSignInWindow = function () {
+            microsoftTeams.getContext(function (context) {
+                microsoftTeams.authentication.authenticate({
+                    url: '@popUpAuthUrl' + '&loginHint=' + context.upn,
+                    width: 600,
+                    height: 480,
+                    successCallback: function () {
+                        window.location = '/?teamId=@teamId'
+                    },
+                    failureCallback: function () {
+                        window.location = '/?teamId=@teamId'
+                    }
+                });
             });
-        });
+        };
+
+        var messageListener = function (evt) {
+            if (evt.data == "SignInSuccessfully") {
+                window.location = '/?teamId=@teamId'
+            }
+        };
+        window.addEventListener("message", messageListener, false);
+
+        setTimeout(popupSignInWindow, 3000)
     </script>
 }
