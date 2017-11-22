@@ -79,13 +79,13 @@ First, an Azure AAD is required to register the app registrations. In this docum
 
 An Azure Subscription is required to deployment the Azure components. We will use the [ARM Template](azuredeploy.json) to deploy these Azure components automatically. 
 
-Please download files in `/Files` folder to you computer.
+Please download files in `/Files` folder to your computer.
 
 ## Enable and Create Microsoft Teams
 
 ### Enable Microsoft Teams feature
 
-Please follow [Enable Microsoft Teams features in yourOffice 365 organization](https://docs.microsoft.com/en-us/microsoftteams/enable-features-office-365).
+Please follow [Enable Microsoft Teams features in your Office 365 organization](https://docs.microsoft.com/en-us/microsoftteams/enable-features-office-365).
 
 Make sure the following options are turned on:
 
@@ -117,8 +117,8 @@ For each team you created, please active the default planer and create 4 buckets
 
 
 2. Create the following buckets:
-   * NewIdea
-   * Inprogress
+   * New Idea
+   * In Progress
    * Completed
    * Shareable
 
@@ -185,7 +185,7 @@ For each team you created, please active the default planer and create 4 buckets
 
    ![](Images/bot-03.png)
 
-4. Select **Register an existing bot built using Bot Builder SDK**. hen click **Ok**.
+4. Select **Register an existing bot built using Bot Builder SDK**. Then click **Ok**.
 
 ### Customize and Configure the Bot
 
@@ -278,7 +278,7 @@ For each team you created, please active the default planer and create 4 buckets
 
 ### Create a site collection
 
-1. Opena web browser and go to SharePoint Administration Center.
+1. Open a web browser and go to SharePoint Administration Center.
 
    `https://<YourTenant>-admin.sharepoint.com/_layouts/15/online/SiteCollections.aspx`
 
@@ -328,7 +328,7 @@ For each team you created, please active the default planer and create 4 buckets
 
 ### Add preset data
 
-Add the some categories to the Categories list, for example:
+Add some categories to the Categories list, for example:
 
 * Safety/Quality
 * Access
@@ -460,7 +460,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
 
 Follow the steps below to add keyCredential to App Registrations of the Bot Web App and Metric Web App
 
-1. Open a App Registration
+1. Open an App Registration
 
    ![](Images/app-registration-manifest-1.png)
 
@@ -711,7 +711,7 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
 ### Add Metric Input Tab
 
-1. Click ateam.
+1. Click a team.
 
    ![](Images/ms-teams-06.png)        
 
@@ -745,7 +745,7 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
    ![](Images/ms-teams-12.png)
 
-   Choose **Use an existing plan**, then select theplan which has the same name with the team.
+   Choose **Use an existing plan**, then select the plan which has the same name with the team.
 
 5. Click **Save**.
 
