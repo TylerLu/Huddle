@@ -77,7 +77,7 @@ First, an Azure AAD is required to register the app registrations. In this docum
 
 * SharePoint lists should be created on SharePoint associating with Huddle AAD.
 
-An Azure Subscription is required to deployment the Azure components. We will use the [ARM Template](azuredeploy.json) to deploy these Azure components automatically. 
+An Azure Subscription is required to deploy the Azure components. We will use the [ARM Template](azuredeploy.json) to deploy these Azure components automatically. 
 
 Please download files in `/Files` folder to your computer.
 
@@ -173,7 +173,7 @@ For each team you created, please active the default planer and create 4 buckets
 
 ### Create a Bot
 
-1. Open [https://dev.botframework.com](https://dev.botframework.com) in browser, then sign in with the Huddle work account.
+1. Open [https://dev.botframework.com](https://dev.botframework.com) in a browser, then sign in with the Huddle work account.
 
    ![](Images/bot-01.png)
 
@@ -252,7 +252,7 @@ For each team you created, please active the default planer and create 4 buckets
 
    Check the **I agree to ...** checkbox, and click **Register**.
 
-   > Note: If you got error of the Bot handle: Id is already in use. Please use another one.
+   > Note: If you got an error of the Bot handle: Id is already in use. Please use another one.
 
 7. Click **OK**. 
 
@@ -268,7 +268,7 @@ For each team you created, please active the default planer and create 4 buckets
 
    ![](Images/bot-15.png)
 
-3. Right click the new added **Microsoft Teams** channel.
+3. Right-click the new added **Microsoft Teams** channel.
 
    ![](Images/bot-16.png)
 
@@ -468,7 +468,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
    ![](Images/app-registration-manifest-2.png)
 
-3. Insert the keyCredential into the square brackets of **keyCredentials** node.
+3. Insert the keyCredential into the square brackets of the **keyCredentials** node.
 4. Click **Save**.
 
 
@@ -523,7 +523,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
    [![Deploy to Azure](https://camo.githubusercontent.com/9285dd3998997a0835869065bb15e5d500475034/687474703a2f2f617a7572656465706c6f792e6e65742f6465706c6f79627574746f6e2e706e67)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FTylerLu%2FHuddle%2Fmaster%2Fazuredeploy.json)
 
-3. Fill in the values in the deployment page:
+3. Fill in the values on the deployment page:
 
    ![](Images/azure-deploy.png)
 
@@ -563,7 +563,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
    For example: `https://huddle-bot.azurewebsites.net/admin/consent`
 
-   Open it in a browser, sign in with an Huddle admin account.
+   Open it in a browser, sign in with a Huddle admin account.
 
    ![](Images/bot-web-app-admin-consent.png)
 
@@ -571,7 +571,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
 ### Add Reply URL and Admin Consent Metric Web App
 
-Follow the similar steps in previous chapter to add the reply URL and admin consent. 
+Follow the similar steps in the previous chapter to add the reply URL and admin consent. 
 
 ### Update Bot Messaging Endpoint
 
@@ -603,7 +603,7 @@ Follow the similar steps in previous chapter to add the reply URL and admin cons
 
 3. If you get responses like above, the Bot is deployed successfully.                                   
 
-   > Note: If the message could not be send, please click **retry **for a few times**.**
+   > Note: If the message could not be sent, please click **retry **for a few times**.**
    >
    > ![](Images/bot-21.png)             
 
@@ -624,7 +624,7 @@ Follow the similar steps in previous chapter to add the reply URL and admin cons
 
 4. Click **Authorize**.
 
-   Pick up or input the Huddle work account. The user account should be in every teams.
+   Pick up or input the Huddle work account. The user account should be in every team.
 
    Sign in the account.
 
@@ -632,7 +632,7 @@ Follow the similar steps in previous chapter to add the reply URL and admin cons
 
 ### Authorize Teams API Connection
 
-Follow the similar steps in previous chapter to authorize **teams** API Connection.
+Follow the similar steps in the previous chapter to authorize **teams** API Connection.
 
 ![](Images/teams-api-connection.png)
 
@@ -696,7 +696,7 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
    ![](Images/ms-teams-03.png)
 
-   Name is HuddleTeamsApp.zip.
+   Name it HuddleTeamsApp.zip.
 
 5. Right-click a team in Microsoft Teams, then click Manage team.
 
@@ -706,7 +706,7 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
    ![](Images/ms-teams-05.png)
 
-7. Then click **Sideloada bot or tab**.
+7. Then click **Sideload a bot or tab**.
 8. Select the *HuddleTeamsApp.zip*.
 
 ### Add Metric Input Tab
@@ -745,7 +745,7 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
    ![](Images/ms-teams-12.png)
 
-   Choose **Use an existing plan**, then select the plan which has the same name with the team.
+   Choose **Use an existing plan**, then select the plan which has the same name as the team.
 
 5. Click **Save**.
 
