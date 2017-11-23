@@ -97,9 +97,86 @@ Make sure the following options are turned on:
 
 ### Create Teams
 
-Excel & power shell
+In this section, we will connect to Microsoft Teams in PowerShell with a Huddle work account, and execute some PowerShell scripts to create teams from an Excel file.
 
-Global Team
+> Note: after you finish this section, teams will be created right away. But their owners and members will take up to an hour to show in Teams. Refer to [Add-TeamUser](https://docs.microsoft.com/en-us/powershell/module/teams/add-teamuser?view=teams-ps) for more details.
+
+1. First, let open and edit `/Files/Teams.xlsx`. Input the the teams and related information.
+
+   > Note: 
+   >
+   > * AccessType:
+   >   * Private: Private teams can only be joined if the team owner adds you to them. They also won't show up in your teams gallery.
+   >   * Public: public teams are visible to everyone from the teams gallery and you can join them without getting approval from the team owner.
+   > * Owners and Members:
+   >   * Please use UPN (User Principle Name) instead of email.
+   >   * Use ";" to separate multi users. 
+   >   * The Huddle work account used to connect to Microsoft Teams will be added as owner of each team automatically, no matter it is in the owners column or not.
+
+2. Run PowerShell as Administrator, and execute the commands below to install required modules:
+
+   ~~~powershell
+   Install-Module -Name MicrosoftTeams
+   Install-Module -Name ImportExcel
+   ~~~
+
+3. Navigate to the `/Files` folder in PowerShell
+
+   ~~~powershell
+   cd <Path to Files folder> # For example: cd "c:\Users\Admin\Desktop\Huddle\Files\"
+   ~~~
+
+4. Connect to Microsoft Teams with a Huddle work account.
+
+   ```
+   $connection = Connect-MicrosoftTeams
+   ```
+
+5. Execute the commands below which reads data from the Excel file and create teams:
+
+   ```powershell
+   function Coalesce($a, $b) { 
+       if ($a -ne $null) { $a } else { $b } 
+   }
+   New-Alias "??" Coalesce
+
+   $index = 0;
+   $splitOption = [System.StringSplitOptions]::RemoveEmptyEntries
+   $teams = Import-Excel teams.xlsx
+
+   Foreach($team in $teams) {
+       $accessType = ?? $team.AccessType "Private"
+       $owners = (?? $team.Owners "").Split(';', $splitOption)
+       $members = (?? $team.Members "").Split(';', $splitOption)
+
+       Write-Progress -Activity "Creating Teams" -Status 'Progress->' -PercentComplete ($index * 100 / $teams.Length) -CurrentOperation ("Creating Team " + $team.Name)
+       $t = New-Team -AccessType $accessType -AddCreatorAsMember $false -DisplayName $team.Name
+
+       Write-Progress -Activity "Creating Teams" -Status 'Progress->' -PercentComplete (($index + 0.5) * 100 / $teams.Length) -CurrentOperation ("Adding owners and members to " + $team.Name)
+       Foreach ($owner in $owners) {
+   	    if ($owner -ne $connection.Account.Id){
+               Try {
+                   Add-TeamUser -GroupId $t.GroupId -User $owner -Role Owner
+               }
+   	    Catch {
+                   $ErrorMessage = $_.Exception.Message
+                   Write-Host "Could not add $owner to $team.Name as owner: $ErrorMessage"
+               }
+   	    }
+       }
+
+       Foreach ($member in $members) {
+           Try {
+               Add-TeamUser -GroupId $t.GroupId -User $member -Role Member
+           }
+   	Catch {
+               $ErrorMessage = $_.Exception.Message
+               Write-Host "Could not add $member to $team.Name as member: $ErrorMessage"
+           }
+       }
+       $index++
+   }
+   ```
 
 ### Update Each Team
 
