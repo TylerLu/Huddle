@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huddle.BotWebApp", "Huddle.BotWebApp\Huddle.BotWebApp.csproj", "{9435FB1C-2D34-4FA2-B1E8-EBD612BC60C8}"
 EndProject
@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{78819653
 		Files\LogicApps.json = Files\LogicApps.json
 		Files\LUISApp.json = Files\LUISApp.json
 		Files\PnPProvisioningTemplate.xml = Files\PnPProvisioningTemplate.xml
+		Files\Teams.xlsx = Files\Teams.xlsx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TeamsAppPackage", "TeamsAppPackage", "{8D54B5AF-2182-4E40-9657-CAB1B208C75F}"
@@ -25,19 +26,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huddle.WebJob", "Huddle.WebJob\Huddle.WebJob.csproj", "{E11C1A06-DF8E-4A98-99C8-956A4952DB7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huddle.Common", "Huddle.Common\Huddle.Common.csproj", "{736A9F8D-28A0-4BA6-BC37-709B6C289910}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeploymentGuides", "DeploymentGuides", "{EEDDAE39-F2D0-449E-9B1B-12F23BE23351}"
-	ProjectSection(SolutionItems) = preProject
-		Files\DeploymentGuides\1. Overall.docx = Files\DeploymentGuides\1. Overall.docx
-		Files\DeploymentGuides\2. App-only certificate.docx = Files\DeploymentGuides\2. App-only certificate.docx
-		Files\DeploymentGuides\3. Metric Web App.docx = Files\DeploymentGuides\3. Metric Web App.docx
-		Files\DeploymentGuides\4. Bot Web App.docx = Files\DeploymentGuides\4. Bot Web App.docx
-		Files\DeploymentGuides\5. Teams App.docx = Files\DeploymentGuides\5. Teams App.docx
-		Files\DeploymentGuides\6. Logic Apps & WebJob.docx = Files\DeploymentGuides\6. Logic Apps & WebJob.docx
-		Files\DeploymentGuides\7. Reporting.docx = Files\DeploymentGuides\7. Reporting.docx
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drop", "Drop", "{DF212AF9-8A67-4784-8039-90336719D25E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,8 +55,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8D54B5AF-2182-4E40-9657-CAB1B208C75F} = {78819653-F89B-4130-93C2-03124AD6707F}
-		{EEDDAE39-F2D0-449E-9B1B-12F23BE23351} = {78819653-F89B-4130-93C2-03124AD6707F}
-		{DF212AF9-8A67-4784-8039-90336719D25E} = {78819653-F89B-4130-93C2-03124AD6707F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CBBB511-499D-4A15-92D1-CCD534B213B9}
@@ -76,7 +62,7 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://canviz.visualstudio.com/defaultcollection
+		SccTeamFoundationServer = https://canviz.visualstudio.com/
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = Huddle.BotWebApp\\Huddle.BotWebApp.csproj
 		SccProjectName1 = Huddle.BotWebApp
