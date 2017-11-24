@@ -138,38 +138,38 @@ In this section, we will connect to Microsoft Teams in PowerShell with a Huddle 
    function Coalesce($a, $b) { 
        if ($a -ne $null) { $a } else { $b } 
    }
-   New-Alias "??" Coalesce
 
    $index = 0;
    $splitOption = [System.StringSplitOptions]::RemoveEmptyEntries
-   $teams = Import-Excel teams.xlsx
+   $teams = Import-Excel teams.xlsx -DataOnly
+   $count = Coalesce $teams.Count 1
 
    Foreach($team in $teams) {
-       $accessType = ?? $team.AccessType "Private"
-       $owners = (?? $team.Owners "").Split(';', $splitOption)
-       $members = (?? $team.Members "").Split(';', $splitOption)
+       $accessType = Coalesce $team.AccessType "Private"
+       $owners = (Coalesce $team.Owners "").Split(';', $splitOption)
+       $members = (Coalesce $team.Members "").Split(';', $splitOption)
 
-       Write-Progress -Activity "Creating Teams" -Status 'Progress->' -PercentComplete ($index * 100 / $teams.Length) -CurrentOperation ("Creating Team " + $team.Name)
+       Write-Progress -Activity "Creating Teams" -Status 'Progress->' -PercentComplete ($index * 100 / $count) -CurrentOperation ("Creating Team " + $team.Name)
        $t = New-Team -AccessType $accessType -AddCreatorAsMember $false -DisplayName $team.Name
 
-       Write-Progress -Activity "Creating Teams" -Status 'Progress->' -PercentComplete (($index + 0.5) * 100 / $teams.Length) -CurrentOperation ("Adding owners and members to " + $team.Name)
+       Write-Progress -Activity "Creating Teams" -Status 'Progress->' -PercentComplete (($index + 0.5) * 100 / $count) -CurrentOperation ("Adding owners and members to " + $team.Name)
        Foreach ($owner in $owners) {
-   	    if ($owner -ne $connection.Account.Id){
+   	       if ($owner -ne $connection.Account.Id){
                Try {
                    Add-TeamUser -GroupId $t.GroupId -User $owner -Role Owner
                }
-   	    Catch {
+   	           Catch {
                    $ErrorMessage = $_.Exception.Message
                    Write-Host "Could not add $owner to $team.Name as owner: $ErrorMessage"
                }
-   	    }
+   	       }
        }
 
        Foreach ($member in $members) {
            Try {
                Add-TeamUser -GroupId $t.GroupId -User $member -Role Member
            }
-   	Catch {
+   	       Catch {
                $ErrorMessage = $_.Exception.Message
                Write-Host "Could not add $member to $team.Name as member: $ErrorMessage"
            }
