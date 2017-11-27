@@ -866,7 +866,7 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
    ![](Images/power-app-04.png)
 
-2. Find the Issue Metrics App, click **···**.
+2. Find the Issue Metrics App, click **···** -> **Share**.
 
    ![](Images/power-app-05.png)
 
