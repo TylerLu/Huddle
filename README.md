@@ -65,6 +65,11 @@
 * [Add Metric Input Tab](#add-metric-input-tab)
 * [Add Idea Board Tab](#add-idea-board-tab)
 
+[Import and share Issue Metrics Power App](#import-and-share-issue-metrics-power-app)
+
+* [Import Issue Metrics Power App](#import-issue-metrics-power-app)
+* [Share Issue Metrics Power App](#share-issue-metrics-power-app)
+
 ## Foreword
 
 This document will guide you to deploy the solution to your environment.
@@ -836,3 +841,35 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
 7. Click **Save**. 
 
+
+## Import and share Issue Metrics Power App
+
+### Import Issue Metrics Power App
+
+1. Open https://web.powerapps.com/apps, then sign in with the Huddle work account.
+
+   ![](Images/power-app-01.png)
+
+2. Click **Import package**.
+
+   ![](Images/power-app-02.png)
+
+3. Select `/Files/IssueMetrics.zip`.
+
+   ![](Images/power-app-03.png)
+
+4. Click **Import**.
+
+### Share Issue Metrics Power App
+
+1. Click **Apps** at the left bar.
+
+   ![](Images/power-app-04.png)
+
+2. Find the Issue Metrics App, click **···**.
+
+   ![](Images/power-app-05.png)
+
+3. Enter names, email addresses, or user groups. Or click **Add everyone in my org**.
+
+4. Click **Save**.
