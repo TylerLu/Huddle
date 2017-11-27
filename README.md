@@ -154,18 +154,18 @@ In this section, we will connect to Microsoft Teams in PowerShell with a Huddle 
 
        Write-Progress -Activity "Creating Teams" -Status 'Progress->' -PercentComplete (($index + 0.5) * 100 / $count) -CurrentOperation ("Adding owners and members to " + $team.Name)
        Foreach ($owner in $owners) {
-           if ($owner -ne $connection.Account.Id){
-               Try {
-                   Add-TeamUser -GroupId $t.GroupId -User $owner -Role Owner
-               }
-               Catch {
-                   $ErrorMessage = $_.Exception.Message
-                   Write-Host "Could not add $owner to $team.Name as owner: $ErrorMessage"
-               }
+           if ($owner -ne $connection.Account.Id) { continue }
+           Try {
+               Add-TeamUser -GroupId $t.GroupId -User $owner -Role Owner
+           }
+           Catch {
+               $ErrorMessage = $_.Exception.Message
+               Write-Host "Could not add $owner to $team.Name as owner: $ErrorMessage"
            }
        }
 
        Foreach ($member in $members) {
+           if ($member -ne $connection.Account.Id) { continue }
            Try {
                Add-TeamUser -GroupId $t.GroupId -User $member -Role Member
            }
