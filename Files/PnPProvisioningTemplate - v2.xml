@@ -3,10 +3,9 @@
   <pnp:Preferences Generator="OfficeDevPnP.Core, Version=2.20.1711.0, Culture=neutral, PublicKeyToken=3751622786b357c2" />
   <pnp:Templates ID="CONTAINER-TEMPLATE-851DADA8EC80445998442630FEF36D08">
     <pnp:ProvisioningTemplate ID="TEMPLATE-851DADA8EC80445998442630FEF36D08" Version="1" BaseSiteTemplate="STS#0" Scope="RootSite">
-      <pnp:SiteFields>        
+      <pnp:SiteFields>
         <Field ID="{baecd56e-2089-47ad-90fb-abc24bb39478}" Type="Text" DisplayName="Target Goal"  StaticName="HuddleTargetGoal" Name="HuddleTargetGoal" Required="TRUE" Indexed="FALSE" MaxLength="255" Group="Huddle" />
         <Field ID="{4a4b8741-8e3f-4a03-a49c-1cc2f3ca2c78}" Type="Text" DisplayName="Team Id" StaticName="HuddleTeamId" Name="HuddleTeamId" Required="TRUE" Indexed="FALSE" MaxLength="255" Group="Huddle" />
-        <Field ID="{28417b22-d5d1-44e0-a0fd-45135f97e473}" Type="Text" DisplayName="Value Type" StaticName="HuddleValueType" Name="HuddleValueType" Required="TRUE" Indexed="FALSE" MaxLength="255" Group="Huddle" />
         <Field ID="{c9b5a030-81df-4a3f-b755-14659d0fce3e}" Type="Text" DisplayName="Task Id" StaticName="HuddleTaskId" Name="HuddleTaskId" Required="TRUE" Indexed="FALSE" MaxLength="255" Group="Huddle" />
         <Field ID="{988bc34a-1334-449d-a90e-543524519b66}" Type="Text" DisplayName="Task Status" StaticName="HuddleTaskStatus" Name="HuddleTaskStatus"  Required="TRUE" Indexed="FALSE" MaxLength="255" Group="Huddle" />
         <Field ID="{b374f4c1-6e46-48f0-b341-5d69a418da41}" Type="Text" DisplayName="Task Name" StaticName="HuddleTaskName" Name="HuddleTaskName" Required="TRUE" Indexed="FALSE" MaxLength="255" Group="Huddle" />
@@ -14,7 +13,14 @@
         <Field ID="{ea421ffd-b5cd-40b6-95fd-019ba2b102f8}" Type="DateTime" DisplayName="Input Date" StaticName="HuddleInputDate" Name="HuddleInputDate" Required="TRUE" Indexed="FALSE" Format="DateOnly" Group="Huddle" />
         <Field ID="{8bd1fd35-c4c2-4f01-9ce1-1fa757685714}" Type="DateTime" DisplayName="Task Start Date" StaticName="HuddleTaskStartDate" Name="HuddleTaskStartDate" Required="FALSE" Indexed="FALSE" Format="DateOnly" Group="Huddle" />
         <Field ID="{29be82fe-bd0c-464b-8116-37194db7afa2}" Type="DateTime" DisplayName="Task Completed Date" StaticName="HuddleTaskCompletedDate" Name="HuddleTaskCompletedDate" Required="FALSE" Indexed="FALSE" Format="DateOnly" Group="Huddle" />
-        <Field ID="{9556043a-72ec-4502-903d-d571b0b8d602}" Type="URL" DisplayName="Task URL" StaticName="HuddleTaskURL" Name="HuddleTaskURL" Required="TRUE" Indexed="FALSE" Format="Hyperlink" Group="Huddle" />        
+        <Field ID="{9556043a-72ec-4502-903d-d571b0b8d602}" Type="URL" DisplayName="Task URL" StaticName="HuddleTaskURL" Name="HuddleTaskURL" Required="TRUE" Indexed="FALSE" Format="Hyperlink" Group="Huddle" />
+        <Field ID="{28417b22-d5d1-44e0-a0fd-45135f97e473}" Type="Choice" DisplayName="Value Type" StaticName="HuddleValueType" Name="HuddleValueType" Required="TRUE" Indexed="FALSE" MaxLength="255" Group="Huddle">
+          <Default>Numerical</Default>
+          <CHOICES>
+            <CHOICE>Numerical</CHOICE>
+            <CHOICE>Percent</CHOICE>
+          </CHOICES>
+        </Field>
         <Field ID="{d8bf0f9c-f68f-4a07-9f71-b315449970a5}" Type="Choice" DisplayName="State" StaticName="HuddleState" Name="HuddleState" Required="TRUE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" Group="Huddle">
           <Default>1</Default>
           <CHOICES>
@@ -25,8 +31,9 @@
         <Field ID="{c8fe63bb-eaf0-4ba2-a627-7bc28150c8e0}" Type="Lookup" DisplayName="Category" StaticName="HuddleCategory" Name="HuddleCategory" Required="TRUE" List="{{listid:Categories}}" ShowField="Title" Group="Huddle" />
         <Field ID="{d347458e-6673-49cf-8b02-1780aa541f0c}" Type="Lookup" DisplayName="Issue" StaticName="HuddleIssue" Name="HuddleIssue" Required="TRUE" List="{{listid:Issues}}" ShowField="Title" Group="Huddle" />
         <Field ID="{edd87a3b-3886-40b6-8a8d-302a210d0642}" Type="Lookup" DisplayName="Metric" StaticName="HuddleMetric" Name="HuddleMetric" Required="TRUE" List="{{listid:Metrics}}" ShowField="Title" Group="Huddle" />
+        <Field ID="{31b0a4a7-6311-40c6-b3ea-ddbeddc2a4c9}" Type="Lookup" DisplayName="Metric" StaticName="HuddleMetricNullable" Name="HuddleMetricNullable" Required="FALSE" List="{{listid:Metrics}}" ShowField="Title" Group="Huddle" />
         <Field ID="{0f3f491a-2bf8-4ac5-ac29-cc1b5a34a2e3}" Type="Lookup" DisplayName="Reason" StaticName="HuddleReason" Name="HuddleReason" Required="TRUE" List="{{listid:Reasons}}" ShowField="Title" Group="Huddle" />
-        </pnp:SiteFields>
+      </pnp:SiteFields>
       <pnp:ContentTypes>
         <pnp:ContentType ID="0x01007FB81E7B5451B440ADCF586174ABA29D" Name="HuddleCategory" Group="Huddle">
         </pnp:ContentType>
@@ -71,7 +78,7 @@
         <pnp:ContentType ID="0x0100F247923794C63A4A875209B980C77798" Name="HuddleMetricIdea" Group="Huddle">
           <pnp:FieldRefs>
             <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" Hidden="true" />
-            <pnp:FieldRef ID="edd87a3b-3886-40b6-8a8d-302a210d0642" Name="HuddleMetric" Required="false" />
+            <pnp:FieldRef ID="31b0a4a7-6311-40c6-b3ea-ddbeddc2a4c9" Name="HuddleMetricNullable" Required="false" />
             <pnp:FieldRef ID="c9b5a030-81df-4a3f-b755-14659d0fce3e" Name="HuddleTaskId" Required="true" />
             <pnp:FieldRef ID="9556043a-72ec-4502-903d-d571b0b8d602" Name="HuddleTaskURL" Required="true" />
             <pnp:FieldRef ID="b374f4c1-6e46-48f0-b341-5d69a418da41" Name="HuddleTaskName" Required="true" />
@@ -269,7 +276,7 @@
               </Query>
               <ViewFields>
                 <FieldRef Name="ID" />
-                <FieldRef Name="HuddleMetric" />
+                <FieldRef Name="HuddleMetricNullable" />
                 <FieldRef Name="HuddleTaskId" />
                 <FieldRef Name="HuddleTaskURL" />
                 <FieldRef Name="HuddleTaskName" />
@@ -284,7 +291,7 @@
             </View>
           </pnp:Views>
           <pnp:FieldRefs>
-            <pnp:FieldRef ID="edd87a3b-3886-40b6-8a8d-302a210d0642" Name="HuddleMetric" DisplayName="Metric" Required="false" />
+            <pnp:FieldRef ID="31b0a4a7-6311-40c6-b3ea-ddbeddc2a4c9" Name="HuddleMetricNullable" DisplayName="Metric" Required="false" />
             <pnp:FieldRef ID="c9b5a030-81df-4a3f-b755-14659d0fce3e" Name="HuddleTaskId" DisplayName="Task Id" Required="true" />
             <pnp:FieldRef ID="9556043a-72ec-4502-903d-d571b0b8d602" Name="HuddleTaskURL" DisplayName="Task URL" Required="true" />
             <pnp:FieldRef ID="b374f4c1-6e46-48f0-b341-5d69a418da41" Name="HuddleTaskName" DisplayName="Task Name" Required="true" />
