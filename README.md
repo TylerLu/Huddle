@@ -616,7 +616,11 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
 ### Handle Errors
 
+If the deployment started, but failed as below - one or two errors of sourcecontrols resources:
 
+![](Images/azure-deploy-error.png)
+
+Please **Redeploy** with the same parameters and to the same resource group.
 
 # Follow-up Steps
 
