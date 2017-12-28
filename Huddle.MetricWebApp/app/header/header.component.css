@@ -1,18 +1,15 @@
-﻿h1 {
-    background-color: #00539d;
-    color: #fff;
-    margin-top: 0;
-    padding-top: 11px;
-    padding-bottom: 5px;
-    padding-left:31.5%;
-    height: 57px;
-    font-family: OpenSans;
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 0;
-    background-repeat: no-repeat;
-    background-image: url('/images/logo.png');
-    background-position: 28.1%;
+﻿.function-section select{  width: 112px;  height: 25px;  border-radius: 5px;  background-color: #ffffff;  border: solid 1px #888888;text-transform:capitalize;padding-left: 5px;font-size: 14px;-webkit-appearance: none;-moz-appearance: none;text-indent: 1px;
+    text-overflow: '';background-image: url(/images/icons-8-dropdown-expand-arrow-64-px.png);background-repeat:no-repeat;background-position: 91px 9px;}
+.function-section select::-ms-expand {display: none;}
+.function-section select option{text-transform:capitalize;}
 
-    border-bottom:5px solid #fec842;
-}
+.function-section >*{display:inline-block;}
+.function-section >div>*{display:inline-block;}
+.function-section >div>div.title{text-transform:uppercase;font-size:14px;margin-right:4px;}
+.function-section .filter{width:20%;}
+.function-section .filter input{max-width:111px;border-radius: 5px;background-color: #ffffff;border: solid 1px #888888;}
+.function-section .search{width:25%;}
+.function-section .search input{width: 174px;height: 25px;border-radius: 5px;background-color: #ffffff;border: solid 1px #888888;background-image:url(/images/icons-8-search-64-px.png);background-repeat:no-repeat;background-position: 150px 5px;}
+.function-section .search .ngui-auto-complete .no-match-found{display:none;}
+.function-section .date-range{width:54%;text-align:right;}
+.function-section .date-range label.current-date{font-weight:600;}

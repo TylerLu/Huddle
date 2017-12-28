@@ -2,6 +2,7 @@
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { DataService} from '../services/data.service';
 import { Issue } from '../shared/models/issue';
+import { IssueViewModel } from '../issueList/issue.viewmodel';
 import { Category} from '../shared/models/category';
 import { Reason} from '../shared/models/reason';
 import { Constants } from '../shared/constants';
@@ -66,6 +67,21 @@ export class IssueService {
             },
             error => activeObject.error(error));
         return activeObject;
+    }
+
+    public queryIssues(keyword:string): Observable<IssueViewModel[]> {
+        let issues = new Array<IssueViewModel>();
+        let issue1 = new IssueViewModel();
+        issue1.Issue = new Issue();
+        issue1.Issue.id = 1;
+        issue1.Issue.name = "issue1";
+        let issue2 = new IssueViewModel();
+        issue2.Issue = new Issue();
+        issue2.Issue.id = 2;
+        issue2.Issue.name = "issue2";
+        issues.push(issue1);
+        issues.push(issue2);
+        return Observable.of(issues);
     }
 
 }

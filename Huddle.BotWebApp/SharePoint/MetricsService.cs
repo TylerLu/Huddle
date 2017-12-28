@@ -46,7 +46,7 @@ namespace Huddle.BotWebApp.SharePoint
         }
 
 
-        public async Task CreateMetricIdeaAsync(Metric metric, PlannerTask task, string bucket, string taskURL)
+        public async Task CreateMetricIdeaAsync(int? metricId, PlannerTask task, string bucket, string taskURL)
         {
             using (var clientContext = await AuthenticationHelper.GetAppOnlySharePointClientContextAsync())
             {
@@ -54,8 +54,8 @@ namespace Huddle.BotWebApp.SharePoint
                 var list = web.Lists.GetByTitle(SPLists.MetricIdeas.Title);
                                 
                 var item = list.AddItem(new ListItemCreationInformation());
-                if(metric != null && metric.Id.HasValue)
-                    item[SPLists.MetricIdeas.Columns.Metric] = new FieldLookupValue { LookupId = metric.Id.Value };
+                if(metricId.HasValue)
+                    item[SPLists.MetricIdeas.Columns.Metric] = new FieldLookupValue { LookupId = metricId.Value };
                 item[SPLists.MetricIdeas.Columns.TaskId] = task.Id;
                 item[SPLists.MetricIdeas.Columns.TaskName] = task.Title;
                 item[SPLists.MetricIdeas.Columns.TaskURL] = new FieldUrlValue { Url = taskURL, Description = taskURL };

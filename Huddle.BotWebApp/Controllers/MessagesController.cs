@@ -1,14 +1,15 @@
 ﻿using Huddle.BotWebApp.Dialogs;
+using Huddle.BotWebApp.Services;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
+using Polly;
 using System;
+using System.Configuration;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Linq;
 using System.Web;
+using System.Web.Http;
 
 namespace Huddle.BotWebApp.Controllers
 {
@@ -17,6 +18,19 @@ namespace Huddle.BotWebApp.Controllers
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        private ConnectorClient connectorClient;
+        private InvokeProcessor invokeProcessor;
+
+        public MessagesController()
+        {
+            this.connectorClient = new ConnectorClient(
+                new Uri("https://smba.trafficmanager.net/amer-client-ss.msg/"),
+                ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppIdKey],
+                ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppPasswordKey]);
+            this.connectorClient.SetRetryPolicy(RetryHelpers.DefaultPolicyBuilder.WaitAndRetryAsync(new[] { TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10) }));
+            this.invokeProcessor = new InvokeProcessor(connectorClient);
+        }
+
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
@@ -26,9 +40,11 @@ namespace Huddle.BotWebApp.Controllers
         {
             var account = await activity.GetTeamsAccountAsync();
             SignInDialog.DefaultSignInUrl = GetSignInUri(account.UserPrincipalName).ToString();
-            
+
             if (activity?.Type == ActivityTypes.Message)
                 await Conversation.SendAsync(activity, () => new RootDialog());
+            else if (activity?.Type == ActivityTypes.Invoke)
+               await invokeProcessor.ProcessAsync(activity);
             else
                 HandleSystemMessage(activity);
             return new HttpResponseMessage(HttpStatusCode.OK);

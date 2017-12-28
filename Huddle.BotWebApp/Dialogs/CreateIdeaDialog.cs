@@ -184,14 +184,14 @@ namespace Huddle.BotWebApp.Dialogs
             var plan = await planService.GetTeamPlanAsync(Team);
             if (plan == null) throw new ApplicationException($"Could not found plan named '{Team.DisplayName}'");
 
-            var plannerTask = await ideaService.CreateAsync(plan.Id, idea);
+            var plannerTask = await ideaService.CreateAsync(plan.Id, idea.Title, idea.StartDate, idea.Owners.Select(i=>i.Id).FirstOrDefault(), idea.Description);
             var plannerTaskUrl = ideaService.GetIdeaUrl(Team.Id, plan.Id, plannerTask.Id);
 
             try
             {
                 var clientContext = await AuthenticationHelper.GetAppOnlySharePointClientContextAsync();
                 var metricsService = new MetricsService(clientContext);
-                await metricsService.CreateMetricIdeaAsync(metric, plannerTask, Constants.IdeasPlan.Buckets.NewIdea, plannerTaskUrl);
+                await metricsService.CreateMetricIdeaAsync(metric.Id, plannerTask, Constants.IdeasPlan.Buckets.NewIdea, plannerTaskUrl);
             }
             catch(Exception ex)
             {

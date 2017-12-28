@@ -3,6 +3,7 @@ using Huddle.BotWebApp.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Connector.Teams.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -26,10 +27,10 @@ namespace Huddle.BotWebApp.Dialogs
         [LuisIntent("Idea.Create")]
         public async Task CreateIdeaAsync(IDialogContext context, LuisResult result)
         {
-            await context.Forward(new CreateIdeaDialog(), IdeaCreated, context.Activity, CancellationToken.None);
+            await context.Forward(new CreateIdeaDialog2(), IdeaCreated, context.Activity, CancellationToken.None);
         }
 
-        private async Task IdeaCreated(IDialogContext context, IAwaitable<Idea> result)
+        private async Task IdeaCreated(IDialogContext context, IAwaitable<object> result)
         {
             try
             {
@@ -87,9 +88,8 @@ namespace Huddle.BotWebApp.Dialogs
         [LuisIntent("Team.Switch")]
         public async Task SwitchTeam(IDialogContext context, LuisResult result)
         {
-
             var team = context.UserData.GetValueOrDefault<Team>(Constants.UserDataKey.TeamId);
-            if(team != null)
+            if (team != null)
                 await context.SayAsync($"You current team is **{team.DisplayName}**");
             await context.Forward(new SelectTeamDialog(), TeamSelected, context.Activity, CancellationToken.None);
         }
@@ -161,5 +161,6 @@ namespace Huddle.BotWebApp.Dialogs
         }
 
         #endregion
+        
     }
 }

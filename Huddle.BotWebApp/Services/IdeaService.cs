@@ -1,4 +1,5 @@
 ﻿using Huddle.BotWebApp.Models;
+using Huddle.Common;
 using Microsoft.Graph;
 using System;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace Huddle.BotWebApp.Services
             }).ToArray();
         }
 
-        public async Task<PlannerTask> CreateAsync(string planId, Idea idea)
+        public async Task<PlannerTask> CreateAsync(string planId, string title, DateTimeOffset? startDate, string ownerId, string description)
         {
             var newIdearBucket = await plannerService.GetNewIdeaBucketAsync(planId);
             if (newIdearBucket == null) throw new ApplicationException("Could not found New Idea bucket.");
@@ -60,16 +61,15 @@ namespace Huddle.BotWebApp.Services
             {
                 PlanId = planId,
                 BucketId = newIdearBucket.Id,
-                Title = idea.Title,
-                StartDateTime = idea.StartDate,
+                Title = title,
+                StartDateTime = startDate,
                 Assignments = new PlannerAssignments()
             };
-            foreach (var owner in idea.Owners)
-                plannerTask.Assignments.AddAssignee(owner.Id);
+            plannerTask.Assignments.AddAssignee(ownerId);
             plannerTask = await graphServiceClient.Planner.Tasks.Request().AddAsync(plannerTask);
             //await Task.Delay(3000);
 
-            var planerTaskDetails = new PlannerTaskDetails { Description = idea.Description };
+            var planerTaskDetails = new PlannerTaskDetails { Description = description };
             var plannerTaskRequestBuilder = graphServiceClient.Planner.Tasks[plannerTask.Id];
 
             PlannerTaskDetails details = null;
@@ -82,7 +82,7 @@ namespace Huddle.BotWebApp.Services
                     details = await plannerTaskRequestBuilder.Details.Request().GetAsync();
                     break;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     if (count < 6)
                         await Task.Delay(1000);
