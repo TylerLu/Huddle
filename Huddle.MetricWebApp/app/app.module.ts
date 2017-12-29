@@ -8,7 +8,6 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { CookieModule } from 'ngx-cookie';
 import { HttpModule } from '@angular/http';
 import { routing } from './app.routing';
-import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { IssueListComponent } from './issueList/issueList.component';
 import { HeaderComponent } from './header/header.component';
 import { AddIssueComponent } from './issue/addIssue.component';
@@ -23,6 +22,7 @@ import { TeamTabSignInComponent } from './teamTab/teamTab.signIn.component';
 import { TeamTabSignInCallBackComponent } from './teamTab/teamTab.signIn.callback.component';
 import { TeamTabPrivacyComponent} from './teamTab/teamTab.privacy.component';
 import { TeamTabTermsComponent } from './teamTab/teamTab.terms.component';
+
 import { CookieService } from "./services/cookie.service";
 import { DataService } from "./services/data.service";
 import { IssueService } from "./services/issue.service";
@@ -37,7 +37,6 @@ import { MetricValueService } from "./services/metricValue.service";
         HttpModule,
         routing,
         Ng2Bs3ModalModule,
-        NguiAutoCompleteModule,
         CookieModule.forRoot()],
     declarations: [
         AppComponent,

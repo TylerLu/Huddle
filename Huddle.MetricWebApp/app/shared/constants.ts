@@ -1,7 +1,5 @@
 ﻿export class Constants {
 
-    static readonly suggestCharNum = 3;
-
     static route = class {
         public static readonly addIssue = 'add-issue';
         public static readonly metricIssue= 'metric-issue';

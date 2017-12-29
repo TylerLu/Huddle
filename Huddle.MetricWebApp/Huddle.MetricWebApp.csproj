@@ -345,6 +345,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="gulpfile.js" />
     <Content Include="images\Baylor-Scott-And-White-Logo.png" />
     <Content Include="images\icons-8-back.png" />
     <Content Include="images\icons-8-delete-64-px-2-copy.png" />

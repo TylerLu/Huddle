@@ -39,5 +39,14 @@ export class CommonUtil {
         }
         return query_string[key];
     }
+
+    public static navigateToUrl(url: string, router: Router): Promise<boolean> {
+        let targetUrl = url;
+        if (targetUrl.indexOf(this.teamId) < 0)
+            targetUrl += '?' + this.teamId + "=" + this.getTeamId();
+        //location.href = targetUrl;
+        return router.navigateByUrl(targetUrl);
+    }
+
     
 }
