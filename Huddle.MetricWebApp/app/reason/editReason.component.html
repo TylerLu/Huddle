@@ -1,0 +1,69 @@
+﻿<div class="huddle-popup-container">
+    <div class="new-reason-container ">
+        <div class="row">
+            <div class="col-md-4">
+                Issue - edit
+            </div>
+            <div class="col-md-8">
+                {{relatedMetric.issue.name}}
+            </div>
+            <div class="col-md-4">
+                Metric Name
+            </div>
+            <div class="col-md-8">
+                {{relatedMetric.name}}
+            </div>
+            <div class="col-md-4">
+                Reason Name<span class="required">*</span>
+            </div>
+            <div class="col-md-8">
+                <input class="ms-TextField-field" type="text"  required [(ngModel)]="toEditReason.name">
+            </div>
+            <div class="col-md-4">
+                Reason Tracking<span class="required">*</span>
+            </div>
+            <div class="col-md-8">
+                <input class="ms-TextField-field" type="text" [(ngModel)]="toEditReason.reasonTracking">
+              
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="new-reason-container ">
+        <div class="row">
+            <div class="col-md-5">
+                How often is this reason tracked?<span class="required">*</span>
+            </div>
+            <div class="col-md-6">
+                <input type="radio" value="Daily" name="trackingFrequency" [checked]='toEditReason.trackingFrequency===0' (click)="setToTrackingFrequency(0)"/><span>Daily</span>
+                <input type="radio" value="Weekly" name="trackingFrequency" [checked]='toEditReason.trackingFrequency===1'  (click)="setToTrackingFrequency(1)"/><span>Weekly</span>
+            </div>
+            <div class="col-md-5">
+                I want to measure this reason in<span class="required">*</span>
+            </div>
+            <div class="col-md-6">
+                <input type="radio" value="Numbers" name="valueType" [checked]='toEditReason.valueType==="Numbers"'  (click)="setToValueType('Numbers')"/><span>Numbers  </span>
+                <input type="radio" value="Percentages" name="valueType" [checked]='toEditReason.valueType==="Percentages"' (click)="setToValueType('Percentages')"/><span>Percentages  </span>
+                <input type="radio" value="Dollars" name="valueType" [checked]='toEditReason.valueType==="Dollars"' (click)="setToValueType('Dollars')"/> <span>Dollars</span>
+            </div>
+            <div class="col-md-5">
+                Active
+            </div>
+            <div class="col-md-6">
+                <ui-switch  [checked]="toEditReason.reasonState==1?true:false" size="small" [(ngModel)]="toEditReason.reasonState"></ui-switch>
+                 
+                    <span class="on-off-label">{{toEditReason.reasonState==1?"ON":"OFF"}}</span>                   
+                 
+            </div>
+        </div>
+    </div>
+
+    <div class="save-container">
+        <button class="btn-cancel" (click)="close()">
+            <span class="">Cancel</span>
+        </button>
+        <button class="btn-save" (click)="saveReason()" [disabled]="isSaving">
+            <span class="">Save</span>
+        </button>
+    </div>
+</div>

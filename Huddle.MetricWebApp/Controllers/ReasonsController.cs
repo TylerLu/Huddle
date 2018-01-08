@@ -15,13 +15,12 @@ namespace Huddle.MetricWebApp.Controllers
     public class ReasonsController:BaseAPIController
     {
         // GET api/<controller>/5
-        [Route("api/reasons/{issueId}/{state}")]
+        //[Route("api/reasons/{reasonId}")]
         [HttpGet]
-        public async Task<HttpResponseMessage> Get(int issueId, int state)
+        public async Task<HttpResponseMessage> Get(int id)
         {
-            var reasonList = await ReasonsService.GetItemsAsync(state,issueId);
-            var result = reasonList.Select(reason => reason.ToJson()).ToArray();
-            return ToJson(result);
+            var reason = await ReasonsService.GetReasonById(id);
+            return ToJson(reason.ToJson());
         }
 
         // POST api/<controller>
@@ -43,5 +42,38 @@ namespace Huddle.MetricWebApp.Controllers
         public void Put(int id, [FromBody]string value)
         {
         }
+
+        [HttpGet, Route("api/reasons/reasonlist/{metricId}")]
+        public async Task<HttpResponseMessage> GetReasonsByMetricList(int metricId)
+        {
+            var reasonList = await ReasonsService.GetReasonsByMetricIdAsync(metricId);
+            var result = reasonList.Select(reason => reason.ToJson()).ToArray();
+            return ToJson(result);
+        }
+
+        [HttpPost, Route("api/reasons/updatereasonstatus/{id}")]
+        public async Task<HttpResponseMessage> UpdateReasonStatus(int id)
+        {
+            await ReasonsService.UpdateReasonStatus(id);
+            return ToJson(new
+            {
+                reasonId = id
+            });
+        }
+
+        [HttpPost, Route("api/reasons/editReason")]
+        public async Task<HttpResponseMessage> EditReason(JObject objData)
+        {
+            dynamic jsonData = objData;
+            JObject reason = jsonData.reason;
+            var toEditReason = reason.ToObject<Reason>();
+            await ReasonsService.UpdateItemAsync(toEditReason);
+            return ToJson(new
+            {
+                reasonId = toEditReason.Id
+            });
+        }
     }
+
+
 }

@@ -27,10 +27,9 @@ namespace Huddle.MetricWebApp.Controllers
             dynamic jsonData = objData;
             List<Reason> postReasons = new List<Reason>();
             JArray reasonsJsonArray = jsonData.reasons;
-            JObject issueJson = jsonData.issue;
-            Issue toAddIssue = issueJson.ToObject<Issue>();
-            toAddIssue.State = 1;
-            toAddIssue.MSTeamId = jsonData.teamId.Value;
+            JObject metricJson = jsonData.metric;
+            Metric toAddMetric = metricJson.ToObject<Metric>();
+            toAddMetric.State = 1;
             foreach (var item in reasonsJsonArray)
             {
                 var reason = item.ToObject<Reason>();
@@ -38,14 +37,14 @@ namespace Huddle.MetricWebApp.Controllers
                 if (!string.IsNullOrEmpty(reason.Name))
                     postReasons.Add(reason);
             }
-            await IssuesService.InsertItemAsync(toAddIssue);
-            foreach (var reason in postReasons)
-            {
-                reason.Issue = toAddIssue;
-                await ReasonsService.InsertItemAsync(reason);
-            }
+            //await IssuesService.InsertItemAsync(toAddMetric);
+            //foreach (var reason in postReasons)
+            //{
+            //    reason.Metric= toAddMetric;
+            //    await ReasonsService.InsertItemAsync(reason);
+            //}
             return ToJson(new {
-                issueId = toAddIssue.Id
+                metricId = toAddMetric.Id
             });
         }
 

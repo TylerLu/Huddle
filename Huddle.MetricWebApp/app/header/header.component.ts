@@ -1,4 +1,15 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
+﻿import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
+import { IssueState } from '../shared/models/issueState';
+import { IssueStateViewModel } from '../shared/models/issueState.viewmodel';
+import { IssueViewModel } from '../issueList/issue.viewmodel';
+import { Issue } from '../shared/models/issue';
+import { Metric } from '../shared/models/metric';
+import { QueryResult} from '../shared/models/queryResult';
+import { Constants} from '../shared/constants';
+import { QueryService } from '../services/query.service';
+import { DataService} from '../services/data.service';
+import { CommonUtil } from '../utils/commonUtil';
 
 @Component({
     templateUrl: 'app/header/header.component.html',
@@ -8,9 +19,62 @@
 
 export class HeaderComponent implements OnInit {
     @Input('displayTitle') displayTitle: string;
-    constructor() {
+    @Output() filterIssueState: EventEmitter<IssueStateViewModel> = new EventEmitter<IssueStateViewModel>();
+    @Output() selectQuery: EventEmitter<QueryResult> = new EventEmitter<QueryResult>();
+
+    issueStates = new Array<IssueStateViewModel>();
+    selectedIssueState: IssueStateViewModel;
+
+    teamId: string;
+
+    selectedQueryResult: QueryResult;
+    //suggestedIssues: Observable<IssueViewModel>;
+
+    constructor(private queryService: QueryService, private dataService: DataService) {
+        this.initIssueStates();
     }
     ngOnInit(): void {
+        this.initTeamId();
+    }
+
+
+    initIssueStates() {
+        let issueActive = new IssueStateViewModel();
+        issueActive.title = IssueState[IssueState.active];
+        issueActive.value = IssueState.active;
+        this.issueStates.push(issueActive);
+
+        let issueClosed = new IssueStateViewModel();
+        issueClosed.title = IssueState[IssueState.closed];
+        issueClosed.value = IssueState.closed;
+        this.issueStates.push(issueClosed);
+
+        this.selectedIssueState = issueActive;
+    }
+
+
+    initTeamId() {
+        this.teamId = CommonUtil.getTeamId();
+    }
+
+    changeIssueFilter(issueState) {
+        this.filterIssueState.emit(issueState);
+    }
+
+    suggestFormatter(data: Metric): string {
+        return `${data.name}`;
+    }
+
+    suggestedQueryResultList = (keyword: any): Observable<QueryResult[]> => {
+        if (keyword && keyword.length >= Constants.suggestCharNum) {
+            return this.queryService.searchQuery(this.selectedIssueState.value, keyword,this.teamId);
+        } else {
+          return Observable.of([]);
+        }
+    }
+
+    selectQueryItem(selected: QueryResult) {
+        this.selectQuery.emit(selected);
     }
 
 }

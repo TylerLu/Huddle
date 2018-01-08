@@ -26,7 +26,9 @@
             'rxjs': 'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
             'ng2-bs3-modal': 'npm:/ng2-bs3-modal',
-            'ngx-cookie': 'npm:ngx-cookie/bundles/ngx-cookie.umd.js'
+            'ngx-cookie': 'npm:ngx-cookie/bundles/ngx-cookie.umd.js',
+            '@ngui/auto-complete': 'npm:@ngui/auto-complete/dist/auto-complete.umd.js',
+            'ngx-ui-switch': 'npm:ngx-ui-switch/ui-switch.umd.js'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -37,8 +39,7 @@
                 defaultExtension: 'js'
             }
             ,
-            'ng2-bs3-modal':
-            { main: '/bundles/ng2-bs3-modal.js', defaultExtension: 'js' }
+            'ng2-bs3-modal':{ main: '/bundles/ng2-bs3-modal.js', defaultExtension: 'js' },
         }
     });
 })(this);

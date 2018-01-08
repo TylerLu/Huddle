@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+<pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2017/05/ProvisioningSchema">
+  <pnp:Preferences Generator="OfficeDevPnP.Core, Version=2.20.1711.0, Culture=neutral, PublicKeyToken=3751622786b357c2" />
+  <pnp:Templates ID="CONTAINER-TEMPLATE-851DADA8EC80445998442630FEF36D08">
+    <pnp:ProvisioningTemplate ID="TEMPLATE-851DADA8EC80445998442630FEF36D08" Version="1" BaseSiteTemplate="STS#0" Scope="RootSite">
+      <pnp:SiteFields>
+        <Field Type="Text" DisplayName="Issue Metric" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" Group="Huddle" ID="{37aac60e-b4b0-4d1b-abd4-9b8c2c91a3b2}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Issue_x0020_Metric" Name="Issue_x0020_Metric">
+        </Field>
+        <Field Type="Lookup" DisplayName="Reason" Required="TRUE" EnforceUniqueValues="FALSE" List="{{listid:Reasons}}" WebId="e1bcbc4b-5966-4eba-ae11-bd9068d54597" ShowField="Title" UnlimitedLengthInDocumentLibrary="FALSE" Group="Huddle" ID="{0f3f491a-2bf8-4ac5-ac29-cc1b5a34a2e3}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Reason" Name="Reason" />
+        <Field Type="Text" DisplayName="Task Id" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" Group="Huddle" ID="{c9b5a030-81df-4a3f-b755-14659d0fce3e}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Task_x0020_Id" Name="Task_x0020_Id">
+        </Field>
+        <Field Type="DateTime" DisplayName="Task Start Date" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="DateOnly" Group="Huddle" FriendlyDisplayFormat="Disabled" ID="{8bd1fd35-c4c2-4f01-9ce1-1fa757685714}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Task_x0020_Start_x0020_Date" Name="Task_x0020_Start_x0020_Date">
+        </Field>
+        <Field Type="URL" DisplayName="Task URL" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Hyperlink" Group="Huddle" ID="{9556043a-72ec-4502-903d-d571b0b8d602}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Task_x0020_URL" Name="Task_x0020_URL">
+        </Field>
+        <Field Type="Lookup" DisplayName="Metric" Required="TRUE" EnforceUniqueValues="FALSE" List="{{listid:Issues}}" WebId="e1bcbc4b-5966-4eba-ae11-bd9068d54597" ShowField="Issue_x0020_Metric" UnlimitedLengthInDocumentLibrary="FALSE" Group="Huddle" ID="{edd87a3b-3886-40b6-8a8d-302a210d0642}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Metric" Name="Metric" />
+        <Field Type="Text" DisplayName="Team Id" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" Group="Huddle" ID="{4a4b8741-8e3f-4a03-a49c-1cc2f3ca2c78}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Team_x0020_Id" Name="Team_x0020_Id">
+        </Field>
+        <Field Type="Text" DisplayName="Current Status" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" Group="Huddle" ID="{988bc34a-1334-449d-a90e-543524519b66}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Current_x0020_Status" Name="Current_x0020_Status">
+        </Field>
+        <Field Type="Text" DisplayName="Target Goal" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" Group="Huddle" ID="{baecd56e-2089-47ad-90fb-abc24bb39478}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Target_x0020_Goal" Name="Target_x0020_Goal">
+        </Field>
+        <Field Type="Lookup" DisplayName="Issue" Required="TRUE" EnforceUniqueValues="FALSE" List="{{listid:Issues}}" WebId="e1bcbc4b-5966-4eba-ae11-bd9068d54597" ShowField="Title" UnlimitedLengthInDocumentLibrary="FALSE" Group="Huddle" ID="{d347458e-6673-49cf-8b02-1780aa541f0c}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Issue" Name="Issue" />
+        <Field Type="Choice" DisplayName="State" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="Dropdown" FillInChoice="FALSE" Group="Huddle" ID="{d8bf0f9c-f68f-4a07-9f71-b315449970a5}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="State" Name="State" CustomFormatter="">
+          <Default>1</Default>
+          <CHOICES>
+            <CHOICE>1</CHOICE>
+            <CHOICE>0</CHOICE>
+          </CHOICES>
+        </Field>
+        <Field Type="Lookup" DisplayName="Issue Category" Required="TRUE" EnforceUniqueValues="FALSE" List="{{listid:Categories}}" WebId="e1bcbc4b-5966-4eba-ae11-bd9068d54597" ShowField="Title" UnlimitedLengthInDocumentLibrary="FALSE" Group="Huddle" ID="{c8fe63bb-eaf0-4ba2-a627-7bc28150c8e0}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Issue_x0020_Category" Name="Issue_x0020_Category" />
+        <Field Type="Text" DisplayName="Task Name" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" MaxLength="255" Group="Huddle" ID="{b374f4c1-6e46-48f0-b341-5d69a418da41}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Task_x0020_Name" Name="Task_x0020_Name">
+        </Field>
+        <Field Type="Number" DisplayName="Reason Metric Value" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Group="Huddle" ID="{234abfe8-fc87-4a72-be04-4d3d8455d107}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Reason_x0020_Metric_x0020_Value" Name="Reason_x0020_Metric_x0020_Value">
+        </Field>
+        <Field Type="Number" DisplayName="Metric Value" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Group="Huddle" ID="{11e64bf4-74ee-4c1b-ac20-39bbb4302a6f}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Metric_x0020_Value" Name="Metric_x0020_Value">
+        </Field>
+        <Field Type="DateTime" DisplayName="Input Date" Required="TRUE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="DateOnly" Group="Huddle" FriendlyDisplayFormat="Disabled" ID="{ea421ffd-b5cd-40b6-95fd-019ba2b102f8}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Input_x0020_Date" Name="Input_x0020_Date">
+        </Field>
+        <Field Type="DateTime" DisplayName="Task Completed Date" Required="FALSE" EnforceUniqueValues="FALSE" Indexed="FALSE" Format="DateOnly" Group="Huddle" FriendlyDisplayFormat="Disabled" ID="{29be82fe-bd0c-464b-8116-37194db7afa2}" SourceID="{e1bcbc4b-5966-4eba-ae11-bd9068d54597}" StaticName="Task_x0020_Completed_x0020_Date" Name="Task_x0020_Completed_x0020_Date">
+        </Field>
+      </pnp:SiteFields>
+      <pnp:ContentTypes>
+        <pnp:ContentType ID="0x01005A829A59DC99074882B4D3D3BB5DDB53" Name="Huddle_IssueMetric" Description="" Group="Huddle" NewFormUrl="" EditFormUrl="" DisplayFormUrl="">
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="11e64bf4-74ee-4c1b-ac20-39bbb4302a6f" Name="Metric_x0020_Value" Required="true" />
+            <pnp:FieldRef ID="ea421ffd-b5cd-40b6-95fd-019ba2b102f8" Name="Input_x0020_Date" Required="true" />
+            <pnp:FieldRef ID="d347458e-6673-49cf-8b02-1780aa541f0c" Name="Issue" Required="true" />
+            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" Hidden="true" />
+            <pnp:FieldRef ID="c042a256-787d-4a6f-8a8a-cf6ab767f12d" Name="ContentType" />
+          </pnp:FieldRefs>
+        </pnp:ContentType>
+        <pnp:ContentType ID="0x010066635468CA38C24BA3270BF4F9F1C6DD" Name="Huddle_Reason" Description="" Group="Huddle" NewFormUrl="" EditFormUrl="" DisplayFormUrl="">
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="c042a256-787d-4a6f-8a8a-cf6ab767f12d" Name="ContentType" />
+            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" Required="true" />
+            <pnp:FieldRef ID="d8bf0f9c-f68f-4a07-9f71-b315449970a5" Name="State" Required="true" />
+            <pnp:FieldRef ID="d347458e-6673-49cf-8b02-1780aa541f0c" Name="Issue" Required="true" />
+          </pnp:FieldRefs>
+        </pnp:ContentType>
+        <pnp:ContentType ID="0x01006B1F2C62DC44F0428A00D3C4AAC49454" Name="Huddle_ReasonMetric" Description="" Group="Huddle" NewFormUrl="" EditFormUrl="" DisplayFormUrl="">
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="c042a256-787d-4a6f-8a8a-cf6ab767f12d" Name="ContentType" />
+            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" Hidden="true" />
+            <pnp:FieldRef ID="234abfe8-fc87-4a72-be04-4d3d8455d107" Name="Reason_x0020_Metric_x0020_Value" Required="true" />
+            <pnp:FieldRef ID="ea421ffd-b5cd-40b6-95fd-019ba2b102f8" Name="Input_x0020_Date" Required="true" />
+            <pnp:FieldRef ID="0f3f491a-2bf8-4ac5-ac29-cc1b5a34a2e3" Name="Reason" Required="true" />
+          </pnp:FieldRefs>
+        </pnp:ContentType>
+        <pnp:ContentType ID="0x01007FB81E7B5451B440ADCF586174ABA29D" Name="Huddle_Category" Description="" Group="Huddle" NewFormUrl="" EditFormUrl="" DisplayFormUrl="">
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="c042a256-787d-4a6f-8a8a-cf6ab767f12d" Name="ContentType" />
+            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" Required="true" />
+          </pnp:FieldRefs>
+        </pnp:ContentType>
+        <pnp:ContentType ID="0x010092DEC58FDBD0D446A14F47912C7EE2FB" Name="Huddle_Issue" Description="" Group="Huddle" NewFormUrl="" EditFormUrl="" DisplayFormUrl="">
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="c042a256-787d-4a6f-8a8a-cf6ab767f12d" Name="ContentType" />
+            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" Required="true" />
+            <pnp:FieldRef ID="37aac60e-b4b0-4d1b-abd4-9b8c2c91a3b2" Name="Issue_x0020_Metric" Required="true" />
+            <pnp:FieldRef ID="d8bf0f9c-f68f-4a07-9f71-b315449970a5" Name="State" Required="true" />
+            <pnp:FieldRef ID="4a4b8741-8e3f-4a03-a49c-1cc2f3ca2c78" Name="Team_x0020_Id" Required="true" />
+            <pnp:FieldRef ID="c8fe63bb-eaf0-4ba2-a627-7bc28150c8e0" Name="Issue_x0020_Category" Required="true" />
+          </pnp:FieldRefs>
+        </pnp:ContentType>
+        <pnp:ContentType ID="0x0100F247923794C63A4A875209B980C77798" Name="Huddle_MetricIdea" Description="" Group="Huddle" NewFormUrl="" EditFormUrl="" DisplayFormUrl="">
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="c042a256-787d-4a6f-8a8a-cf6ab767f12d" Name="ContentType" />
+            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" Hidden="true" />
+            <pnp:FieldRef ID="edd87a3b-3886-40b6-8a8d-302a210d0642" Name="Metric" />
+            <pnp:FieldRef ID="c9b5a030-81df-4a3f-b755-14659d0fce3e" Name="Task_x0020_Id" Required="true" />
+            <pnp:FieldRef ID="9556043a-72ec-4502-903d-d571b0b8d602" Name="Task_x0020_URL" Required="true" />
+            <pnp:FieldRef ID="b374f4c1-6e46-48f0-b341-5d69a418da41" Name="Task_x0020_Name" Required="true" />
+            <pnp:FieldRef ID="ea421ffd-b5cd-40b6-95fd-019ba2b102f8" Name="Input_x0020_Date" Required="true" />
+            <pnp:FieldRef ID="8bd1fd35-c4c2-4f01-9ce1-1fa757685714" Name="Task_x0020_Start_x0020_Date" />
+            <pnp:FieldRef ID="988bc34a-1334-449d-a90e-543524519b66" Name="Current_x0020_Status" Required="true" />
+          </pnp:FieldRefs>
+        </pnp:ContentType>
+      </pnp:ContentTypes>
+      <pnp:Lists>
+        <pnp:ListInstance Title="Categories" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/Categories" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" ContentTypesEnabled="true" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/Categories/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/Categories/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/Categories/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=44" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01007FB81E7B5451B440ADCF586174ABA29D" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{371EF7AD-3437-4C1F-9A20-4D1D1CC97CEB}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="/sites/huddle/Lists/Categories/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=44">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="ID" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="ID" />
+                <FieldRef Name="LinkTitle" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="Issue Metrics" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/Issue Metrics" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" ContentTypesEnabled="true" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/Issue Metrics/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/Issue Metrics/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/Issue Metrics/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=44" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01005A829A59DC99074882B4D3D3BB5DDB53" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{322A098F-1638-4482-B6B6-D1ADE88BDC29}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="/sites/huddle/Lists/Issue Metrics/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=44">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="ID" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="ID" />
+                <FieldRef Name="Issue" />
+                <FieldRef Name="Metric_x0020_Value" />
+                <FieldRef Name="Input_x0020_Date" />
+                <FieldRef Name="Modified" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="ea421ffd-b5cd-40b6-95fd-019ba2b102f8" Name="Input_x0020_Date" DisplayName="Input Date" />
+            <pnp:FieldRef ID="d347458e-6673-49cf-8b02-1780aa541f0c" Name="Issue" Required="true" DisplayName="Issue" />
+            <pnp:FieldRef ID="11e64bf4-74ee-4c1b-ac20-39bbb4302a6f" Name="Metric_x0020_Value" Required="true" DisplayName="Metric Value" />
+          </pnp:FieldRefs>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="Issues" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/Issues" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" ContentTypesEnabled="true" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/Issues/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/Issues/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/Issues/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=44" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x010092DEC58FDBD0D446A14F47912C7EE2FB" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{0533730C-4AD1-4F1B-8B93-7855429310BC}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="/sites/huddle/Lists/Issues/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=44">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="ID" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="ID" />
+                <FieldRef Name="LinkTitle" />
+                <FieldRef Name="Issue_x0020_Metric" />
+                <FieldRef Name="State" />
+                <FieldRef Name="Team_x0020_Id" />
+                <FieldRef Name="Issue_x0020_Category" />
+                <FieldRef Name="Target_x0020_Goal" />
+                <FieldRef Name="Created" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="37aac60e-b4b0-4d1b-abd4-9b8c2c91a3b2" Name="Issue_x0020_Metric" DisplayName="Issue Metric" />
+            <pnp:FieldRef ID="d8bf0f9c-f68f-4a07-9f71-b315449970a5" Name="State" DisplayName="State" />
+            <pnp:FieldRef ID="4a4b8741-8e3f-4a03-a49c-1cc2f3ca2c78" Name="Team_x0020_Id" DisplayName="Team Id" />
+            <pnp:FieldRef ID="c8fe63bb-eaf0-4ba2-a627-7bc28150c8e0" Name="Issue_x0020_Category" Required="true" DisplayName="Issue Category" />
+            <pnp:FieldRef ID="baecd56e-2089-47ad-90fb-abc24bb39478" Name="Target_x0020_Goal" Required="true" DisplayName="Target Goal" />
+          </pnp:FieldRefs>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="Metric Ideas" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/Metric Ideas" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" ContentTypesEnabled="true" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/Metric Ideas/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/Metric Ideas/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/Metric Ideas/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=44" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x0100F247923794C63A4A875209B980C77798" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{1D2E3F15-3483-47EE-99E7-2A560FC2F1D7}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="/sites/huddle/Lists/Metric Ideas/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=44">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="ID" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="ID" />
+                <FieldRef Name="Metric" />
+                <FieldRef Name="Task_x0020_Id" />
+                <FieldRef Name="Task_x0020_URL" />
+                <FieldRef Name="Task_x0020_Name" />
+                <FieldRef Name="Input_x0020_Date" />
+                <FieldRef Name="Task_x0020_Start_x0020_Date" />
+                <FieldRef Name="Current_x0020_Status" />
+                <FieldRef Name="Task_x0020_Completed_x0020_Date" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="edd87a3b-3886-40b6-8a8d-302a210d0642" Name="Metric" DisplayName="Metric" />
+            <pnp:FieldRef ID="c9b5a030-81df-4a3f-b755-14659d0fce3e" Name="Task_x0020_Id" DisplayName="Task Id" />
+            <pnp:FieldRef ID="9556043a-72ec-4502-903d-d571b0b8d602" Name="Task_x0020_URL" DisplayName="Task URL" />
+            <pnp:FieldRef ID="b374f4c1-6e46-48f0-b341-5d69a418da41" Name="Task_x0020_Name" DisplayName="Task Name" />
+            <pnp:FieldRef ID="ea421ffd-b5cd-40b6-95fd-019ba2b102f8" Name="Input_x0020_Date" DisplayName="Input Date" />
+            <pnp:FieldRef ID="8bd1fd35-c4c2-4f01-9ce1-1fa757685714" Name="Task_x0020_Start_x0020_Date" DisplayName="Task Start Date" />
+            <pnp:FieldRef ID="988bc34a-1334-449d-a90e-543524519b66" Name="Current_x0020_Status" DisplayName="Current Status" />
+            <pnp:FieldRef ID="29be82fe-bd0c-464b-8116-37194db7afa2" Name="Task_x0020_Completed_x0020_Date" DisplayName="Task Completed Date" />
+          </pnp:FieldRefs>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="Reason Metrics" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/Reason Metrics" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" ContentTypesEnabled="true" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/Reason Metrics/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/Reason Metrics/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/Reason Metrics/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=44" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x01006B1F2C62DC44F0428A00D3C4AAC49454" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{BD7EC26D-D3B3-4B64-B1F8-B0838BDFDB45}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="/sites/huddle/Lists/Reason Metrics/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=44">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="ID" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="ID" />
+                <FieldRef Name="Reason" />
+                <FieldRef Name="Reason_x0020_Metric_x0020_Value" />
+                <FieldRef Name="Input_x0020_Date" />
+                <FieldRef Name="Modified" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="234abfe8-fc87-4a72-be04-4d3d8455d107" Name="Reason_x0020_Metric_x0020_Value" DisplayName="Reason Metric Value" />
+            <pnp:FieldRef ID="ea421ffd-b5cd-40b6-95fd-019ba2b102f8" Name="Input_x0020_Date" DisplayName="Input Date" />
+            <pnp:FieldRef ID="0f3f491a-2bf8-4ac5-ac29-cc1b5a34a2e3" Name="Reason" Required="true" DisplayName="Reason" />
+          </pnp:FieldRefs>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="Reasons" Description="" DocumentTemplate="" TemplateType="100" Url="Lists/Reasons" MinorVersionLimit="0" MaxVersionLimit="0" DraftVersionVisibility="0" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" ContentTypesEnabled="true" EnableFolderCreation="false" DefaultDisplayFormUrl="{site}/Lists/Reasons/DispForm.aspx" DefaultEditFormUrl="{site}/Lists/Reasons/EditForm.aspx" DefaultNewFormUrl="{site}/Lists/Reasons/NewForm.aspx" ImageUrl="/_layouts/15/images/itgen.png?rev=44" ValidationFormula="" ValidationMessage="">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x010066635468CA38C24BA3270BF4F9F1C6DD" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" />
+            <pnp:ContentTypeBinding ContentTypeID="0x0120" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{BAB18049-38C3-4A1F-813E-E43705AEE6AB}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="/sites/huddle/Lists/Reasons/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=44">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="ID" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="ID" />
+                <FieldRef Name="LinkTitle" />
+                <FieldRef Name="Issue" />
+                <FieldRef Name="State" />
+                <FieldRef Name="Created" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="d8bf0f9c-f68f-4a07-9f71-b315449970a5" Name="State" DisplayName="State" />
+            <pnp:FieldRef ID="d347458e-6673-49cf-8b02-1780aa541f0c" Name="Issue" Required="true" DisplayName="Issue" />
+          </pnp:FieldRefs>
+        </pnp:ListInstance>
+      </pnp:Lists>
+    </pnp:ProvisioningTemplate>
+  </pnp:Templates>
+</pnp:Provisioning>
