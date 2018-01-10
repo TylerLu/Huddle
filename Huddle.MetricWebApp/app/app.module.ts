@@ -13,7 +13,10 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import { IssueListComponent } from './issueList/issueList.component';
 import { HeaderComponent } from './header/header.component';
 import { AddIssueComponent } from './issue/addIssue.component';
+import { EditIssueComponent } from './issue/editIssue.component';
 import { MetricIssueComponent } from './issue/metricIssue.component';
+import { AddMetricComponent } from './metric/addMetric.component';
+import { EditMetricComponent } from './metric/editMetric.component';
 import { WeekSelectorComponent } from './issue/weekSelector.component';
 import { WeekInputComponent } from './issue/weekInput.component';
 import { AddReasonComponent } from './issue/addReason.component';
@@ -52,6 +55,7 @@ import { MetricService } from './services/metric.service';
         IssueListComponent,
         HeaderComponent,
         AddIssueComponent,
+        EditIssueComponent,
         MetricIssueComponent,
         WeekInputComponent,
         WeekSelectorComponent,
@@ -66,7 +70,9 @@ import { MetricService } from './services/metric.service';
         ReasonListComponent,
         NewReasonComponent,
         EditReasonComponent,
-        MetricListComponent
+        MetricListComponent,
+        AddMetricComponent,
+        EditMetricComponent
     ],
     providers: [
         { provide: APP_BASE_HREF, useValue: '/' },

@@ -1,4 +1,5 @@
-﻿.add-reason-link {
+﻿.reason-list-section{margin-left:40px;} 
+.add-reason-link {
     margin-left: 12px;
     padding-left: 15px;
     background-image: url('/images/plus-sign-copy.png');

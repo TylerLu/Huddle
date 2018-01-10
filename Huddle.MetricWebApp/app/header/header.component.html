@@ -29,4 +29,5 @@
             <img src="/images/icons-8-next.png" />
         </div>
     </div>
+    <week-selector (selectWeek)="weekChange($event)" [allowClick]="allowWeekClick" (afterCheckAllowClick)="checkAllowWeekClick($event)"></week-selector>
 </div>

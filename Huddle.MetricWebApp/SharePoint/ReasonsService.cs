@@ -69,7 +69,6 @@ namespace Huddle.MetricWebApp.SharePoint
             using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
             {
                 var list = clientContext.Web.Lists.GetByTitle(SPLists.Reasons.Title); 
-                ListItemCreationInformation newItem = new ListItemCreationInformation();
                 ListItem listItem = list.AddItem(new ListItemCreationInformation());
                 listItem[SPLists.Reasons.Columns.Metric] = SharePointHelper.BuildSingleLookFieldValue(item.Metric.Id, item.Metric.Name);
                 listItem[SPLists.Reasons.Columns.Title] = item.Name;

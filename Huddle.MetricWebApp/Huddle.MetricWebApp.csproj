@@ -92,16 +92,16 @@
       <HintPath>..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.0\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Client.Policy, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.Office.Client.Policy.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.Office.Client.Policy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Client.TranslationServices, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.Office.Client.TranslationServices.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.Office.Client.TranslationServices.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.SharePoint.Tools, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.Office.SharePoint.Tools.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.Office.SharePoint.Tools.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Online.SharePoint.Client.Tenant, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.Online.SharePoint.Client.Tenant.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.Online.SharePoint.Client.Tenant.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -119,37 +119,37 @@
       <HintPath>..\packages\Microsoft.Owin.Security.OpenIdConnect.3.0.1\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ProjectServer.Client, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.ProjectServer.Client.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.ProjectServer.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.DocumentManagement, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.DocumentManagement.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.DocumentManagement.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.Publishing, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.Publishing.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.Publishing.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.Runtime, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.Runtime.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.Runtime.Windows, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.Runtime.Windows.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.Runtime.Windows.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.Search, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.Search.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.Search.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.Search.Applications, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.Search.Applications.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.Search.Applications.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.Taxonomy, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.Taxonomy.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.Taxonomy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.UserProfiles, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.UserProfiles.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.UserProfiles.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SharePoint.Client.WorkflowServices, Version=16.1.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.6906.1200\lib\net45\Microsoft.SharePoint.Client.WorkflowServices.dll</HintPath>
+      <HintPath>..\packages\Microsoft.SharePointOnline.CSOM.16.1.7206.1200\lib\net45\Microsoft.SharePoint.Client.WorkflowServices.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -289,6 +289,7 @@
     <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="Controllers\ReasonsController.cs" />
     <Compile Include="Controllers\TabController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -302,20 +303,20 @@
     <Compile Include="Models\AdalTokenCache.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Issue.cs" />
-    <Compile Include="Models\IssueMetric.cs" />
+    <Compile Include="Models\MetricValue.cs" />
     <Compile Include="Models\Metric.cs" />
     <Compile Include="Models\QueryResult.cs" />
     <Compile Include="Models\Reason.cs" />
-    <Compile Include="Models\ReasonMetric.cs" />
+    <Compile Include="Models\ReasonValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TeamsService.cs" />
     <Compile Include="SharePoint\DataClearService.cs" />
     <Compile Include="SharePoint\CategoriesService.cs" />
-    <Compile Include="SharePoint\IssueMetricsService.cs" />
+    <Compile Include="SharePoint\MetricValuesService.cs" />
     <Compile Include="SharePoint\IssuesService.cs" />
     <Compile Include="SharePoint\MetricsService.cs" />
     <Compile Include="SharePoint\QueryService.cs" />
-    <Compile Include="SharePoint\ReasonMetricsService.cs" />
+    <Compile Include="SharePoint\ReasonValuesService.cs" />
     <Compile Include="SharePoint\ReasonsService.cs" />
     <Compile Include="SharePoint\SharePointExtensions.cs" />
     <Compile Include="Startup.cs" />
@@ -328,6 +329,8 @@
     <Content Include="app\header\header.component.html" />
     <Content Include="app\issueList\issueList.component.css" />
     <Content Include="app\issueList\issueList.component.html" />
+    <Content Include="app\issue\editIssue.component.css" />
+    <Content Include="app\issue\editIssue.component.html" />
     <Content Include="app\issue\addIssue.component.css" />
     <Content Include="app\issue\addIssue.component.html" />
     <Content Include="app\issue\addReason.component.css" />
@@ -340,6 +343,10 @@
     <Content Include="app\issue\weekInput.component.html" />
     <Content Include="app\issue\weekSelector.component.css" />
     <Content Include="app\issue\weekSelector.component.html" />
+    <Content Include="app\metric\editMetric.component.css" />
+    <Content Include="app\metric\editMetric.component.html" />
+    <Content Include="app\metric\addMetric.component.css" />
+    <Content Include="app\metric\addMetric.component.html" />
     <Content Include="app\metric\metricList.component.css" />
     <Content Include="app\metric\metricList.component.html" />
     <Content Include="app\reason\editReason.component.css" />
@@ -357,7 +364,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="gulpfile.js" />
     <Content Include="images\Baylor-Scott-And-White-Logo.png" />
     <Content Include="images\icons-8-add-32-px%403x.png" />
     <Content Include="images\icons-8-back.png" />
@@ -461,14 +467,19 @@
     <TypeScriptCompile Include="app\header\header.component.ts" />
     <TypeScriptCompile Include="app\issueList\issue.viewmodel.ts" />
     <TypeScriptCompile Include="app\issueList\issueList.component.ts" />
+    <TypeScriptCompile Include="app\issue\editIssue.component.ts" />
     <TypeScriptCompile Include="app\issue\addReason.component.ts" />
+    <TypeScriptCompile Include="app\metric\editMetric.component.ts" />
+    <TypeScriptCompile Include="app\metric\addMetric.component.ts" />
     <TypeScriptCompile Include="app\metric\metric.viewmodel.ts" />
     <TypeScriptCompile Include="app\metric\metricList.component.ts" />
     <TypeScriptCompile Include="app\reason\editReason.component.ts" />
     <TypeScriptCompile Include="app\reason\newReason.component.ts" />
     <TypeScriptCompile Include="app\reason\reasonList.component.ts" />
+    <TypeScriptCompile Include="app\services\category.service.ts" />
     <TypeScriptCompile Include="app\services\metric.service.ts" />
     <TypeScriptCompile Include="app\services\query.service.ts" />
+    <TypeScriptCompile Include="app\shared\models\allowClick.ts" />
     <TypeScriptCompile Include="app\shared\models\issueState.viewmodel.ts" />
     <TypeScriptCompile Include="app\issue\addIssue.component.ts" />
     <TypeScriptCompile Include="app\issue\input.popup.component.ts" />
@@ -486,13 +497,14 @@
     <TypeScriptCompile Include="app\shared\models\allowIssueClick.ts" />
     <TypeScriptCompile Include="app\shared\models\category.ts" />
     <TypeScriptCompile Include="app\shared\models\issue.ts" />
-    <TypeScriptCompile Include="app\shared\models\issueMetric.ts" />
+    <TypeScriptCompile Include="app\shared\models\metricValue.ts" />
     <TypeScriptCompile Include="app\shared\models\issueState.ts" />
     <TypeScriptCompile Include="app\shared\models\metric.ts" />
     <TypeScriptCompile Include="app\shared\models\queryResult.ts" />
     <TypeScriptCompile Include="app\shared\models\reason.ts" />
     <TypeScriptCompile Include="app\shared\models\reasonMetric.ts" />
     <TypeScriptCompile Include="app\shared\models\state.ts" />
+    <TypeScriptCompile Include="app\shared\models\user.ts" />
     <TypeScriptCompile Include="app\shared\models\weekInputViewModel.ts" />
     <TypeScriptCompile Include="app\shared\models\weekDay.ts" />
     <TypeScriptCompile Include="app\teamTab\teamTab.component.ts" />
@@ -511,6 +523,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Metic\" />
+    <Folder Include="Views\Teams\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

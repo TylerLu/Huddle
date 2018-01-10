@@ -8,10 +8,16 @@ import { Reason} from '../shared/models/reason';
 import { IssueState } from '../shared/models/issueState';
 import { IssueViewModel } from '../issueList/issue.viewmodel';
 import { MetricViewModel } from './metric.viewmodel';
+import { WeekDay } from '../shared/models/weekDay';
+import { WeekInputViewModel } from '../shared/models/weekInputViewModel';
 import { Constants } from '../shared/constants';
 import { CommonUtil } from '../utils/commonUtil';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ReasonListComponent } from '../reason/reasonList.component';
+import { DateHelper } from '../utils/dateHelper';
+import { AddMetricComponent } from './addMetric.component';
+import { EditMetricComponent } from './editMetric.component';
+
 declare var microsoftTeams: any;
 
 @Component({
@@ -26,13 +32,32 @@ export class MetricListComponent implements OnInit {
     teamId = Constants.teamId;
 
     ifHidden: boolean = true;
+    currentIssueId: number = 0;
+    currentMetricId: number = 0;
 
     @Input('currentIssue') currentIssue: Issue;
 
     @ViewChildren('reasonLists')
     reasonLists:QueryList<ReasonListComponent>;
 
-    constructor(private metricService: MetricService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService) {
+    currentWeekDays = new Array<Date>();
+    selectWeekDay: WeekDay;
+    weekInputviewModel: WeekInputViewModel;
+
+    metricWeekInputViewModelArray = new Array<WeekInputViewModel>();
+    reasonWeekInputViewModelArray = new Array<WeekInputViewModel>();
+
+    @ViewChild('modalAddMetric')
+    modalAddMetric: ModalComponent;
+    @ViewChild(AddMetricComponent)
+    addMetricPopUp: AddMetricComponent;
+
+    @ViewChild('modalEditMetric')
+    modalEditMetric: ModalComponent;
+    @ViewChild(EditMetricComponent)
+    editMetricPopUp: EditMetricComponent;
+
+    constructor(private metricService: MetricService,  private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService) {
     }
 
     ngOnInit(): void {
@@ -41,6 +66,7 @@ export class MetricListComponent implements OnInit {
 
     show() {
         this.ifHidden = false;
+        this.currentIssueId = this.currentIssue.id;
         this.metricService.getMetricsById(this.currentIssue.id)
             .subscribe(resp => {
                 this.metricArray = resp.map((metric, index) => {
@@ -50,6 +76,7 @@ export class MetricListComponent implements OnInit {
                     metricViewModel.expanded = false;
                     return metricViewModel;
                 });
+                this.rebuildWeekInputViewModel();
             });
     }
 
@@ -65,11 +92,7 @@ export class MetricListComponent implements OnInit {
     onSwitch() {
     }
 
-    editMetricClick() {
-    }
-
-    addMetricClick() {
-    }
+    closed() { }
 
     expandMetricClick(metric: MetricViewModel) {
         this.metricArray.forEach(metric => {
@@ -89,5 +112,40 @@ export class MetricListComponent implements OnInit {
         if (result.length > 0)
             return result[0];
         return null;
+    }
+
+    rebuildWeekInputViewModel() {
+        //to be replaced with week selector component;
+        this.selectWeekDay = DateHelper.getStartAndEndDayOfWeek();
+        if (this.metricArray.length > 0) {
+            this.metricWeekInputViewModelArray = this.metricArray.map(metricView => {
+                return DateHelper.getWeekInputViewModel(false, this.selectWeekDay, metricView.metric, null);
+            });
+        }
+        //this.getMetricValues();
+    }
+
+    editMetricClick(id) {
+        this.currentMetricId = id;
+        this.modalEditMetric.open();
+    }
+
+    addMetricClick() {
+        this.modalAddMetric.open();
+    }
+
+    opened() {
+        this.addMetricPopUp.open(this.currentIssue.id);
+    }
+
+    editMetricOpened() {
+        this.editMetricPopUp.open(this.currentIssue.id, this.currentMetricId);
+    }
+
+    afterCloseNewMetric() {
+        this.modalAddMetric.close();
+    }
+    afterCloseEditMetric() {
+        this.modalEditMetric.close();
     }
 }

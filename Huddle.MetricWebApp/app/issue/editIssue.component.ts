@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter } from '@angular/core';
+﻿import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Issue } from '../shared/models/issue';
 import { User } from '../shared/models/user';
@@ -12,62 +12,80 @@ import { Constants } from '../shared/constants';
 import { CommonUtil } from '../utils/commonUtil';
 import { IssueListComponent } from '../issueList/issueList.component';
 import { FabricHelper } from '../utils/fabricHelper';
+import { State } from '../shared/models/state';
 declare var fabric: any;
 declare var jQuery: any;
 
 @Component({
-    templateUrl: 'app/issue/addIssue.component.html',
-    selector: 'add-issue',
-    styleUrls: ['app/issue/addIssue.component.css', 'app/shared/shared.css']
+    templateUrl: 'app/issue/editIssue.component.html',
+    selector: 'edit-issue',
+    styleUrls: ['app/issue/editIssue.component.css', 'app/shared/shared.css']
 })
 
-export class AddIssueComponent implements OnInit, AfterViewChecked {
+export class EditIssueComponent implements OnInit, AfterViewChecked {
     @Output() afterAddedIssue: EventEmitter<Issue> = new EventEmitter<Issue>();
     @Output() onClosed: EventEmitter<Issue> = new EventEmitter<Issue>();
 
     selectedCategory = '';
     selectedUser = '';
     categories = new Array<Category>();
-    toAddIssue = new Issue();
+ 
     users = new Array<User>();
     isSaving = false;
     teamId = '1';
     isShown = false;
+    toEditIssue = new Issue();
 
     constructor(private issueService: IssueService, private reasonService: ReasonService, private router: Router) {
     }
 
     ngOnInit(): void {
-        //this.initTeamContext();
-        //this.initCategoriesAndReasons();
+       
     }
 
-    open(): void {
+    open(issueId): void {
         this.initTeamContext();
         jQuery("div.add-issue-dialog").find("li.ms-Dropdown-item").removeClass('is-selected');
         jQuery("div.add-issue-dialog").find('span.ms-Dropdown-title').html('');
-        
-        this.toAddIssue = new Issue();
-        this.initCategories();
-        this.initUsers();
+        this.initIssue(issueId);
         this.isShown = true;
     }
 
     close(): void {
         this.isShown = false;
         this.isSaving = false;
-        this.onClosed.emit(this.toAddIssue);
+        this.onClosed.emit(this.toEditIssue);
+    }
+
+    initIssue(issueId) {
+        if (issueId > 0) {
+            this.issueService.getIssueById(issueId)
+                .subscribe(issue => {                   
+                    this.toEditIssue.id = issue.id;
+                    this.toEditIssue.name = issue.name;
+                    this.toEditIssue.category = issue.category;
+                    this.toEditIssue.owner = issue.owner;
+                    this.toEditIssue.issueState = issue.issueState;
+                    this.initUsers();
+                    this.initCategories();
+
+                });
+        }
     }
 
     initUsers() {
-
         this.issueService.getUsers(this.teamId)
             .subscribe(resp => {
                 this.users = resp;
                 if (this.users.length > 0) {
-                    this.selectedUser = this.users[0].mail;
+                    for (var i = 0; i < this.users.length; i++) {
+                        if (this.users[i].name == this.toEditIssue.owner) {
+                            this.selectedUser = this.users[i].mail;
+                            break;
+                        }
+                    }
                 }
-                this.toAddIssue.owner = this.selectedUser;
+                
             });
     }
 
@@ -76,10 +94,12 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
         this.issueService.getCategories()
             .subscribe(resp => {
                 this.categories = resp;
-                if (this.categories.length > 0) {
-                    this.selectedCategory = this.categories[0].name;
+                for (var i = 0; i < this.categories.length; i++) {
+                    if (this.categories[i].name == this.toEditIssue.category) {
+                        this.selectedCategory = this.categories[i].name;
+                        break;
+                    }
                 }
-                this.toAddIssue.category = this.getCategoryByName(this.selectedCategory);
             });
     }
 
@@ -93,7 +113,7 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     }
     selectUser(user) {
         this.selectedUser = user;
-        this.toAddIssue.owner = this.selectedUser;
+        this.toEditIssue.owner = this.selectedUser;
     }
 
 
@@ -105,15 +125,15 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     }
 
     isSaveDisabled(): boolean {
-        return !this.toAddIssue.name || !this.toAddIssue.metric || this.isSaving; 
+        return !this.toEditIssue.name || !this.toEditIssue.metric || this.isSaving; 
     }
 
     saveIssue(): void {
 
         this.isSaving = true;
-        this.toAddIssue.category = this.getCategoryByName(this.selectedCategory);
-
-        this.issueService.addIssue(this.toAddIssue,  this.teamId)
+        this.toEditIssue.category = this.getCategoryByName(this.selectedCategory);
+        this.toEditIssue.issueState = (this.toEditIssue.issueState.toLocaleString() === 'false' ? IssueState.closed : IssueState.active);
+        this.issueService.editIssue(this.toEditIssue)
             .subscribe(result => {
                 if (result && result > 0) {
                     this.close();

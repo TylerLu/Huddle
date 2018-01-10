@@ -34,21 +34,26 @@ namespace Huddle.MetricWebApp.SharePoint
             }
         }
 
-        public static async Task InsertItemAsync(Issue item)
+        public static async Task<int> InsertItemAsync(Issue item)
         {
             using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
             {
+                User newUser = clientContext.Web.EnsureUser(item.Owner);
+                clientContext.Load(newUser);
+                clientContext.ExecuteQuery();
+                FieldUserValue userValue = new FieldUserValue();
+                userValue.LookupId = newUser.Id;
                 var list = clientContext.Web.Lists.GetByTitle(SPLists.Issues.Title); 
-                ListItemCreationInformation newItem = new ListItemCreationInformation();
                 ListItem listItem = list.AddItem(new ListItemCreationInformation());
                 listItem[SPLists.Issues.Columns.Category] = SharePointHelper.BuildSingleLookFieldValue(item.Category.Id,item.Category.Name);
                 listItem[SPLists.Issues.Columns.Title] = item.Name;
                 listItem[SPLists.Issues.Columns.State] = item.State;
-                listItem[SPLists.Issues.Columns.TeamId] = item.MSTeamId;
+                listItem[SPLists.Issues.Columns.TeamId] = item.MSTeamId;               
+                listItem[SPLists.Issues.Columns.Owner] = userValue;
                 listItem.Update();
                 clientContext.Load(listItem);
                 clientContext.ExecuteQuery();
-                item.Id = listItem.Id;
+                return listItem.Id;
             }
         }
 
@@ -83,6 +88,12 @@ namespace Huddle.MetricWebApp.SharePoint
         {
             using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
             {
+                User newUser = clientContext.Web.EnsureUser(item.Owner);
+                clientContext.Load(newUser);
+                clientContext.ExecuteQuery();
+                FieldUserValue userValue = new FieldUserValue();
+                userValue.LookupId = newUser.Id;
+
                 var query = new CamlQuery();
                 query.ViewXml =
                     @"<View>
@@ -99,8 +110,10 @@ namespace Huddle.MetricWebApp.SharePoint
                 var queryItem = items.FirstOrDefault();
                 if (queryItem == null)
                     return;
-                queryItem[SPLists.Issues.Columns.State] = item.State;
+                queryItem[SPLists.Issues.Columns.Category] = SharePointHelper.BuildSingleLookFieldValue(item.Category.Id, item.Category.Name);
                 queryItem[SPLists.Issues.Columns.Title] = item.Name;
+                queryItem[SPLists.Issues.Columns.State] = item.State;
+                queryItem[SPLists.Issues.Columns.Owner] = userValue;
                 queryItem.Update();
                 clientContext.ExecuteQuery();
             }

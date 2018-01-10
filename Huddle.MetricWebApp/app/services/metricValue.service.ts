@@ -5,7 +5,7 @@ import { Issue } from '../shared/models/issue';
 import { WeekDay } from '../shared/models/weekDay';
 import { Reason } from '../shared/models/reason';
 import { WeekInputViewModel } from '../shared/models/weekInputViewModel';
-import { IssueMetric } from '../shared/models/issueMetric';
+import { MetricValue } from '../shared/models/metricValue';
 import { ReasonMetric } from '../shared/models/reasonMetric';
 import { Constants } from '../shared/constants';
 import { ModelConverter } from '../utils/modelConverter';
@@ -16,14 +16,14 @@ export class MetricValueService {
 
     constructor(private dataService: DataService) { }
 
-    public updateMetricValues(issueMetrics:Array<IssueMetric>,reasonMetrics:Array<Array<ReasonMetric>>,jsonStr:string): Observable<boolean> {
+    public updateMetricValues(issueMetrics:Array<MetricValue>,reasonMetrics:Array<Array<ReasonMetric>>,jsonStr:string): Observable<boolean> {
         let activeObject: ReplaySubject<boolean> = new ReplaySubject(1);
         let originalData = JSON.parse(jsonStr);
-        let originalIssueMetrics = (originalData['issueWeekInputviewModel'] as WeekInputViewModel).issueMetricArray;
-        let originalReasonMetrics = (originalData['reasonWeekInputViewModelArray'] as Array<WeekInputViewModel>).map(reasonWeekVM => reasonWeekVM.reasonMetricArray);
+        let originalIssueMetrics = (originalData['issueWeekInputviewModel'] as WeekInputViewModel).metricValueArray;
+        let originalReasonMetrics = (originalData['reasonWeekInputViewModelArray'] as Array<WeekInputViewModel>).map(reasonWeekVM => reasonWeekVM.reasonValueArray);
 
-        let toPostIssueMetrics = issueMetrics.filter((issueMetric, index) => {
-            return originalIssueMetrics[index].metricValues != issueMetric.metricValues;
+        let toPostIssueMetrics = issueMetrics.filter((metricValue, index) => {
+            return originalIssueMetrics[index].metricValues != metricValue.metricValues;
         });
         if (toPostIssueMetrics.length == 0)
             toPostIssueMetrics = [issueMetrics[0]];

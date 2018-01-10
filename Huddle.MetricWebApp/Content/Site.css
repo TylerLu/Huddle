@@ -115,4 +115,9 @@ textarea {
         color: #ff0000;
         padding-left: 5px;
     }
-  
+.huddle-container .save-container {
+    margin-top: 20px;
+    display: inline-block;   
+    text-align: center;
+    min-height:30px;
+}

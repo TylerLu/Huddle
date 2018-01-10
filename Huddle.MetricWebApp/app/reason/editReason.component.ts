@@ -54,9 +54,6 @@ export class EditReasonComponent implements OnInit, AfterViewChecked {
     }
 
     close(): void {
-       // this.clearData();
-        //this.isShown = false;
-        //this.isSaving = false;
         this.onClosed.emit(this.toEditReason);
     }
 
@@ -71,14 +68,10 @@ export class EditReasonComponent implements OnInit, AfterViewChecked {
 
     saveReason(): void {
         this.toEditReason.reasonState = (this.toEditReason.reasonState.toLocaleString() === 'false' ? State.closed : State.active);
-        //this.isSaving = true;
         this.reasonService.editReason(this.toEditReason).subscribe(result => {
-            if (result && result > 0) {              
                 this.close();
-            }
         });
     }
     ngAfterViewChecked() {
-        //FabricHelper.initFabricDropdown();
     }
 }

@@ -34,16 +34,16 @@
                 How often is this reason tracked?<span class="required">*</span>
             </div>
             <div class="col-md-6">
-                <input type="radio" value="Daily" [(ngModel)]="toAddReason.trackingFrequency" name="trackingFrequency" /><span>Daily</span>
-                <input type="radio" value="Weekly" [(ngModel)]="toAddReason.trackingFrequency" name="trackingFrequency" /><span>Weekly</span>
+                <input type="radio" (click)="updateTrackingFrequency('Daily')"   name="trackingFrequency" [checked]='toAddReason.trackingFrequency==="Daily"'/><span>Daily  </span>
+                <input type="radio" (click)="updateTrackingFrequency('Weekly')"  name="trackingFrequency" [checked]='toAddReason.trackingFrequency==="Weekly"'/><span>Weekly  </span>
             </div>
             <div class="col-md-5">
                 I want to measure this reason in<span class="required">*</span>
             </div>
             <div class="col-md-6">
-                <input type="radio" value="Numbers" [(ngModel)]="toAddReason.valueType" name="valueType" /><span>Numbers  </span>
-                <input type="radio" value="Percentages" [(ngModel)]="toAddReason.valueType" name="valueType" /><span>Percentages  </span>
-                <input type="radio" value="Dollars" [(ngModel)]="toAddReason.valueType" name="valueType" /> <span>Dollars</span>
+                <input type="radio" value="Numbers" (click)="updateValueType('Numbers')" name="metricvalueType"  [checked]='toAddReason.valueType==="Numbers"' /><span>Numbers  </span>
+                <input type="radio" value="Percentages" (click)="updateValueType('Percentages')"  [checked]='toAddReason.valueType==="Percentages"' name="metricvalueType" /><span>Percentages  </span>
+                <input type="radio" value="Dollars" (click)="updateValueType('Dollars')"  [checked]='toAddReason.valueType==="Dollars"'  name="metricvalueType" /> <span>Dollars</span>
             </div>
         </div>
     </div>

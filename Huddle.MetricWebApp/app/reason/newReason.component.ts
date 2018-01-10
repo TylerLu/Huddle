@@ -23,6 +23,7 @@ export class NewReasonComponent implements OnInit, AfterViewChecked {
     toAddReason = new Reason();
     isSaving = false;
     isShown = false;
+    checked = false;
     
     constructor(private reasonService: ReasonService, private metricService: MetricService, private router: Router) {
     }
@@ -50,16 +51,18 @@ export class NewReasonComponent implements OnInit, AfterViewChecked {
         this.onClosed.emit(this.toAddReason);
     }
 
-
-
+    updateValueType(valueType): void {
+        this.toAddReason.valueType = valueType;
+    }
+    updateTrackingFrequency(value): void {
+        this.toAddReason.trackingFrequency = value;
+    }
 
 
     saveReason(): void {
         this.isSaving = true;
         this.reasonService.addReason(this.toAddReason).subscribe(result => {
-            if (result && result > 0) {              
                 this.close();
-            }
         });
     }
     ngAfterViewChecked() {

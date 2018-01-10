@@ -1,0 +1,53 @@
+﻿<div class="huddle-popup-container">
+    <div class="object-dialog">
+        <div class="ms-Dialog ms-Dialog--blocking ms-Dialog--close" [ngClass]="{'is-open': isShown}">
+            
+                <div class="row">
+                    <div class="col-md-3">
+                        Issue
+                    </div>
+                    <div class="col-md-9">
+                        {{issue.name}}
+                    </div>
+                    <div class="col-md-3">
+                        Metric Name<span class="required">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="ms-TextField-field"  [(ngModel)]="toAddMetric.name">
+                    </div>
+                    <div class="col-md-3">
+                        Target Goal<span class="required">*</span>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="ms-TextField-field"  [(ngModel)]="toAddMetric.targetGoal">
+                    </div>
+                    <div class="col-md-12 line">
+                        <hr />
+                    </div>
+
+                    <div class="col-md-12 line">
+                        I want to measure this metric in<span class="required">*</span>
+                        &nbsp;&nbsp;
+                        <input type="radio" value="Numbers"  (click)="updateValueType('Numbers')" /><span>Numbers  </span>
+                        <input type="radio" value="Percentages" (click)="updateValueType('Percentages')"  name="metricvalueType" /><span>Percentages  </span>
+                        <input type="radio" value="Dollars" (click)="updateValueType('Dollars')"  name="metricvalueType" /> <span>Dollars</span>
+
+                    </div>
+
+                    <div class="col-md-12 line">
+                        <hr />
+                    </div>
+                </div>
+           
+        </div>
+
+        <div class="save-container">
+            <button class="btn-cancel" (click)="close()">
+                <span class="">Cancel</span>
+            </button>
+            <button class="btn-save" (click)="saveMetric()" [disabled]="isSaving">
+                <span class="">Save</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -25,26 +25,13 @@ namespace Huddle.MetricWebApp.Controllers
         public async Task<HttpResponseMessage> Post(JObject objData)
         {
             dynamic jsonData = objData;
-            List<Reason> postReasons = new List<Reason>();
-            JArray reasonsJsonArray = jsonData.reasons;
-            JObject metricJson = jsonData.metric;
-            Metric toAddMetric = metricJson.ToObject<Metric>();
-            toAddMetric.State = 1;
-            foreach (var item in reasonsJsonArray)
-            {
-                var reason = item.ToObject<Reason>();
-                reason.State = 1;
-                if (!string.IsNullOrEmpty(reason.Name))
-                    postReasons.Add(reason);
-            }
-            //await IssuesService.InsertItemAsync(toAddMetric);
-            //foreach (var reason in postReasons)
-            //{
-            //    reason.Metric= toAddMetric;
-            //    await ReasonsService.InsertItemAsync(reason);
-            //}
+            Issue toAddIssue = jsonData.issue.ToObject<Issue>();
+            toAddIssue.State = 1;
+            toAddIssue.MSTeamId = jsonData.teamId;
+            var issueId = await IssuesService.InsertItemAsync(toAddIssue);
+
             return ToJson(new {
-                metricId = toAddMetric.Id
+                issueId = issueId
             });
         }
 
@@ -53,6 +40,18 @@ namespace Huddle.MetricWebApp.Controllers
         {
         }
 
+        [HttpPost, Route("api/issues/editIssue")]
+        public async Task<HttpResponseMessage> EditIssue(JObject objData)
+        {
+            dynamic jsonData = objData;
+            JObject issue = jsonData.issue;
+            var toEditIssue = issue.ToObject<Issue>();
+            await IssuesService.UpdateItemAsync(toEditIssue);
+            return ToJson(new
+            {
+                issueId = toEditIssue.Id
+            });
+        }
 
     }
 

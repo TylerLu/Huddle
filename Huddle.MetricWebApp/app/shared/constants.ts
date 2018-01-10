@@ -15,7 +15,9 @@
 
     static webAPI = class {
         public static readonly userUrl = '/api/user';
-        public static readonly issuesUrl= '/api/issues';
+        public static readonly teamsUrl = '/api/teams';
+        public static readonly issuesUrl = '/api/issues';
+        public static readonly issueEditUrl = '/api/issues/editIssue';
         public static readonly categoriesUrl = '/api/categories';
         public static readonly reasonsUrl = '/api/reasons';
         public static readonly reasonStatusUrl = '/api/reasons/updatereasonstatus';
@@ -24,7 +26,10 @@
         public static readonly metricValuesUrl = '/api/metricvalues';
         public static readonly issuesFilterUrl= '/api/issuesFilter';
         public static readonly queryUrl = '/api/itemsquery';
-        public static readonly metricUrl = '/api/metrics';
+        public static readonly metricsUrl = '/api/metrics';
+        public static readonly metricUrl = '/api/metric';
+        public static readonly metricEditUrl = '/api/metricedit';
+        public static readonly categoryUrl = '/api/category';
     }
 }
 

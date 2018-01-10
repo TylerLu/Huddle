@@ -10,6 +10,9 @@ import { Constants} from '../shared/constants';
 import { QueryService } from '../services/query.service';
 import { DataService} from '../services/data.service';
 import { CommonUtil } from '../utils/commonUtil';
+import { AllowClick } from '../shared/models/allowClick';
+import { WeekDay } from '../shared/models/weekDay';
+import { DateHelper } from '../utils/dateHelper';
 
 @Component({
     templateUrl: 'app/header/header.component.html',
@@ -29,6 +32,10 @@ export class HeaderComponent implements OnInit {
 
     selectedQueryResult: QueryResult;
     //suggestedIssues: Observable<IssueViewModel>;
+
+    allowWeekClick: AllowClick = new AllowClick(true);
+    selectWeekDay: WeekDay;
+    currentWeekDays = new Array<Date>();
 
     constructor(private queryService: QueryService, private dataService: DataService) {
         this.initIssueStates();
@@ -75,6 +82,17 @@ export class HeaderComponent implements OnInit {
 
     selectQueryItem(selected: QueryResult) {
         this.selectQuery.emit(selected);
+    }
+
+    checkAllowWeekClick(event: boolean) {
+        return this.allowWeekClick;
+    }
+    weekChange(event: WeekDay) {
+        this.selectWeekDay = event;
+        this.currentWeekDays = DateHelper.getDaysofWeek(this.selectWeekDay);
+
+        //init weekInputModel get values;
+        //this.rebuildWeekInputViewModel();
     }
 
 }

@@ -41,12 +41,20 @@
 </div>
 <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
         (onOpen)="opened()" [cssClass]="cssClass" #modalAddIssue  >
-        <modal-header [show-close]="true">
-            <h4 class="modal-title">I'm a modal!</h4>
+        <modal-header >
+            <h4 class="modal-title">ADD NEW ISSUE</h4>
         </modal-header>
         <modal-body>
-            <add-issue></add-issue>
+            <add-issue (onClosed)="afterCloseNewIssue($event)"></add-issue>
         </modal-body>
-        <modal-footer [show-default-buttons]="true"></modal-footer>
+</modal>
+<modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+       (onOpen)="editIssueOpened()" [cssClass]="cssClass" #modalEditIssue>
+    <modal-header>
+        <h4 class="modal-title">Edit ISSUE</h4>
+    </modal-header>
+    <modal-body>
+        <edit-issue  (onClosed)="afterCloseEditIssue($event)"></edit-issue>
+    </modal-body>
 </modal>
 <metric-list></metric-list>

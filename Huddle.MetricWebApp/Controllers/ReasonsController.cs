@@ -34,7 +34,7 @@ namespace Huddle.MetricWebApp.Controllers
             await ReasonsService.InsertItemAsync(toAddReason);
             return ToJson(new
             {
-                reasonId = toAddReason.Id
+                issueId = toAddReason.Id
             });
         }
 
@@ -57,7 +57,7 @@ namespace Huddle.MetricWebApp.Controllers
             await ReasonsService.UpdateReasonStatus(id);
             return ToJson(new
             {
-                reasonId = id
+                issueId = id
             });
         }
 
@@ -70,7 +70,7 @@ namespace Huddle.MetricWebApp.Controllers
             await ReasonsService.UpdateItemAsync(toEditReason);
             return ToJson(new
             {
-                reasonId = toEditReason.Id
+                issueId = toEditReason.Id
             });
         }
     }

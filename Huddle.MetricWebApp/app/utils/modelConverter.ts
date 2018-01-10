@@ -1,7 +1,8 @@
 ﻿import { Issue } from '../shared/models/issue';
 import { Category } from '../shared/models/category';
 import { Reason } from '../shared/models/reason';
-import { IssueMetric } from '../shared/models/issueMetric';
+import { Metric } from '../shared/models/metric';
+import { MetricValue } from '../shared/models/metricValue';
 import { ReasonMetric } from '../shared/models/reasonMetric';
 import { DateHelper } from '../utils/dateHelper';
 
@@ -37,7 +38,22 @@ export class ModelConverter {
             State: issue.issueState,
             TargetGoal: issue.targetGoal,
             Category: this.toCategoryBackend(issue.category),
-            StartDate: issue.startDate
+            StartDate: issue.startDate,
+            Owner: issue.owner
+        };
+    }
+
+    public static ToMetricBackend(metric: Metric): any {
+        return {
+            Id: metric.id,
+            Name: metric.name,
+            Issue: {
+                Id: metric.issue.id,
+                Name: metric.issue.name
+            }       ,   
+            TargetGoal: metric.targetGoal,            
+            ValueType: metric.valueType,
+            State: metric.metricState
         };
     }
 
@@ -48,12 +64,13 @@ export class ModelConverter {
         };
     }
 
-    public static toIssueMetricBackend(issueMetric: IssueMetric) {
+    public static toIssueMetricBackend(metricValue: MetricValue) {
         return {
-            Id: issueMetric.id,
-            InputDate: DateHelper.LocalToUTC(issueMetric.inputDate),
-            MetricValues: issueMetric.metricValues,
-            Issue: this.ToIssueBackend(issueMetric.issue)
+            Id: metricValue.id,
+            InputDate: DateHelper.LocalToUTC(metricValue.inputDate),
+            MetricValues: metricValue.metricValues
+            //changed to metric
+            //Issue: this.ToIssueBackend(metricValue.issue)
         };
     }
 

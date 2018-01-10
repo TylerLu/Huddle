@@ -124,28 +124,28 @@ namespace Huddle.MetricWebApp.SharePoint
             };
         }
 
-        public static IssueMetric ToIssueMetric(this ListItem item)
+        public static MetricValue ToMetricValue(this ListItem item)
         {
-            var issue = item[SPLists.IssueMetrics.Columns.Issue] as FieldLookupValue;
-            return new IssueMetric()
+            var metric = item[SPLists.MetricValuess.Columns.Metric] as FieldLookupValue;
+            return new MetricValue()
             {
-                Id = (int)item[SPLists.IssueMetrics.Columns.ID],
-                Issue = new Issue() { Id = issue.LookupId, Name = issue.LookupValue },
-                InputDate = (System.DateTime)item[SPLists.IssueMetrics.Columns.InputDate],
-                MetricValues = item.ToMetricValues(SPLists.IssueMetrics.Columns.MetricValue)
+                Id = (int)item[SPLists.MetricValuess.Columns.ID],
+                Metric = new Metric() { Id = metric.LookupId, Name = metric.LookupValue },
+                InputDate = (System.DateTime)item[SPLists.MetricValuess.Columns.Date],
+                Value = item.ToMetricValues(SPLists.MetricValuess.Columns.Value)
 
             };
         }
 
-        public static ReasonMetric ToReasonMetric(this ListItem item)
+        public static ReasonValue ToReasonValue(this ListItem item)
         {
-            var reason = item[SPLists.ReasonMetrics.Columns.Reason] as FieldLookupValue;
-            return new ReasonMetric()
+            var reason = item[SPLists.ReasonValues.Columns.Reason] as FieldLookupValue;
+            return new ReasonValue()
             {
-                Id = (int)item[SPLists.ReasonMetrics.Columns.ID],
+                Id = (int)item[SPLists.ReasonValues.Columns.ID],
                 Reason = new Reason() { Id = reason.LookupId, Name = reason.LookupValue },
-                InputDate = (System.DateTime)item[SPLists.ReasonMetrics.Columns.InputDate],
-                ReasonMetricValues = item.ToMetricValues(SPLists.ReasonMetrics.Columns.ReasonMetricValue)
+                InputDate = (System.DateTime)item[SPLists.ReasonValues.Columns.Date],
+                Value = item.ToMetricValues(SPLists.ReasonValues.Columns.Value)
             };
         }
 

@@ -14,14 +14,48 @@ export class MetricService {
 
     constructor(private dataService: DataService) { }
 
+    public addMetric(metric: Metric): Observable<number> {
+        let activeObject: ReplaySubject<number> = new ReplaySubject(1);
+        let convertedMetric = ModelConverter.ToMetricBackend(metric);
+        this.dataService.post(Constants.webAPI.metricUrl, { metric: convertedMetric })
+            .subscribe(
+            resp => {
+                activeObject.next(resp.reasonId);
+            },
+            error => activeObject.error(error));
+        return activeObject;
+    }
 
+    public editMetric(metric: Metric): Observable<number> {
+        let activeObject: ReplaySubject<number> = new ReplaySubject(1);
+        let convertedMetric = ModelConverter.ToMetricBackend(metric);
+        this.dataService.post(Constants.webAPI.metricEditUrl, { metric: convertedMetric })
+            .subscribe(
+            resp => {
+                activeObject.next(resp.reasonId);
+            },
+            error => activeObject.error(error));
+        return activeObject;
+    }
 
     public getMetricsById(metricId: number): Observable<Metric[]> {
         let activeObject: ReplaySubject<Metric[]> = new ReplaySubject(1);
-        this.dataService.getObject<Metric[]>(Constants.webAPI.metricUrl + "/" + metricId)
+        this.dataService.getObject<Metric[]>(Constants.webAPI.metricsUrl + "/" + metricId)
             .subscribe((metricArray) => {
                 metricArray.forEach(metric => metric.startDate = DateHelper.UTCToLocal(metric.startDate));
                 activeObject.next(metricArray);
+            },
+            (error) => {
+                activeObject.error(error);
+            });
+        return activeObject;
+    }
+
+    public getMetricById(metricId: number): Observable<Metric> {
+        let activeObject: ReplaySubject<Metric> = new ReplaySubject(1);
+        this.dataService.getObject<Metric>(Constants.webAPI.metricUrl + "/" + metricId)
+            .subscribe((metric) => {
+                activeObject.next(metric);
             },
             (error) => {
                 activeObject.error(error);

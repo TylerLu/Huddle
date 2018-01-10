@@ -6,14 +6,14 @@
                     <label>Issue Name<span class="required">*</span></label>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" class="ms-TextField-field"  [(ngModel)]="toAddIssue.name">
+                    <input type="text" class="ms-TextField-field"  [(ngModel)]="toEditIssue.name">
                 </div>
                 <div class="col-md-2">
                     <label>PIllar<span class="required">*</span></label>
                 </div>
                 <div class="col-md-10">
                     <select class="ms-Dropdown-select" [(ngModel)]="selectedCategory" (ngModelChange)="selectCategory($event)">
-                        <option *ngFor="let category of categories">{{category.name}}</option>
+                        <option *ngFor="let category of categories" [selected]="toEditIssue.category===category.name" >{{category.name}}</option>
                     </select>
 
                 </div>
@@ -22,11 +22,17 @@
                 </div>
                 <div class="col-md-10">
                     <select class="ms-Dropdown-select" [(ngModel)]="selectedUser" (ngModelChange)="selectUser($event)">
-                        <option *ngFor="let user of users" value="{{user.mail}}">{{user.name}}</option>
+                        <option *ngFor="let user of users" value="{{user.mail}}" [selected]="toEditIssue.owner===user.name" >{{user.name}}</option>
                     </select>
                 </div>
-                <div class="col-md-12 note">
-                    <span class="font-bold">Note:</span><span> &nbsp;Additional metrics may be added at anytime</span>
+                <div class="col-md-2">
+                    Active
+                </div>
+                <div class="col-md-10">
+                    <ui-switch [checked]="toEditIssue.issueState==1?true:false" size="small" [(ngModel)]="toEditIssue.issueState"></ui-switch>
+
+                    <span class="on-off-label">{{toEditIssue.issueState==1?"ON":"OFF"}}</span>
+
                 </div>
             </div>
             <hr />

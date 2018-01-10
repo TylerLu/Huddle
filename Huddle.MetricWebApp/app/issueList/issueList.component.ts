@@ -14,6 +14,7 @@ import { Constants } from '../shared/constants';
 import { FabricHelper } from '../utils/fabricHelper';
 import { CommonUtil } from '../utils/commonUtil';
 import { AddIssueComponent } from '../issue/addIssue.component';
+import { EditIssueComponent } from '../issue/editIssue.component';
 import { HeaderComponent} from '../header/header.component';
 import { QueryResult} from '../shared/models/queryResult';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -36,11 +37,15 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     @Input('allowClick') allowClick: AllowIssueClick;
     @Output() afterCheckAllowClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     isNewIssueButtonClicked: boolean;
+    toEditIssue: Issue;
 
     isRequestCompleted: boolean;
 
     @ViewChild(AddIssueComponent)
     private addIssue: AddIssueComponent; 
+
+    @ViewChild(EditIssueComponent)
+    private editIssue: EditIssueComponent; 
 
     @ViewChild(HeaderComponent)
     private header: HeaderComponent;
@@ -50,6 +55,9 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
 
     @ViewChild('modalAddIssue')
     modalAddIssue: ModalComponent;
+
+    @ViewChild('modalEditIssue')
+    modalEditIssue: ModalComponent;
 
     enable: boolean;
 
@@ -234,11 +242,20 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     }
 
     opened() {
+        this.addIssue.open();
+    }
+
+    editIssueOpened() {
+        this.editIssue.open(this.toEditIssue.id);
     }
 
     //switch
     onSwitch(a: any) {
         console.log(a);
+    }
+
+    checkAllowWeekClick(event: boolean) {
+        this.header.checkAllowWeekClick(event);
     }
 
     expandDefaultIssue() {
@@ -275,11 +292,25 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         return null;
     }
 
+    getMetricAndReasonValues() {
+        
+    }
+
     editIssueClick(issue: IssueViewModel) {
-        console.log(issue);
+        this.toEditIssue = issue.Issue;
+        this.modalEditIssue.open();
     }
 
     saveIssueClick(issue: IssueViewModel) {
         console.log(issue);
     }
+
+    afterCloseNewIssue(toAddIssue: Issue) {
+        this.modalAddIssue.close();
+    }
+
+    afterCloseEditIssue(toEditIssue: Issue) {
+        this.modalEditIssue.close();
+    }
+
 }

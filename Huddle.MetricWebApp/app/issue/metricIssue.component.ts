@@ -6,7 +6,7 @@ import { State } from '../shared/models/state';
 import { IssueState } from '../shared/models/issueState';
 import { Category } from '../shared/models/category';
 import { Reason } from '../shared/models/reason';
-import { IssueMetric} from '../shared/models/IssueMetric';
+import { MetricValue} from '../shared/models/MetricValue';
 import { ReasonMetric } from '../shared/models/ReasonMetric';
 import { AllowIssueClick } from '../shared/models/allowIssueClick';
 import { WeekDay } from '../shared/models/weekDay';
@@ -34,7 +34,7 @@ export class MetricIssueComponent implements OnInit {
     allowIssueClick: AllowIssueClick = new AllowIssueClick(true);
     currentMetricValues: string;
     afterXHRRequest: boolean = false;
-    issueMetric: string = '';
+    metricValue: string = '';
     issueName: string = '';
 
     allowWeekClick: AllowIssueClick = new AllowIssueClick(true);
@@ -164,12 +164,13 @@ export class MetricIssueComponent implements OnInit {
 
     getMetricValues() {
         //clearn metric values first
-        this.issueWeekInputviewModel.issueMetricArray.forEach(issueMetric => {
-            issueMetric.metricValues = null;
-            issueMetric.issue = this.currentIssue;
-            issueMetric.id = 0;
+        this.issueWeekInputviewModel.metricValueArray.forEach(metricValue => {
+            metricValue.metricValues = null;
+            //changed to metric
+            //metricValue.issue = this.currentIssue;
+            metricValue.id = 0;
         });
-        this.reasonWeekInputViewModelArray.forEach(reasonWeekVM => reasonWeekVM.reasonMetricArray.forEach(reasonMetric => {
+        this.reasonWeekInputViewModelArray.forEach(reasonWeekVM => reasonWeekVM.reasonValueArray.forEach(reasonMetric => {
             reasonMetric.reasonMetricValues = null;
             reasonMetric.id = 0;
         }));
@@ -178,21 +179,21 @@ export class MetricIssueComponent implements OnInit {
                 let self = this;
                 //refill metric values with xhr result
                 resp.forEach(weekInputWM => {
-                    if (weekInputWM.isIssueMetric) {
-                        this.issueWeekInputviewModel.issueMetricArray.forEach((issueMetric, index) => {
-                            let backendIssueMetric = weekInputWM.issueMetricArray.find(im => self.isDateEqual(issueMetric.inputDate, im.inputDate));
+                    if (weekInputWM.isMetricValue) {
+                        this.issueWeekInputviewModel.metricValueArray.forEach((metricValue, index) => {
+                            let backendIssueMetric = weekInputWM.metricValueArray.find(im => self.isDateEqual(metricValue.inputDate, im.inputDate));
                             if (backendIssueMetric) {
-                                issueMetric.metricValues = backendIssueMetric.metricValues;
-                                issueMetric.id = backendIssueMetric.id;
-                                issueMetric.inputDate = DateHelper.UTCToLocal(issueMetric.inputDate);
+                                metricValue.metricValues = backendIssueMetric.metricValues;
+                                metricValue.id = backendIssueMetric.id;
+                                metricValue.inputDate = DateHelper.UTCToLocal(metricValue.inputDate);
                             }
                         });
                     } else {
-                        if (weekInputWM.reasonMetricArray.length > 0) {
-                            let targetReasonWeekInputVM = this.reasonWeekInputViewModelArray.find(reasonWeekInputVm => reasonWeekInputVm.reasonMetricArray[0].reason.id == weekInputWM.reasonMetricArray[0].reason.id);
+                        if (weekInputWM.reasonValueArray.length > 0) {
+                            let targetReasonWeekInputVM = this.reasonWeekInputViewModelArray.find(reasonWeekInputVm => reasonWeekInputVm.reasonValueArray[0].reason.id == weekInputWM.reasonValueArray[0].reason.id);
                             if (targetReasonWeekInputVM) {
-                                targetReasonWeekInputVM.reasonMetricArray.forEach((reasonMetric, index) => {
-                                    let backendReasonMetric = weekInputWM.reasonMetricArray.find(rm => self.isDateEqual(reasonMetric.inputDate, rm.inputDate));
+                                targetReasonWeekInputVM.reasonValueArray.forEach((reasonMetric, index) => {
+                                    let backendReasonMetric = weekInputWM.reasonValueArray.find(rm => self.isDateEqual(reasonMetric.inputDate, rm.inputDate));
                                     if (backendReasonMetric) {
                                         reasonMetric.reasonMetricValues = backendReasonMetric.reasonMetricValues;
                                         reasonMetric.id = backendReasonMetric.id;
@@ -220,14 +221,14 @@ export class MetricIssueComponent implements OnInit {
     }
 
     resetCurrentIssue() {
-        this.issueMetric = this.currentIssue.metric;
+        this.metricValue = this.currentIssue.metric;
         this.issueName = this.currentIssue.name;
     }
 
     isCurrentIssueChanged() {
         if (!this.currentIssue.id)
             return false;
-        if ((this.currentIssue.metric != this.issueMetric && this.currentIssue.isMetricEditable) || (this.currentIssue.name != this.issueName && this.currentIssue.isNameEditable))
+        if ((this.currentIssue.metric != this.metricValue && this.currentIssue.isMetricEditable) || (this.currentIssue.name != this.issueName && this.currentIssue.isNameEditable))
             return true;
         return false;
     }
@@ -263,12 +264,12 @@ export class MetricIssueComponent implements OnInit {
 
     checkData() {
         let checkResult = true;
-        this.issueWeekInputviewModel.issueMetricArray.forEach(issueMetric => {
-            if (this.checkAndResetNaN(issueMetric))
+        this.issueWeekInputviewModel.metricValueArray.forEach(metricValue => {
+            if (this.checkAndResetNaN(metricValue))
                 checkResult = false;
         });
         this.reasonWeekInputViewModelArray.forEach(reasonWeekInputViewModel => {
-            reasonWeekInputViewModel.reasonMetricArray.forEach(reasonMetric => {
+            reasonWeekInputViewModel.reasonValueArray.forEach(reasonMetric => {
                 if (this.checkAndResetNaN(reasonMetric))
                     checkResult = false;
             });
@@ -277,9 +278,9 @@ export class MetricIssueComponent implements OnInit {
     }
 
     checkAndResetNaN(metric: any): boolean{
-        if (metric.constructor.name == 'IssueMetric') {
-            let issueMetric = metric as IssueMetric;
-            return isNaN(issueMetric.metricValues);
+        if (metric.constructor.name == 'MetricValue') {
+            let metricValue = metric as MetricValue;
+            return isNaN(metricValue.metricValues);
         } else {
             let reasonMetric = metric as ReasonMetric;
             return isNaN(reasonMetric.reasonMetricValues);
@@ -395,8 +396,8 @@ export class MetricIssueComponent implements OnInit {
     saveData(): Observable<boolean> {
         this.updateIssueAndReasonState();
         return this.metricValueService.updateMetricValues(
-            this.issueWeekInputviewModel.issueMetricArray,
-            this.reasonWeekInputViewModelArray.map(reasonWeekVM => reasonWeekVM.reasonMetricArray),
+            this.issueWeekInputviewModel.metricValueArray,
+            this.reasonWeekInputViewModelArray.map(reasonWeekVM => reasonWeekVM.reasonValueArray),
             this.currentMetricValues
         );
     }
