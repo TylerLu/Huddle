@@ -1,24 +1,170 @@
-﻿.issue-list-section{padding-top: 20px;}
-.issue-list-section .issue-section {margin-bottom:5px;background-color: #fff;}
-.issue-list-section .issue-section.expanded{margin-bottom:10px;}
-.issue-list-section ul{list-style:none;}
-.issue-list-section ul.ul-issue{margin-bottom:0;position:relative;}
-.issue-list-section ul li{display:inline-block;}
-.issue-list-section ul li.icon-click{width: 17px;position: absolute;height: 17px;left: 10px;top: 16px;cursor:pointer;}
-.issue-list-section ul.ul-issue li:nth-child(2){width:29%;}
-.issue-list-section ul.ul-issue li:nth-child(3){width:8%;}
-.issue-list-section ul.ul-issue li:nth-child(4){width:11%;}
-.issue-list-section ul.ul-issue li:nth-child(5){width:12%;}
-.issue-list-section ul.ul-issue li:nth-child(6){width:14%;}
-.issue-list-section ul.ul-issue li:nth-child(7){width:23%;}
-.issue-list-section .issue-header ul li{}
-.issue-list-section .issue-section .issue-info ul.ul-issue{padding-top:12px;min-height:50px;}
-.issue-list-section .issue-section .issue-info ul li{font-size:14px;}
-.issue-list-section .issue-section .issue-info ul li .btns{text-align:right;}
+﻿.relative-container {
+    position:relative;
+}
+.issue-list-container {
+    position:absolute;
+    width: 331px;
+    border-radius: 5px;
+    background-color: #ecebeb;
+    top:-20px;
+    left:20px;
+    padding:20px 14px 10px 14px;
+}
+.issue-list-container .issue-list-section div.ms-Spinner{
+    margin-left: 140px;
+}
+.issue-list-container .issue-list-section > span{
+    width: 40px;
+    height: 15px;
+    display: block;
+    background-repeat: no-repeat;
+    margin-left: 130px;
+    cursor:pointer;
+}
+.issue-list-container .issue-list-section > span.arrow-up{
+    background-image:url('/images/icons-8-up-flat-chevron.png');
+    margin-bottom: 5px;
+}
+.issue-list-container .issue-list-section > span.arrow-down{
+    background-image:url('/images/icons-8-down-flat-chevron.png');
+    margin-top:10px;
+}
+.issue-list-container .issue-filter{
+    margin-bottom:0;
+}
+.issue-list-container .issue-filter > h4{
+    font-family: OpenSans;
+}
+.ms-List.issue-list {
+    overflow-y: hidden;
+    height: 470px;
+    width: 331px;
+}
+.ms-ListItem {
+    width: 303px;
+    height: 70px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: solid 1px #c6c6c6;
+    color: #464646;
+    margin-bottom: 10px;
+    padding:10px 18px 13px 20px;
+}
+.ms-ListItem.is-selected {
+    border: solid 2px #018fbf;
+}
 
-.issue-btn{visibility:hidden;}
-.issue-btn.visible{visibility:visible;}
-.btns .btn-rd{width: 44px;height: 23px;border-radius: 5px;background-color: transparent;border: solid 1px #00539d;background-image:url(/images/icons-8-edit-32-px@3x.png);background-repeat:no-repeat;background-size:13px 13px;background-position:5px 5px;    text-align: right;padding-right: 2px;}
-.btns .btn-rd span{font-size: 10px;letter-spacing: normal;text-align: left;transform: scale(0.833);color: #00539d;vertical-align: top;}
-.btns .btn-rd.blue{width: 74px;background-color: #00539d;background-image:url(/images/icons-8-save-32-px@3x.png);background-repeat:no-repeat;background-size:11px 11px;background-position: 15px;padding-right: 13px;margin-left: 7px;}
-.btns .btn-rd.blue span{color:#fff;}
+.ms-ListItem:before, .ms-ListItem:hover:before {
+    content: '';
+    display:none;
+}
+.ms-ListItem.is-selected:before, .ms-ListItem.is-selected:hover:before{
+    content:'';
+    display:none;
+}
+.ms-ListItem:hover{
+    background-color: #b3d6f2;
+    outline: 1px solid transparent;
+}
+.ms-ListItem > span {
+    max-height: 2.4em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow:initial;
+    white-space:normal;
+    padding-right:5px;
+    margin-top: 6px;
+    color: #464646;
+    font-size: 14px;
+    line-height: 1.14;
+    text-align: left;
+    color: #464646;
+    width: 100%;
+    padding: 0;
+}
+.ms-ListItem.is-selected > span{
+    font-weight: bold;
+    color: #000000;
+}
+.list-line{
+    margin-top: -13px;
+    height: 30px;
+    color:#fff;
+    display:none;
+}
+.ms-ListItem.is-selected  .list-line{
+    color:#767676;
+}
+.list-line > *{
+    display:inline-block;
+    vertical-align:top;
+}
+.list-line > h5{
+    margin-bottom: 0;
+}
+.list-line > span{
+    padding-right: 0;
+    padding-top: 11px;
+    color:#fff;
+}
+.ms-ListItem.is-selected  .list-line>span{
+    color:#767676;
+}
+.ms-Button {
+    width: 303px;
+    height: 46px;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    border: solid 2px #018fbf;
+    padding-left:23px;
+    padding-top:9px;
+    padding-bottom:8px;
+    margin-top:5px;
+}
+.ms-Button.ms-Button--hero .ms-Button-label{
+    margin-top: -5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #007bb6;
+    padding-left : 20px;
+    padding-right: 40px;
+    text-transform:uppercase;
+}
+.ms-Button.ms-Button--hero .ms-Button-icon{
+    top:-2px;
+    color:#ED7D31;
+    width: 29px;
+    height: 29px;
+    background-image: url('/images/plus-sign-copy.png');
+    background-size:29px 29px;
+}
+.ms-Button.ms-Button--hero .ms-Icon{
+    border-color:#ED7D31;
+}
+
+
+.issue-filter > h4{
+    font-size:14px;
+    font-weight: bold;
+    display:inline-block;
+    text-transform:uppercase;
+    width:45px;
+    margin-right: 17px;
+}
+.issue-filter > div {
+    display: inline-block;
+    min-width: 20%;
+    width: auto;
+}
+.issue-filter > div > label{
+    text-transform:uppercase;
+    display:inline-block;
+    padding-left: 5px;
+    font-weight: bold;
+    color: #464646;
+}
+.issue-filter > div > input:checked + label {
+    color: #000000;
+}

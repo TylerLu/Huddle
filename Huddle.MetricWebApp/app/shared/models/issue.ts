@@ -1,15 +1,13 @@
 ﻿import { Category } from './category';
 import { State } from './state';
 import { IssueState } from './issueState';
-import { QueryResult } from './queryResult';
 
-export class Issue  implements QueryResult{
+export class Issue {
     id?: number;
     name?: string;
     category?: Category;
     metric?: string;
     targetGoal?: string;
-    owner?: string;
     //metricState?: State;
     issueState?:IssueState;
     startDate?: Date;

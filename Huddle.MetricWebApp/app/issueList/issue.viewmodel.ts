@@ -4,5 +4,4 @@ export class IssueViewModel {
     Issue?: Issue;
     IsSelected?: Boolean;
     IssueState?: string;
-    Expanded?: Boolean;
 }

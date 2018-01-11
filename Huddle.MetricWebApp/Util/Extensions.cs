@@ -28,21 +28,7 @@ namespace Huddle.MetricWebApp.Util
                 name = issue.Name,
                 startDate = issue.StartDate,
                 issueState = issue.State,
-                owner = issue.Owner
-            };
-        }
-
-        public static object ToJson(this Metric metric)
-        {
-            return new
-            {
-                id = metric.Id,
-                issue = metric.Issue,
-                name = metric.Name,
-                targetGoal = metric.TargetGoal,
-                valueType = metric.ValueType,
-                state = metric.State,
-                startDate = metric.StartDate,
+                targetGoal = issue.TargetGoal
             };
         }
 
@@ -52,12 +38,9 @@ namespace Huddle.MetricWebApp.Util
             {
                 id = reason.Id,
                 name = reason.Name,
-                metric = reason.Metric,
+                issue = reason.Issue,
                 startDate = reason.StartDate,
                 reasonState = reason.State,
-                reasonTracking = reason.ReasonTracking,
-                trackingFrequency = reason.TrackingFrequency,
-                valueType = reason.ValueType
             };
         }
 
@@ -87,14 +70,6 @@ namespace Huddle.MetricWebApp.Util
                     inputDate = im.InputDate
                 })
             };
-        }
-
-        public static TrackingFrequency? ToTrackingFrequency(this string trackingStr)
-        {
-            TrackingFrequency result;
-            if (Enum.TryParse(trackingStr, out result))
-                return result;
-            return null;
         }
 
     }

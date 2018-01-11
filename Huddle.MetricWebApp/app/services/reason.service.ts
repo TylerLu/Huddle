@@ -3,8 +3,7 @@ import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { DataService } from '../services/data.service';
 import { Issue } from '../shared/models/issue';
 import { Category } from '../shared/models/category';
-import { Reason } from '../shared/models/reason';
-import { Metric } from '../shared/models/metric';
+import { Reason} from '../shared/models/reason';
 import { State} from '../shared/models/state';
 import { Constants } from '../shared/constants';
 import { ModelConverter } from '../utils/modelConverter';
@@ -17,8 +16,7 @@ export class ReasonService {
 
     public addReason(reason: Reason): Observable<number> {
         let activeObject: ReplaySubject<number> = new ReplaySubject(1);
-        let convertedReason = ModelConverter.ToReasonBackend(reason);
-        this.dataService.post(Constants.webAPI.reasonsUrl, { reason: convertedReason })
+        this.dataService.post(Constants.webAPI.reasonsUrl, { reason: ModelConverter.ToReasonBackend(reason) })
             .subscribe(
             resp => {
                 activeObject.next(resp.reasonId);
@@ -27,33 +25,13 @@ export class ReasonService {
         return activeObject;
     }
 
-    public editReason(reason: Reason): Observable<number> {
-        let activeObject: ReplaySubject<number> = new ReplaySubject(1);
-        let convertedReason = ModelConverter.ToReasonBackend(reason);
-        this.dataService.post(Constants.webAPI.reasonEditUrl, { reason: convertedReason })
-            .subscribe(
-            resp => {
-                activeObject.next(resp.reasonId);
-            },
-            error => activeObject.error(error));
-        return activeObject;
+    public updateReasonState(){
+        
     }
 
-    public getReasonById(id: number): Observable<Reason> {
-        let activeObject: ReplaySubject<Reason> = new ReplaySubject(1);
-        this.dataService.getObject<Reason>(Constants.webAPI.reasonsUrl + "/" + id.toString())
-            .subscribe((reason) => {
-                activeObject.next(reason);
-            },
-            (error) => {
-                activeObject.error(error);
-            });
-        return activeObject;
-    }
-
-    public getReasonsByMetric(metricId: number): Observable<Array<Reason>> {
+    public getReasonsByIssue(issueId: number, state: State): Observable<Array<Reason>> {
         let activeObject: ReplaySubject<Reason[]> = new ReplaySubject(1);
-        this.dataService.getArray<Reason>(Constants.webAPI.reasonsListUrl + "/" + metricId )
+        this.dataService.getArray<Reason>(Constants.webAPI.reasonsUrl + "/" + issueId + "/" + state)
             .subscribe((resp) => {
                 let result: Reason[] = [];
                 resp.forEach(function (reason, index) {
@@ -65,10 +43,6 @@ export class ReasonService {
             },
             (error) => { activeObject.error(error) });
         return activeObject;
-    }
-
-    public updateReasonStatus(reasonId: number): void {
-        this.dataService.post(Constants.webAPI.reasonStatusUrl + "/" + reasonId, null);
     }
 
 }
