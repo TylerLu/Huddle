@@ -73,7 +73,7 @@ namespace Huddle.BotWebApp.SharePoint
             return new Metric
             {
                 Id = item[SPLists.Issues.Columns.ID] as int?,
-                Name = item[SPLists.Issues.Columns.IssueMetric] as string
+                Name = item[SPLists.Issues.Columns.Title] as string
             };
         }
     }

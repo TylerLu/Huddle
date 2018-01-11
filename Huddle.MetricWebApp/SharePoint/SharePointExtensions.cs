@@ -1,5 +1,6 @@
 ﻿using Huddle.Common;
 using Huddle.MetricWebApp.Models;
+using Huddle.MetricWebApp.Util;
 using Microsoft.SharePoint.Client;
 
 namespace Huddle.MetricWebApp.SharePoint
@@ -56,6 +57,19 @@ namespace Huddle.MetricWebApp.SharePoint
             return result;
         }
 
+        public static string GetFieldValueUser(this ListItem item, string fieldName)
+        {
+            var result = string.Empty;
+            if (item[fieldName] == null)
+                return result;
+            var userVal = item[fieldName] as FieldUserValue;
+            if (userVal == null)
+                return result;
+            if (string.IsNullOrEmpty(userVal.LookupValue))
+                return userVal.Email ?? result;
+            return userVal.LookupValue;
+        }
+
         public static Category ToCategory(this ListItem item)
         {
             return new Category()
@@ -73,24 +87,40 @@ namespace Huddle.MetricWebApp.SharePoint
                 Id = item.GetFieldValueInt(SPLists.Issues.Columns.ID),
                 Category = new Category() { Id = category.LookupId, Name = category.LookupValue },
                 Name = item.GetFieldValueStr(SPLists.Issues.Columns.Title),
-                Metric = item.GetFieldValueStr(SPLists.Issues.Columns.IssueMetric),
-                TargetGoal = item.GetFieldValueStr(SPLists.Issues.Columns.TargetGoal),
                 StartDate = (System.DateTime)item[SPLists.Issues.Columns.Created],
-                State = int.Parse(item[SPLists.Issues.Columns.State].ToString())
+                State = int.Parse(item[SPLists.Issues.Columns.State].ToString()),
+                Owner = item.GetFieldValueUser(SPLists.Issues.Columns.Owner)
+            };
+        }
+
+        public static Metric ToMetric(this ListItem item)
+        {
+            var metric = item.GetFieldValueLookup(SPLists.Metrics.Columns.Issue);
+            return new Metric()
+            {
+                Id = item.GetFieldValueInt(SPLists.Metrics.Columns.ID),
+                Issue = new Issue() { Id = metric.LookupId, Name = metric.LookupValue },
+                Name = item.GetFieldValueStr(SPLists.Metrics.Columns.Title),
+                TargetGoal = item.GetFieldValueStr(SPLists.Metrics.Columns.TargetGoal),
+                ValueType = item.GetFieldValueStr(SPLists.Metrics.Columns.ValueType),
+                State = int.Parse(item[SPLists.Metrics.Columns.State].ToString()),
+                StartDate = (System.DateTime)item[SPLists.Metrics.Columns.Created]
             };
         }
 
         public static Reason ToReason(this ListItem item)
         {
-            var issue = item.GetFieldValueLookup(SPLists.Reasons.Columns.Issue);
-
+            var metric = item.GetFieldValueLookup(SPLists.Reasons.Columns.Metric);
             return new Reason()
             {
                 Id = item.GetFieldValueInt(SPLists.Reasons.Columns.ID),
-                Issue = new Issue() { Id = issue.LookupId, Name = issue.LookupValue },
+                Metric = new Metric() { Id = metric.LookupId, Name = metric.LookupValue },
                 Name = item.GetFieldValueStr(SPLists.Reasons.Columns.Title),
                 StartDate = (System.DateTime)item[SPLists.Reasons.Columns.Created],
-                State = int.Parse(item[SPLists.Reasons.Columns.State].ToString())
+                State = int.Parse(item[SPLists.Reasons.Columns.State].ToString()),
+                ValueType = item.GetFieldValueStr(SPLists.Reasons.Columns.ValueType),
+                ReasonTracking = item.GetFieldValueStr(SPLists.Reasons.Columns.ReasonTracking),
+                TrackingFrequency = item.GetFieldValueStr(SPLists.Reasons.Columns.TrackingFrequency).ToTrackingFrequency()
             };
         }
 

@@ -44,8 +44,6 @@ namespace Huddle.MetricWebApp.SharePoint
                 listItem[SPLists.Issues.Columns.Category] = SharePointHelper.BuildSingleLookFieldValue(item.Category.Id,item.Category.Name);
                 listItem[SPLists.Issues.Columns.Title] = item.Name;
                 listItem[SPLists.Issues.Columns.State] = item.State;
-                listItem[SPLists.Issues.Columns.IssueMetric] = item.Metric;
-                listItem[SPLists.Issues.Columns.TargetGoal] = item.TargetGoal;
                 listItem[SPLists.Issues.Columns.TeamId] = item.MSTeamId;
                 listItem.Update();
                 clientContext.Load(listItem);
@@ -102,7 +100,6 @@ namespace Huddle.MetricWebApp.SharePoint
                 if (queryItem == null)
                     return;
                 queryItem[SPLists.Issues.Columns.State] = item.State;
-                queryItem[SPLists.Issues.Columns.IssueMetric] = item.Metric;
                 queryItem[SPLists.Issues.Columns.Title] = item.Name;
                 queryItem.Update();
                 clientContext.ExecuteQuery();

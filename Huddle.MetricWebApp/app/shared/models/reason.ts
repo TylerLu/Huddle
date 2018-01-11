@@ -1,11 +1,16 @@
-﻿import { Issue} from './issue';
+﻿import { Metric} from './metric';
 import { State } from './state';
+import { QueryResult } from './queryResult';
 
-export class Reason{
+export class Reason implements QueryResult{
     id?: number;
     name?: string;
-    issue?: Issue;
+    metric?: Metric;
     reasonState?: State;
     startDate?: Date;
     isEditable?: boolean;
+    reasonTracking?: string;
+    valueType: string;
+    trackingFrequency: string;
+   
 }

@@ -1,0 +1,66 @@
+﻿.add-reason-link {
+    margin-left: 12px;
+    padding-left: 15px;
+    background-image: url('/images/plus-sign-copy.png');
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 13px;
+    font-family: SegoeUI;
+    font-size: 10px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 4.8;
+    letter-spacing: normal;
+    text-align: left;
+    color: #00539d;
+}
+.edit-reason-link {
+    padding-left: 15px;
+    background-image: url('/images/icons-8-edit-32-px.png');
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 13px;
+    font-family: SegoeUI;
+    font-size: 10px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 4.8;
+    letter-spacing: normal;
+    text-align: left;
+    color: #00539d;
+    cursor:pointer;
+}
+.reason-label {
+    font-family: SegoeUI;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 5;
+    letter-spacing: normal;
+    text-align: left;
+    color: #7c7c7c;
+}
+hr{margin-bottom:0;}
+.on-off-label {
+    font-family: SegoeUI;
+    font-size: 10px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+    width: 20px;
+    display: inline-block;
+    margin-right: 12px;
+}
+.reason-control-area {
+    top: -15px;
+    position: absolute;
+    padding-left: 6px;
+    display: inline-block;
+}

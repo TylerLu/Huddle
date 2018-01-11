@@ -1,16 +1,23 @@
-﻿import { Component, OnInit, AfterViewChecked, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+﻿import { Component, OnInit, AfterViewChecked,Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from '../services/cookie.service';
 import { IssueService } from '../services/issue.service';
 import { Issue } from '../shared/models/issue';
+import { Metric} from '../shared/models/metric';
+import { Reason} from '../shared/models/reason';
 import { IssueState } from '../shared/models/issueState';
 import { IssueViewModel } from './issue.viewmodel';
 import { AllowIssueClick } from '../shared/models/allowIssueClick';
-import { IssueStateViewModel } from './issueState.viewmodel';
+import { IssueStateViewModel } from '../shared/models/issueState.viewmodel';
 import { Constants } from '../shared/constants';
 import { FabricHelper } from '../utils/fabricHelper';
 import { CommonUtil } from '../utils/commonUtil';
 import { AddIssueComponent } from '../issue/addIssue.component';
+import { HeaderComponent} from '../header/header.component';
+import { QueryResult} from '../shared/models/queryResult';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { MetricListComponent } from '../metric/metricList.component';
 declare var microsoftTeams: any;
 
 @Component({
@@ -19,17 +26,13 @@ declare var microsoftTeams: any;
     styleUrls: ['app/issueList/issueList.component.css', 'app/shared/shared.css']
 })
 
-export class IssueListComponent implements OnInit {
-
-    displayedIssueArray = new Array<IssueViewModel>();
-    displayedIssueArrayLength = 6;
+export class IssueListComponent implements OnInit, AfterViewChecked {
 
     issueArray = new Array<IssueViewModel>();
-    issueStates = new Array<IssueStateViewModel>();
     selectedIssueState = new IssueStateViewModel();
     isCreateBtnVisible = true;
     selectedIssue: IssueViewModel;
-    teamId = '1';
+    teamId = Constants.teamId;
     @Input('allowClick') allowClick: AllowIssueClick;
     @Output() afterCheckAllowClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     isNewIssueButtonClicked: boolean;
@@ -39,17 +42,33 @@ export class IssueListComponent implements OnInit {
     @ViewChild(AddIssueComponent)
     private addIssue: AddIssueComponent; 
 
-    constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService) {
+    @ViewChild(HeaderComponent)
+    private header: HeaderComponent;
+
+    @ViewChildren('metricLists')
+    metricLists:QueryList<MetricListComponent>;
+
+    @ViewChild('modalAddIssue')
+    modalAddIssue: ModalComponent;
+
+    enable: boolean;
+
+    constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService,private cdRef:ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
         if (CommonUtil.isInMsTeam()) {
             this.initTeamContext();
         } else {
-            this.initIssues();
+            this.initTeamContext();
         }
         this.isNewIssueButtonClicked = false;
         this.isRequestCompleted = false;
+    }
+
+    ngAfterViewChecked() {
+        this.expandDefaultIssue();
+        this.cdRef.detectChanges();
     }
 
     initIssues() {        
@@ -61,16 +80,10 @@ export class IssueListComponent implements OnInit {
     }
 
     getIssueId(): number {
-        let issueIdStr = '';
-        if (this.isMetricUrl()) {
-            issueIdStr = location.pathname.replace('/' + Constants.route.metricIssue + '/', '');
-        } else {
-            issueIdStr = this.cookieService.get("issueId");
-        }
+        let issueIdStr = this.cookieService.get("issueId");
         if (issueIdStr != '')
             return parseInt(issueIdStr);
-        else
-            return 0;
+        return 0;
     }
 
     initSelectedIssue() {
@@ -80,7 +93,6 @@ export class IssueListComponent implements OnInit {
                     issue.IsSelected = true;
                 }
             });
-            this.resetDisplayIssueArray();
         }
     }
 
@@ -91,33 +103,25 @@ export class IssueListComponent implements OnInit {
 
 
     initIssueStates() {
-        let issue1 = new IssueStateViewModel();
-        issue1.title = IssueState[IssueState.active];
-        issue1.value = IssueState.active;
-        this.issueStates.push(issue1);
-
-        let issue2 = new IssueStateViewModel();
-        issue2.title = IssueState[IssueState.closed];
-        issue2.value = IssueState.closed;
-        this.issueStates.push(issue2);
-
+        this.selectedIssueState = this.header.selectedIssueState;
+         
         let issueId = this.getIssueId();
         if (issueId > 0) {
             this.issueService.getIssueById(issueId)
                 .subscribe(issue => {
                     this.selectedIssue = new IssueViewModel();
                     this.selectedIssue.Issue = issue;
-                    this.selectedIssueState = issue.issueState == IssueState.active?issue1:issue2;
+                    this.selectedIssueState = this.selectedIssueState;
                     this.doFilterIssues(this.selectedIssueState.value);
                 });
         } else {
-            this.selectedIssueState = issue1;
+            this.selectedIssueState = this.selectedIssueState;
             this.doFilterIssues(this.selectedIssueState.value);
         }
     }
 
     clickIssue(item: IssueViewModel) {
-        this.displayedIssueArray.forEach(item => item.IsSelected = false);
+        this.issueArray.forEach(item => item.IsSelected = false);
         item.IsSelected = true;
         this.selectedIssue = item;
         this.afterCheckAllowClick.emit(false);
@@ -126,12 +130,12 @@ export class IssueListComponent implements OnInit {
     }
 
 
-    doNavigateIssue(item?: IssueViewModel): Promise<boolean>{
+    doNavigateIssue(item?: IssueViewModel){
         if (item && item.Issue) {
             this.cookieService.put("issueId", item.Issue.id.toString());
-            return CommonUtil.navigateToUrl('/' + Constants.route.metricIssue + '/' + item.Issue.id, this.router);
+            //open issue
         } else {
-            return CommonUtil.navigateToUrl('/' + Constants.route.addIssue, this.router);
+            //open first issue;
         }
     }
 
@@ -142,87 +146,17 @@ export class IssueListComponent implements OnInit {
             this.doNavigateIssue();
     }
 
-    doFilterIssues(state: number, ifClearSelectedIssue?: boolean) {
-        if (ifClearSelectedIssue == true)
-            this.selectedIssue = null;
+    doFilterIssues(state: number) {
         this.issueService.filterIssueList(state, this.teamId)
             .subscribe(resp => {
-                this.issueArray = resp.map(issue => {
+                this.issueArray = resp.map( (issue,index) => {
                     let issueModel = new IssueViewModel();
                     issueModel.Issue = issue;
                     issueModel.IsSelected = false;
                     return issueModel;
                 });
-                this.resetDisplayIssueArray();
-                if (ifClearSelectedIssue == null) {
-                    if (this.isMetricUrl()) {
-                        this.initSelectedIssue();
-                    }
-                }
-                let self = this;
-                if (this.displayedIssueArray.length > 0) {
-                    if (this.selectedIssue && this.selectedIssue.Issue && this.selectedIssue.Issue.id) {
-                        this.doNavigateIssue(this.selectedIssue)
-                            .then(function () {
-                                self.initSelectedIssue();
-                            });
-                    } else {
-                        this.doNavigateIssue(this.displayedIssueArray[0])
-                            .then(function () {
-                                self.selectedIssue = self.displayedIssueArray[0];
-                                self.initSelectedIssue();
-                            });
-                    }
-                } else {
-                    let emptyIssue = new IssueViewModel();
-                    emptyIssue.Issue = new Issue();
-                    emptyIssue.Issue.id = 0;
-                    this.doNavigateIssue(emptyIssue);
-                }
                 this.isRequestCompleted = true;
             });
-    }
-
-    resetDisplayIssueArray(scrollUp?: boolean) {
-        if (this.issueArray.length == 0)
-            this.displayedIssueArray = new Array<IssueViewModel>();
-        if (scrollUp == null) {
-            if (this.selectedIssue == null || this.displayedIssueArray.length ==0) {
-                this.displayedIssueArray = this.issueArray.slice(0, this.displayedIssueArrayLength);
-            } else {
-                let selectedIssueIndex = -1;
-                this.issueArray.forEach((issue, index) => {
-                    if (issue.Issue.id == this.selectedIssue.Issue.id)
-                        selectedIssueIndex = index;
-                });
-                if (selectedIssueIndex > this.displayedIssueArray.length)
-                    this.displayedIssueArray = this.issueArray.slice(selectedIssueIndex - this.displayedIssueArrayLength + 1, selectedIssueIndex + 1);
-                else
-                    this.displayedIssueArray = this.issueArray.slice(selectedIssueIndex, selectedIssueIndex + this.displayedIssueArrayLength);
-            }
-
-        } else {
-            let currentIssueIndex = -1;
-            this.issueArray.forEach((issue, index) => {
-                    if (issue.Issue.id == this.displayedIssueArray[0].Issue.id)
-                        currentIssueIndex = index;
-            });
-            if (scrollUp == true) {
-                if (this.displayedIssueArray[0].Issue.id == this.issueArray[0].Issue.id)
-                    return false;
-                this.displayedIssueArray = this.issueArray.slice(currentIssueIndex - 1, currentIssueIndex - 1 + this.displayedIssueArrayLength);
-            } else if (scrollUp == false) {
-                if (this.displayedIssueArray[this.displayedIssueArray.length - 1].Issue.id == this.issueArray[this.issueArray.length - 1].Issue.id)
-                    return false;
-                this.displayedIssueArray = this.issueArray.slice(currentIssueIndex + 1, currentIssueIndex + 1 + this.displayedIssueArrayLength);
-            } 
-            
-        }
-        return false;
-    }
-
-    filterIssueState(state: number, ifClearSelectedIssue?: boolean) {
-        this.doFilterIssues(state, ifClearSelectedIssue);
     }
 
     createIssue() {
@@ -236,21 +170,116 @@ export class IssueListComponent implements OnInit {
     issueAdded(event: Issue) {
         if (event.id <= 0)
             return;
-        this.displayedIssueArray.forEach(item => item.IsSelected = false);
+        this.issueArray.forEach(item => item.IsSelected = false);
         let newIssueModel = new IssueViewModel();
         newIssueModel.IsSelected = true;
         newIssueModel.IssueState = IssueState.active.toString();
         newIssueModel.Issue = event;
         this.issueArray.push(newIssueModel);
         this.doNavigateIssue(newIssueModel);
-        this.resetDisplayIssueArray();
     }
 
     updateIssue(updatedIssue: Issue) {
-        let findResult = this.displayedIssueArray.filter(issue => issue.Issue.id == updatedIssue.id);
+        let findResult = this.issueArray.filter(issue => issue.Issue.id == updatedIssue.id);
         if (findResult.length == 0)
             return;
         findResult[0].Issue.name = updatedIssue.name;
         findResult[0].Issue.metric = updatedIssue.metric;
+    }
+
+    afterFilterIssue(issueState: IssueStateViewModel) {
+        this.doFilterIssues(issueState.value);
+    }
+
+
+
+    afterQuerySelected(selectedItem: QueryResult) {
+        let selectedIssue: IssueViewModel;
+        if (selectedItem['category'] !== undefined) {//issue
+            let searchedIssues = this.issueArray.filter((issue, index) => {
+                return issue.Issue.id == selectedItem.id;
+            });
+            if (searchedIssues.length > 0) {
+                selectedIssue = searchedIssues[0];
+            }
+        } else if (selectedItem['issue'] !== undefined) {//metric
+            this.issueArray.forEach(issue => {
+                if (issue.Issue.id == (selectedItem as Metric).issue.id) {
+                    selectedIssue = issue;
+                }
+            });
+        } else {//reason
+            this.issueArray.forEach(issue => {
+                if (issue.Issue.id == (selectedItem as Reason).metric.issue.id) {
+                    selectedIssue = issue;
+                }
+            });
+        }
+
+        if (selectedIssue != null) {
+            this.expandIssue(selectedIssue);
+        }
+    }
+
+   
+
+    //popup issue
+    addIssueClick() {
+        this.modalAddIssue.open();
+    }
+    closed() {
+    }
+
+    dismissed() {
+    }
+
+    opened() {
+    }
+
+    //switch
+    onSwitch(a: any) {
+        console.log(a);
+    }
+
+    expandDefaultIssue() {
+        if (this.issueArray.length === 0)
+            return;
+        if(this.issueArray.filter(issue => issue.Expanded == true).length===0)
+            this.expandIssue(this.issueArray[0]);
+    }
+
+    expandIssueClick(issue: IssueViewModel) {
+        if (issue.Expanded)
+            issue.Expanded = false;
+        else
+            this.expandIssue(issue);
+    }
+
+    expandIssue(issue: IssueViewModel) {        
+        this.issueArray.forEach(issue => {
+            issue.Expanded = false;
+            let metricList = this.getRelatedMetricList(issue);
+            if (metricList !== null)
+                metricList.hide();
+        });
+        issue.Expanded = true;
+        let currentMetricList = this.getRelatedMetricList(issue);
+        if (currentMetricList!==null)
+            currentMetricList.show();
+    }
+
+    getRelatedMetricList(issue: IssueViewModel) {
+        let result = this.metricLists.filter(metricList => metricList.currentIssue.id == issue.Issue.id);
+        if (result.length > 0)
+            return result[0];
+        return null;
+    }
+
+    editIssueClick(issue: IssueViewModel) {
+        console.log(issue);
+    }
+
+    saveIssueClick(issue: IssueViewModel) {
+        console.log(issue);
     }
 }
