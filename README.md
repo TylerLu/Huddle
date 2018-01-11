@@ -216,7 +216,7 @@ For each team you created, please active the default planer and create 4 buckets
    * Click **Choose File**, and select `/Files/LUISApp.json`.
    * Click **Import**. 
 
-   â€?                        ![](Images/luis-03.png)
+   ![](Images/luis-03.png)
 
 4. Copy aside the **App Id**. It will be used as the value of the **Luis App Id** parameter of the ARM Template.
 
@@ -358,7 +358,7 @@ For each team you created, please active the default planer and create 4 buckets
 2. Open Power Shell, then execute the command below to connect to the site you just created:
 
    ```powershell
-   Connect-PnPOnline â€“Url https://<Tenant>.sharepoint.com/sites/<Site> â€“Credentials (Get-Credential)
+   Connect-PnPOnline -Url https://<Tenant>.sharepoint.com/sites/<Site> -Credentials (Get-Credential)
    ```
 
    > Note: Please replace `<Tenant>` and `<Site>`.
@@ -390,7 +390,7 @@ Add some categories to the Categories list, for example:
 Run PowerShell as administrator, then execute the commands below:
 
 ~~~powershell
-$cert = New-SelfSignedCertificate -Type Custom â€“KeyExportPolicy Exportable -KeySpec Signature -Subject "CN=Huddle App-only Cert" -NotAfter (Get-Date).AddYears(20) -CertStoreLocation "cert:\CurrentUser\My" -KeyLength 2048
+$cert = New-SelfSignedCertificate -Type Custom -KeyExportPolicy Exportable -KeySpec Signature -Subject "CN=Huddle App-only Cert" -NotAfter (Get-Date).AddYears(20) -CertStoreLocation "cert:\CurrentUser\My" -KeyLength 2048
 ~~~
 
 > Note: please keep the PowerShell window open until you finish the steps below.
@@ -456,7 +456,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
       | API                                      | Permission Type | Permissions                              |
       | ---------------------------------------- | --------------- | ---------------------------------------- |
       | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
-      | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all usersâ€? full profiles |
+      | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all users' full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Bot Client Id** parameter of the ARM Template.
 
@@ -497,7 +497,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
 
       | API             | Permission Type | Permissions                              |
       | --------------- | --------------- | ---------------------------------------- |
-      | Microsoft Graph | Delegated       | Read and write all groups<br />Read all usersâ€? full profiles |
+      | Microsoft Graph | Delegated       | Read and write all groups<br />Read all users' full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Graph Client Id** parameter of the ARM Template.
 
