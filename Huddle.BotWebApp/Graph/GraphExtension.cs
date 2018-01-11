@@ -5,15 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Huddle.Common
+namespace Huddle.BotWebApp
 {
     public static class GraphExtension
     {
-        public static async Task<User[]> GetAllAsync(this IGroupMembersCollectionWithReferencesRequest request)
+        public static async Task<DirectoryObject[]> GetAllAsync(this IGroupMembersCollectionWithReferencesRequest request)
         {
             var collectionPage = await request.GetAsync();
-            return await GetAllAsync(collectionPage)
-                .ContinueWith(i=>i.Result.OfType<User>().ToArray());
+            return await GetAllAsync(collectionPage);
         }
 
         public static async Task<PlannerTask[]> GetAllAsync(this IPlannerPlanTasksCollectionRequest request)

@@ -80,8 +80,7 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
         this.toAddReasons = new Array<Reason>();
         for (let i = 0; i < 4; i++) {
             let reason = new Reason();
-            // issue is removed from reason
-            //reason.issue = this.toAddIssue;
+            reason.issue = this.toAddIssue;
             this.toAddReasons.push(reason);
         }
     }

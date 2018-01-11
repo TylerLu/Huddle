@@ -144,7 +144,7 @@ export class MetricIssueComponent implements OnInit {
 
 
     filterReason(state: number) {
-        this.reasonService.getReasonsByMetric(this.currentIssue.id)
+        this.reasonService.getReasonsByIssue(this.currentIssue.id, state)
             .subscribe(resp => {
                 this.issueReasons = resp;
                 this.reasonWeekInputViewModelArray = this.issueReasons.map(reason => {

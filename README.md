@@ -216,7 +216,7 @@ For each team you created, please active the default planer and create 4 buckets
    * Click **Choose File**, and select `/Files/LUISApp.json`.
    * Click **Import**. 
 
-   â€?                        ![](Images/luis-03.png)
+   â€‹                        ![](Images/luis-03.png)
 
 4. Copy aside the **App Id**. It will be used as the value of the **Luis App Id** parameter of the ARM Template.
 
@@ -256,54 +256,84 @@ For each team you created, please active the default planer and create 4 buckets
 
 2. Click **My bots**, then click **Create a bot**.
 
-   ![](Images/bot-24.png)
+   ![](Images/bot-02.png)
 
 3. Click **Create**
 
-   ![](Images/bot-25.png)
+   ![](Images/bot-03.png)
 
-4. Select **Bot Channels Registration**. Then click **Create**.
-
-5. Input the fields:
-
-   ![](Images/bot-26.png)
-
-   * **Bot name**: Huddle_Bot
-
-   * **Resource Group**: BaylorIdeasHuddle,
-
-   * Leave **Message endpoint** empty for now. We will fill it later.
-
-     > Note: 
-     >
-     > - **Bot name** should be unique, please add some suffix to avoid confliction.
-     > - **Bot name** will be used as the value of **Bot Id** parameter of the ARM Template. Please copy it aside.
-
-   Then click **Create**.
+4. Select **Register an existing bot built using Bot Builder SDK**. Then click **Ok**.
 
 ### Customize and Configure the Bot
 
-1. Open [https://dev.botframework.com](https://dev.botframework.com) in a browser, then sign in with the Huddle work account.
+1. Upload icon:
 
-   ![](Images/bot-28.png)
+   ![](Images/bot-04.png)
 
-2. Click **My bots**, then click **Huddle_Bot**.
+   Click **Upload custom icon**, then select `/Files/HuddleBotIcon.png`.
 
-   ![](Images/bot-27.png)
 
-2. Click **Settings**
+2. Input the fields:
 
-   ![](Images/bot-29.png) 
+   ![](Images/bot-05.png)
 
-3. Click **Upload custom icon**, then select `/Files/HuddleBotIcon.png`.
+   * **Display name**: Huddle Bot
 
-   ![](Images/bot-30.png) 
+   * **Bot handle**: HuddleBot*<Suffix>*
 
-4. Input the field **Display name**: Huddle Bot
+   * **Long description**: This is the idea bot used to create and list ideas 
 
-   ![](Images/bot-31.png) 
+     > Note: 
+     >
+     > - **Bot handle** should be unique, please add some suffix to avoid confliction.
+     > - **Bot handle** will be used as the value of **Bot Id** parameter of the ARM Template. Please copy it aside.
 
-5. Click **Save**
+3. Leave **Message endpoint** empty for now. We will fill it later.
+
+   ![](Images/bot-06.png)
+
+
+4. Configure Microsoft App:
+
+   ![](Images/bot-07.png)
+
+   Click **Create Microsoft App ID and password**.
+
+   ![](Images/bot-08.png)
+
+   Login in with the Huddle work account.
+
+   An app will be created automatically:
+
+   ![](Images/bot-09.png)
+
+   Copy aside the App ID. It will be used as the value of **Microsoft App Id** App setting. It will also be used in the Teams App **manifest.json** file as id.
+
+   Then click **Generate an app password to continue**.
+
+   ![](Images/bot-10.png)
+
+   Copy aside the password. It will be used as the value of **Microsoft App Password **parameter of the ARM Template.
+
+   Then click **OK**.
+
+   Click **Finish and go back to Bot Framework**.
+
+   ![](Images/bot-11.png)
+
+5. Skip **Analytics** and **Admin** section.
+
+6. Go to the end of the page:
+
+   ![](Images/bot-12.png)
+
+   Check the **I agree to ...** checkbox, and click **Register**.
+
+   > Note: If you got an error of the Bot handle: Id is already in use. Please use another one.
+
+7. Click **OK**. 
+
+   ![](Images/bot-13.png)
 
 ### Add Microsoft Teams Channel
 
@@ -456,7 +486,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
       | API                                      | Permission Type | Permissions                              |
       | ---------------------------------------- | --------------- | ---------------------------------------- |
       | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
-      | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all usersâ€? full profiles |
+      | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all usersâ€™ full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Bot Client Id** parameter of the ARM Template.
 
@@ -497,7 +527,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
 
       | API             | Permission Type | Permissions                              |
       | --------------- | --------------- | ---------------------------------------- |
-      | Microsoft Graph | Delegated       | Read and write all groups<br />Read all usersâ€? full profiles |
+      | Microsoft Graph | Delegated       | Read and write all groups<br />Read all usersâ€™ full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Graph Client Id** parameter of the ARM Template.
 
@@ -632,7 +662,7 @@ Follow the similar steps in the previous chapter to add the reply URL and admin 
 
 2. Got to the Bot you created, then click **SETTINGS**.
 
-   ![](Images/bot-27.png)
+   ![](Images/bot-17.png)
 
 3. Fill the **Message endpoint**
 

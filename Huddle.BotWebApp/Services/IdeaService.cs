@@ -1,5 +1,4 @@
 ﻿using Huddle.BotWebApp.Models;
-using Huddle.Common;
 using Microsoft.Graph;
 using System;
 using System.Linq;

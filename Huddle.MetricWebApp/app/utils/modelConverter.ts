@@ -7,7 +7,7 @@ import { DateHelper } from '../utils/dateHelper';
 
 export class ModelConverter {
 
-    public static ToReasonListBackend(reasons: Array<Reason>,)
+    public static ToReasonListBackend(reasons: Array<Reason>)
     {
         return reasons.map(reason => this.ToReasonBackend(reason));
     }
@@ -15,17 +15,9 @@ export class ModelConverter {
     public static ToReasonBackend(reason: Reason): any {        
         return {
             Id: reason.id,
-            //issue is removed from reason
-            //Issue: this.ToIssueBackend(reason.issue),
+            Issue: this.ToIssueBackend(reason.issue),
             Name: reason.name,
-            State: reason.reasonState,
-            ReasonTracking: reason.reasonTracking,
-            TrackingFrequency: reason.trackingFrequency,
-            ValueType: reason.valueType,
-            Metric: {
-                Id: reason.metric.id,
-                Name: reason.metric.name
-            }
+            State: reason.reasonState
         };
     }
 

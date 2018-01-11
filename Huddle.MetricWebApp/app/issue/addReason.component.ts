@@ -34,8 +34,7 @@ export class AddReasonComponent implements OnInit {
     
 
     saveReason(): void {
-        // issue is removed from reason
-        //this.toAddReason.issue = this.currentIssue;
+        this.toAddReason.issue = this.currentIssue;
         this.reasonService.addReason(this.toAddReason)
             .subscribe(resp => {
                 this.toAddReason.id = resp;
