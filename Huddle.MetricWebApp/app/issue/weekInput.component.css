@@ -3,7 +3,7 @@ ul li{
     display:inline-block;
     vertical-align:top;
     background-color:transparent;
-    width:50px;
+    width:40px;
     height:45px;
     text-align: center;
     padding-top: 5px;
@@ -12,13 +12,31 @@ ul li{
 ul li.odd{
     background-color:transparent;
 }
+ul.weekly>li{display:none;}
+ul.weekly>li:first-child{display:block;}
+.times-field{width:28px;height:29px;position:relative;}
 .times-field>input{
     font-size:12px;
-    width: 39px;
-    min-width:39px;
+    width: 30px;
     height: 27px;
-    border-radius: 5px;
-    border: solid 1px #a1a1a1;
-    padding-left: 11px;
-    padding-right: 11px;
+    border-radius: 2px;
+    border: solid 1px #b5b5b5;
+    text-align: center;
 }
+ul.weekly>li:first-child .times-field >input{width: 276px;}
+.times-field input.updated {
+    background-image:url('/images/triangle.png');
+    background-repeat:no-repeat;
+    background-position:top left;
+}
+.times-field .dollardiv {
+    position: absolute;
+    left: -8px;
+    top: 4px;
+}
+.times-field .percentdiv {
+    position: absolute;
+    right: -13px;
+    top: 3px;
+}
+.error{color:red;}

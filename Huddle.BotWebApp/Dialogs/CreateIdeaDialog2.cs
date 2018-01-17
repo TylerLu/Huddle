@@ -50,7 +50,7 @@ namespace Huddle.BotWebApp.Dialogs
         private O365ConnectorCard GetCreateIdeaCard(Metric[] metrics, TeamMember[] members)
         {
             var metricChoices = metrics
-                .Select(m => new O365ConnectorCardMultichoiceInputChoice(m.Name, $"{{\"id\":{m.Id}, \"Name\":\"{m.Name}\"}}"))
+                .Select(m => new O365ConnectorCardMultichoiceInputChoice(m.Name, JsonConvert.SerializeObject(m)))
                 .ToList();
 
             var memberChoices = members

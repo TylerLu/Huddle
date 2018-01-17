@@ -1,6 +1,9 @@
 ﻿import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter } from '@angular/core';
+import { FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Router } from '@angular/router';
 import { Issue } from '../shared/models/issue';
+import { User } from '../shared/models/user';
 import { IssueState } from '../shared/models/issueState';
 import { Category } from '../shared/models/category';
 import { Reason } from '../shared/models/reason';
@@ -15,18 +18,23 @@ declare var fabric: any;
 declare var jQuery: any;
 
 @Component({
-    templateUrl: 'app/issue/addIssue.component.html',
+    templateUrl: './addIssue.component.html',
     selector: 'add-issue',
-    styleUrls: ['app/issue/addIssue.component.css', 'app/shared/shared.css']
+    styleUrls: ['./addIssue.component.css', '../shared/shared.css']
 })
 
 export class AddIssueComponent implements OnInit, AfterViewChecked {
     @Output() afterAddedIssue: EventEmitter<Issue> = new EventEmitter<Issue>();
+    @Output() onClosed: EventEmitter<Issue> = new EventEmitter<Issue>();
+    
+    @ViewChild('issueForm')
+    private issueForm: NgForm;
 
     selectedCategory = '';
+    selectedUser = '';
     categories = new Array<Category>();
     toAddIssue = new Issue();
-    toAddReasons = new Array<Reason>();
+    users = new Array<User>();
     isSaving = false;
     teamId = '1';
     isShown = false;
@@ -35,37 +43,46 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit(): void {
-        if (CommonUtil.isInMsTeam()) {
-            this.initTeamContext();
-        } else {
-            this.initCategoriesAndReasons();
-        }
+        //this.initTeamContext();
+        //this.initCategoriesAndReasons();
     }
 
     open(): void {
+        this.initTeamContext();
         jQuery("div.add-issue-dialog").find("li.ms-Dropdown-item").removeClass('is-selected');
         jQuery("div.add-issue-dialog").find('span.ms-Dropdown-title').html('');
         
         this.toAddIssue = new Issue();
-        this.initCategoriesAndReasons();
+        this.initCategories();
+        this.initUsers();
         this.isShown = true;
     }
 
     close(): void {
         this.isShown = false;
         this.isSaving = false;
+        this.onClosed.emit(this.toAddIssue);
     }
 
-    initCategoriesAndReasons() {
-        this.initFourReasons();
+    initUsers() {
+
+        this.issueService.getUsers(this.teamId)
+            .subscribe(resp => {
+                this.users = resp;
+                if (this.users.length > 0) {
+                    this.selectedUser = this.users[0].mail;
+                }
+                this.toAddIssue.owner = this.selectedUser;
+            });
+    }
+
+    initCategories() {
+      
         this.issueService.getCategories()
             .subscribe(resp => {
                 this.categories = resp;
                 if (this.categories.length > 0) {
                     this.selectedCategory = this.categories[0].name;
-                    if (jQuery("li.ms-Dropdown-item").length > 0)
-                        jQuery("div.add-issue-dialog").find("li.ms-Dropdown-item").first().addClass('is-selected');
-                    jQuery("div.add-issue-dialog").find('span.ms-Dropdown-title').html(this.selectedCategory);
                 }
                 this.toAddIssue.category = this.getCategoryByName(this.selectedCategory);
             });
@@ -73,22 +90,17 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
 
     initTeamContext() {
         this.teamId = CommonUtil.getTeamId();
-        this.initCategoriesAndReasons();
     }
-
-    initFourReasons() {
-        this.toAddReasons = new Array<Reason>();
-        for (let i = 0; i < 4; i++) {
-            let reason = new Reason();
-            reason.issue = this.toAddIssue;
-            this.toAddReasons.push(reason);
-        }
-    }
+ 
 
     selectCategory(categoryName) {
-        let selectedCateoryName = jQuery("div.add-issue-dialog").find("li.ms-Dropdown-item").filter(function () { return jQuery(this).hasClass('is-selected'); }).html();
-        this.selectedCategory = selectedCateoryName;
+        this.selectedCategory = categoryName;
     }
+    selectUser(user) {
+        this.selectedUser = user;
+        this.toAddIssue.owner = this.selectedUser;
+    }
+
 
     getCategoryByName(categoryName: string) {
          let filterResult = this.categories.filter(category => category.name == categoryName);
@@ -102,20 +114,14 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     }
 
     saveIssue(): void {
-        if (this.isSaveDisabled() == true)
-            return;
+
         this.isSaving = true;
         this.toAddIssue.category = this.getCategoryByName(this.selectedCategory);
-        let reasons = [];
-        this.toAddReasons.forEach(reason => {
-            if (reason.name)
-                reasons.push(reason);
-        });
-        this.issueService.addIssue(this.toAddIssue, reasons, this.teamId)
+
+        this.issueService.addIssue(this.toAddIssue,  this.teamId)
             .subscribe(result => {
-                if (result && result > 0) {
-                    this.toAddIssue.id = result;
-                    this.afterAddedIssue.emit(this.toAddIssue);
+                if (result) {
+                    this.toAddIssue = result;
                     this.close();
                 }
             });

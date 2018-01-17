@@ -3,7 +3,7 @@ declare var microsoftTeams: any;
 
 @Component({
     selector: 'tab-signIn',
-    templateUrl: '/app/teamTab/teamTab.signIn.component.html',
+    templateUrl: './teamTab.signIn.component.html',
 })
 
 export class TeamTabSignInComponent implements OnInit {

@@ -59,6 +59,9 @@ namespace Huddle.WebJob.Services
             var teamService = new TeamsService();
             var teams = await teamService.GetJoinedTeamsAsync();
             var plannerService = new PlannerService(teamService);
+            var globalTeam = await teamService.GetGlobalTeamAsync();
+            var globalIdeas = globalTeam == null ? new Idea[0]:(await plannerService.GetIdeasInTeamAsync(globalTeam))
+                .OrderBy(idea=>idea.Id).ToArray();
 
             var allIdeas = new List<Idea>();
 
@@ -66,9 +69,10 @@ namespace Huddle.WebJob.Services
             {
                 var operation = $"Sync ideas in team {team?.DisplayName}";
                 LogService.LogOperationStarted(operation);
-                var ideas = (await plannerService.GetIdeasInTeamAsync(team))
-                    .OrderBy(idea => idea.Id);
+                var ideas = await plannerService.GetIdeasInTeamAsync(team);
                 allIdeas.AddRange(ideas);
+                ideas = ideas.Union(globalIdeas)
+                    .OrderBy(s => s.Id);
                 var items = GetMetricIdeaItemsByTeamID(team.Id)
                     .OrderBy(item => item[SPLists.MetricIdeas.Columns.TaskId]);
                 try
@@ -98,6 +102,7 @@ namespace Huddle.WebJob.Services
             var anyItemUpdated = false;
             var itemsArray = items.ToArray();
             var count = itemsArray.Count();
+            LogService.LogInfo($"Items:{count},Ideas:{ideas.Count()}");
             for (var i = 0; i < count; ++i)
             {
                 var item = itemsArray[i];
@@ -214,7 +219,7 @@ namespace Huddle.WebJob.Services
             return GetSharePointListItems(SPLists.MetricIdeas.Title, query);
         }
 
-        private ListItemCollection GetMetricItemsByTeamID(string teamId)
+        private IEnumerable<ListItem> GetMetricItemsByTeamID(string teamId)
         {
             var query = new CamlQuery();
             query.ViewXml =
@@ -228,7 +233,31 @@ namespace Huddle.WebJob.Services
                             </Where>
                         </Query>
                 </View>";
-            return GetSharePointListItems(SPLists.Issues.Title, query);
+            var issues = GetSharePointListItems(SPLists.Issues.Title, query).Select(s=>s.Id).ToArray();
+            if (issues.Length == 0)
+                return new ListItem[0];
+                    //Get Metrics
+            var condition = new StringBuilder(@"<In>");
+            condition.AppendLine($"<FieldRef Name='{SPLists.Metrics.Columns.Issue}' LookupId='TRUE' />");
+            condition.AppendLine("<Values>");
+            foreach (var id in issues)
+            {
+                condition.AppendLine($"<Value Type='Lookup'>{id}</Value>");
+            }
+            condition.AppendLine("</Values>");
+            condition.AppendLine("</In>");
+
+            query = new CamlQuery();
+            query.ViewXml =
+                @"<View>
+                        <Query>
+                            <Where>" +
+                                condition + @"
+                            </Where>
+                        </Query>
+                </View>";
+
+            return GetSharePointListItems(SPLists.Metrics.Title, query);
         }
 
         private ListItemCollection GetSharePointListItems(string listTitle, CamlQuery query)

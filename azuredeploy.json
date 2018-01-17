@@ -5,7 +5,7 @@
     "luisAppId": {
       "type": "string"
     },
-    "botId": {
+    "botName": {
       "type": "string"
     },
     "microsoftAppId": {
@@ -75,13 +75,15 @@
     "name": "Huddle",
     "nameLowecase": "[toLower(variables('name'))]",
     "suffix": "[substring(uniqueString(resourceGroup().id), 0, 6)]",
+    "botId": "[concat(variables('nameLowecase'), '-bot-registration-', variables('suffix'))]",
     "certName": "[concat(variables('nameLowecase'),  '-cert-', variables('suffix'))]",
     "luisName": "luis",
     "hostingPlanName": "[concat(variables('nameLowecase'), '-', variables('suffix'))]",
     "storageAccountName": "[concat(variables('nameLowecase'), variables('suffix'))]",
     "botWebAppName": "[concat(variables('nameLowecase'), '-bot-', variables('suffix'))]",
     "metricAppName": "[concat(variables('nameLowecase'), '-metric-', variables('suffix'))]",
-    "microsoftGraphConnectorName": "[concat('microsoft-graph-connector-', variables('suffix'))]"
+    "microsoftGraphConnectorName": "[concat('microsoft-graph-connector-', variables('suffix'))]",
+    "botMessagingEndPoint":"[concat('https://', variables('botWebAppName'), '.azurewebsites.net/api/messages')]"
   },
   "resources": [
     {
@@ -466,6 +468,23 @@
           "tags": []
         }
       }
+    },
+    {
+        "apiVersion": "2017-12-01",
+        "type": "Microsoft.BotService/botServices",
+        "name": "[variables('botId')]",
+        "location": "global",
+        "kind": "bot",
+        "sku": {
+            "name": "S1"
+        },
+        "properties": {
+            "name": "[variables('botId')]",
+            "displayName": "[parameters('botName')]",
+            "endpoint": "[variables('botMessagingEndPoint')]",
+            "msaAppId": "[parameters('microsoftAppId')]"
+        },
+        "dependsOn": []
     },
     {
       "type": "Microsoft.Web/connections",
@@ -1204,7 +1223,7 @@
             "LuisAppId": "[parameters('luisAppId')]",
             "LuisAPIKey": "[listkeys(resourceId('Microsoft.CognitiveServices/accounts', variables('luisName')), '2016-02-01-preview').key1]",
             "LuisAPIDomain": "[concat(reference(concat('Microsoft.CognitiveServices/accounts/', variables('luisName')), '2016-02-01-preview', 'Full').location, '.api.cognitive.microsoft.com')]",
-            "BotId": "[parameters('botId')]",
+            "BotId": "[variables('botId')]",
             "MicrosoftAppId": "[parameters('microsoftAppId')]",
             "MicrosoftAppPassword": "[parameters('microsoftAppPassword')]",
             "ida:TenantId": "[parameters('tenantId')]",
@@ -1236,7 +1255,8 @@
             "[resourceId('Microsoft.Logic/workflows', 'ListBucketTasks')]",
             "[resourceId('Microsoft.Logic/workflows', 'GetTaskDetails')]",
             "[resourceId('Microsoft.Logic/workflows', 'CreateTask')]",
-            "[resourceId('Microsoft.Logic/workflows', 'DeleteTask')]"
+            "[resourceId('Microsoft.Logic/workflows', 'DeleteTask')]",
+            "[resourceId('Microsoft.BotService/botService', variables('botId'))]"
           ]
         },
         {

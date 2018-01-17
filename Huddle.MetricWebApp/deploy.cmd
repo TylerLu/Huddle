@@ -70,6 +70,7 @@ IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (
   echo Installing npm packages
   pushd "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp"
   call :ExecuteCmd npm install
+  call :ExecuteCmd ng build
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
@@ -97,14 +98,6 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-:: 4. Install npm dependencies
-IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
-  echo Installing npm packages
-  pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd npm install
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
 

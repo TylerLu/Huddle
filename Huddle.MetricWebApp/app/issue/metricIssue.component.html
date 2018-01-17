@@ -40,7 +40,7 @@
                 </li>
                 <li class="target-goal">{{currentIssue.targetGoal}}</li>
                 <li class="date">{{currentIssue.startDate | date: 'shortDate' }}</li>
-                <week-input [currentWeekDays]="currentWeekDays" [rowIndex]="0" [weekInputViewModel]="issueWeekInputviewModel"></week-input>
+                <week-input [rowIndex]="0" [weekInputViewModel]="issueWeekInputviewModel"></week-input>
                 <li class="toggle">
                     <div class="ms-Toggle">
                         <input type="checkbox" id="toggle-metric" class="ms-Toggle-input" />
@@ -88,7 +88,7 @@
                         <span class="edit-mode" [hidden]="!reason.isEditable"><input name="reason-{{reason.id}}" [(ngModel)]="reason.name" /></span>
                     </li>
                     <li class="date">{{reason.startDate | date: 'shortDate' }}</li>
-                    <week-input [currentWeekDays]="currentWeekDays" [rowIndex]="i" [weekInputViewModel]="reasonWeekInputViewModelArray[j]"></week-input>
+                    <week-input  [rowIndex]="i" [weekInputViewModel]="reasonWeekInputViewModelArray[j]"></week-input>
                     <li class="toggle">
                         <div class="ms-Toggle">
                             <input type="checkbox" id="toggle-reason-{{reason.id}}" class="ms-Toggle-input" />

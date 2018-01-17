@@ -15,10 +15,10 @@ namespace Huddle.MetricWebApp.SharePoint
 
         public void ClearListItems()
         {
-            RemoveListItems(SPLists.ReasonMetrics.Title);
+            RemoveListItems(SPLists.ReasonValues.Title);
             RemoveListItems(SPLists.Reasons.Title);
             RemoveListItems(SPLists.MetricIdeas.Title);
-            RemoveListItems(SPLists.IssueMetrics.Title);
+            RemoveListItems(SPLists.MetricValuess.Title);
             RemoveListItems(SPLists.Issues.Title);
         }
 

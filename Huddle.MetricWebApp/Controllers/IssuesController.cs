@@ -25,28 +25,12 @@ namespace Huddle.MetricWebApp.Controllers
         public async Task<HttpResponseMessage> Post(JObject objData)
         {
             dynamic jsonData = objData;
-            List<Reason> postReasons = new List<Reason>();
-            JArray reasonsJsonArray = jsonData.reasons;
-            JObject issueJson = jsonData.issue;
-            Issue toAddIssue = issueJson.ToObject<Issue>();
+            Issue toAddIssue = jsonData.issue.ToObject<Issue>();
             toAddIssue.State = 1;
-            toAddIssue.MSTeamId = jsonData.teamId.Value;
-            foreach (var item in reasonsJsonArray)
-            {
-                var reason = item.ToObject<Reason>();
-                reason.State = 1;
-                if (!string.IsNullOrEmpty(reason.Name))
-                    postReasons.Add(reason);
-            }
-            await IssuesService.InsertItemAsync(toAddIssue);
-            foreach (var reason in postReasons)
-            {
-                reason.Issue = toAddIssue;
-                await ReasonsService.InsertItemAsync(reason);
-            }
-            return ToJson(new {
-                issueId = toAddIssue.Id
-            });
+            toAddIssue.MSTeamId = jsonData.teamId;
+            var issue = await IssuesService.InsertItemAsync(toAddIssue);
+
+            return ToJson(issue.ToJson());
         }
 
         // PUT api/<controller>/5
@@ -54,8 +38,33 @@ namespace Huddle.MetricWebApp.Controllers
         {
         }
 
+        [HttpPost, Route("api/issues/editIssue")]
+        public async Task<HttpResponseMessage> EditIssue(JObject objData)
+        {
+            dynamic jsonData = objData;
+            JObject issue = jsonData.issue;
+            var toEditIssue = issue.ToObject<Issue>();
+            await IssuesService.UpdateItemAsync(toEditIssue);
+            return ToJson(new
+            {
+                issueId = toEditIssue.Id
+            });
+        }
 
+        [HttpDelete]
+        [Route("api/issues/Delete/{id}")]
+        public async Task<HttpResponseMessage> Delete(int id)
+        {
+             await IssuesService.DeleteIssueAndRelatedItemsAsync(id);
+            return ToJson(new
+            {
+                issueId = id
+            });
+        }
     }
+
+
+
 
 
     public class IssuesFilterController : BaseAPIController
@@ -63,7 +72,8 @@ namespace Huddle.MetricWebApp.Controllers
         [Route("api/issuesfilter/{state}/{teamId}")]
         public async Task<HttpResponseMessage> Get(int state,string teamId)
         {
-            var issueList = await IssuesService.GetItemsAsync(state, teamId);
+            var issueList = (await IssuesService.GetItemsAsync(state, teamId)).ToList();
+            await MetricsService.CalcActiveMetricCount(issueList);
             var result = issueList.Select(issue => issue.ToJson()).ToArray();
             return ToJson(result);
         }

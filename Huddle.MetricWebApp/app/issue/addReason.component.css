@@ -21,7 +21,7 @@ div.add-reason-dialog .ms-Dialog{
 }
 div.add-reason-dialog .ms-Dialog .ms-Dialog-title{
     margin-bottom: 0;
-    font-family: OpenSans;
+    font-family: "Segoe UI";
     font-weight: 700;
     height: 30px;
     background-color: #ebebeb;
@@ -38,7 +38,7 @@ div.add-reason-dialog .ms-Dialog .ms-Dialog-content{
     padding-top: 10px;
 }
 div.add-reason-dialog .ms-Dialog-subText{
-    font-family: OpenSans;
+    font-family: "Segoe UI";
     font-size: 18px;
     line-height: 1.67;
     text-align: left;
@@ -80,7 +80,7 @@ div.add-reason-dialog .ms-Dialog .button-container .ms-Button{
     padding-top: 1px;
 }
 div.add-reason-dialog .ms-Dialog .button-container .ms-Button span{
-    font-family: OpenSans;
+    font-family: "Segoe UI";
     font-size: 14px;
     font-weight: bold;
     line-height: 2.14;

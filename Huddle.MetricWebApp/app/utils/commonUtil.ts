@@ -2,6 +2,7 @@
 import { WeekInputViewModel } from "../shared/models/weekInputViewModel";
 import { Issue } from "../shared/models/issue";
 import { Reason } from "../shared/models/reason";
+import { Constants } from '../shared/constants';
 declare var jQuery: any;
 
 export class CommonUtil {
@@ -39,14 +40,12 @@ export class CommonUtil {
         }
         return query_string[key];
     }
-
-    public static navigateToUrl(url: string, router: Router): Promise<boolean> {
-        let targetUrl = url;
-        if (targetUrl.indexOf(this.teamId) < 0)
-            targetUrl += '?' + this.teamId + "=" + this.getTeamId();
-        //location.href = targetUrl;
-        return router.navigateByUrl(targetUrl);
-    }
-
     
+    public static getDisplayValueType(valueType: string) {
+        if (valueType === Constants.valueTypes.dollars.val)
+            return Constants.valueTypes.dollars.text;
+        else if (valueType === Constants.valueTypes.percentages.val)
+            return Constants.valueTypes.percentages.text;
+        return Constants.valueTypes.numbers.text;
+    }
 }

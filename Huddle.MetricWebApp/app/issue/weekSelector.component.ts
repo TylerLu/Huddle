@@ -1,19 +1,19 @@
 ﻿import { Component, OnInit,Input,Output, EventEmitter} from '@angular/core';
 import { DateHelper } from '../utils/dateHelper';
 import { AllowIssueClick } from '../shared/models/allowIssueClick';
-import { WeekDay} from '../shared/models/weekDay';
+import { WeekDay } from '../shared/models/weekDay';
+import { WeekSelectorService } from '../services/weekSelector.service';
 
 @Component({
-    templateUrl: 'app/issue/weekSelector.component.html',
+    templateUrl: './weekSelector.component.html',
     selector: 'week-selector',
-    styleUrls: ['app/issue/weekSelector.component.css', 'app/shared/shared.css']
+    styleUrls: ['./weekSelector.component.css', '../shared/shared.css']
 })
 
 export class WeekSelectorComponent implements OnInit {
 
-    currentWeek: WeekDay;
     weekDisplay: string;
-    @Output() selectWeek: EventEmitter<WeekDay> = new EventEmitter<WeekDay>();
+    //@Output() selectWeek: EventEmitter<WeekDay> = new EventEmitter<WeekDay>();
     @Input('allowClick') allowClick: AllowIssueClick;
     @Output() afterCheckAllowClick: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -22,13 +22,21 @@ export class WeekSelectorComponent implements OnInit {
 
     datesIntervalStr: string;
 
-    constructor() {
+    constructor(private weekSelectorService: WeekSelectorService) {
     }
     ngOnInit(): void {
-        this.currentWeek = DateHelper.getStartAndEndDayOfWeek();
-        this.datesIntervalStr = DateHelper.getDatesIntervalStr(this.currentWeek);
-        this.selectWeek.emit(this.currentWeek);
-        this.resetClickState();
+        this.datesIntervalStr = DateHelper.getDatesIntervalStr(this.currentWeek());
+        this.subscribeWeekSelector();
+    }
+
+    subscribeWeekSelector() {
+        this.weekSelectorService.selectWeek.subscribe(weekDay => {
+            this.datesIntervalStr = DateHelper.getDatesIntervalStr(this.currentWeek());
+        });
+    }
+
+    currentWeek(): WeekDay{
+        return this.weekSelectorService.getCurrentWeek();
     }
 
     clickPreviousWeek() {
@@ -36,7 +44,7 @@ export class WeekSelectorComponent implements OnInit {
         this.afterCheckAllowClick.emit(false);
         if (!this.allowClick.allowClick)
             return;
-        this.gotoPreviousWeek();
+        this.weekSelectorService.gotoPreviousWeek();
     }
 
     clickNextWeek(): void{
@@ -44,34 +52,10 @@ export class WeekSelectorComponent implements OnInit {
         this.afterCheckAllowClick.emit(false);
         if (!this.allowClick.allowClick)
             return;
-        this.gotoNextWeek();
+        this.weekSelectorService.gotoNextWeek();
     }
 
     changeWeek() {
-        if (this.clickNext == true)
-            this.gotoNextWeek();
-        if (this.clickPrevious == true)
-            this.gotoPreviousWeek();
-    }
-
-    gotoPreviousWeek() {
-        let dayBeforeWeek = this.currentWeek.startDay.setDate(this.currentWeek.startDay.getDate() - 2);
-        this.currentWeek = DateHelper.getStartAndEndDayOfWeek(new Date(dayBeforeWeek));
-        this.datesIntervalStr = DateHelper.getDatesIntervalStr(this.currentWeek);
-        this.selectWeek.emit(this.currentWeek);
-        this.resetClickState();
-    }
-
-    gotoNextWeek() {
-        let dayAfterWeek = this.currentWeek.endDay.setDate(this.currentWeek.endDay.getDate() + 1);
-        this.currentWeek = DateHelper.getStartAndEndDayOfWeek(new Date(dayAfterWeek));
-        this.datesIntervalStr = DateHelper.getDatesIntervalStr(this.currentWeek);
-        this.selectWeek.emit(this.currentWeek);
-        this.resetClickState();
-    }
-
-    resetClickState() {
-        this.clickNext = false;
-        this.clickPrevious = false;
+        
     }
 }

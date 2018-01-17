@@ -1,9 +1,10 @@
 ﻿import { WeekDay} from '../shared/models/weekDay';
 import { WeekInputViewModel } from '../shared/models/weekInputViewModel';
-import { IssueMetric } from '../shared/models/issueMetric';
+import { MetricValue } from '../shared/models/metricValue';
 import { Issue} from '../shared/models/issue';
-import { ReasonMetric } from '../shared/models/reasonMetric';
+import { ReasonValue } from '../shared/models/reasonValue';
 import { Reason } from '../shared/models/reason';
+import { Metric } from '../shared/models/metric';
 declare var moment: any;
 export class DateHelper{
 
@@ -39,24 +40,24 @@ export class DateHelper{
         return this.LocalToUTC(startDate).substring(0, 10);
     }
 
-    public static getWeekInputViewModel(isIssueMetric: boolean, weekDay: WeekDay,issue:Issue,reason:Reason):WeekInputViewModel {
+    public static getWeekInputViewModel(isMetricValue: boolean, weekDay: WeekDay,metric:Metric,reason:Reason):WeekInputViewModel {
         let aWeekInputViewModel = new WeekInputViewModel();
-        aWeekInputViewModel.isIssueMetric = isIssueMetric;
+        aWeekInputViewModel.isMetricValue = isMetricValue;
         aWeekInputViewModel.weekDay = weekDay;
         let daysOfWeek = this.getDaysofWeek(weekDay);
         let i = 0;
         while (i < aWeekInputViewModel.inputLength) {
             let inputDate = daysOfWeek[i];
-            if (isIssueMetric) {
-                let issueMetric = new IssueMetric();
-                issueMetric.inputDate = inputDate;
-                issueMetric.issue = issue;
-                aWeekInputViewModel.issueMetricArray[i]= issueMetric;
+            if (isMetricValue) {
+                let metricValue = new MetricValue();
+                metricValue.inputDate = inputDate;
+                metricValue.metric = metric;
+                aWeekInputViewModel.metricValueArray[i]= metricValue;
             } else {
-                let reasonMetric = new ReasonMetric();
+                let reasonMetric = new ReasonValue();
                 reasonMetric.inputDate = inputDate;
                 reasonMetric.reason = reason;
-                aWeekInputViewModel.reasonMetricArray[i] = reasonMetric;
+                aWeekInputViewModel.reasonValueArray[i] = reasonMetric;
             }
             i++;
         }
@@ -87,6 +88,14 @@ export class DateHelper{
         } else {
             return moment(weekDay.startDay).format('MMM') + ' ' + moment(weekDay.startDay).format('DD') + ' - ' + moment(weekDay.endDay).format('DD') + ', ' +  moment(weekDay.startDay).format('YYYY');
         }
+    }
+
+    public static isDateEqual(metricDateLocal: Date, metricDateFromBackend: Date): boolean{
+        let backendDate = new Date(metricDateFromBackend.toString());
+        let localDate = new Date(DateHelper.LocalToUTC(metricDateLocal));
+        return backendDate.getFullYear() == localDate.getFullYear()
+            && backendDate.getMonth() == localDate.getMonth()
+            && backendDate.getDate() == localDate.getDate();
     }
 
 }

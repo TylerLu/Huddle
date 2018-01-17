@@ -5,11 +5,11 @@ using System.Web;
 
 namespace Huddle.MetricWebApp.Models
 {
-    public class IssueMetric
+    public class MetricValue
     {
         public int Id { get; set; }
-        public Issue Issue{ get; set; }
-        public int? MetricValues { get; set; }
+        public Metric Metric{ get; set; }
+        public int? Value { get; set; }
         public DateTime InputDate { get; set; }
     }
 }

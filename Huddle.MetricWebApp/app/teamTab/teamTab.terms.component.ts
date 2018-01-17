@@ -2,7 +2,7 @@
 
 @Component({
     selector: 'tab-terms',
-    templateUrl: '/app/teamTab/teamTab.terms.component.html',
+    templateUrl: './teamTab.terms.component.html',
 })
 
 export class TeamTabTermsComponent implements OnInit {
