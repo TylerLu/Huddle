@@ -65,11 +65,14 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 :: Deployment
 :: ----------
 
-:: 0. Install npm dependencies
-IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (
-  echo Installing npm packages
+:: 0. Install npm dependencies and build
+IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (  
   pushd "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp"
+  echo Installing npm packages
   call :ExecuteCmd npm install
+  echo Installing angular/cli@1.6.4
+  call :ExecuteCmd npm install -g @angular/cli@1.6.4
+  echo Executing ng build
   call :ExecuteCmd ng build
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
