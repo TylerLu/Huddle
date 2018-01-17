@@ -102,7 +102,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 :: 4. Sync dist folder
-call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\dist\" -t "%DEPLOYMENT_TARGET%\Huddle.MetricWebApp\dist\"
+call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\dist" -t "%DEPLOYMENT_TARGET%\Huddle.MetricWebApp\dist" -x
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
