@@ -63,9 +63,8 @@ hr {
     letter-spacing: normal;
     text-align: center;
     color: #000000;
-    width: 20px;
-    display: inline-block;
-    margin-right: 12px;
+    display: inline;
+    margin-right: 10px;
     position: relative;
     top: -5px;
 }
@@ -76,6 +75,7 @@ hr {
     padding-left: 6px;
     display: inline-block;
 }
+.reason-list-section .row{margin-right:0;}
 
 .reason-list-section ul {
     list-style: none;
@@ -84,6 +84,7 @@ hr {
     .reason-list-section ul.ul-metric {
         margin-bottom: 0;
         position: relative;
+        width:930px;
     }
 
     .reason-list-section ul li {
@@ -102,26 +103,30 @@ hr {
     .reason-list-section ul.ul-metric li {
         vertical-align: text-bottom;
     }
-
+        .reason-list-section ul.ul-metric li:nth-child(1) {
+            width: 17px;
+            position: absolute;
+            height: 17px;
+            left: 10px;
+            top: 16px;
+        }
         .reason-list-section ul.ul-metric li:nth-child(2) {
-            width: 28.5%;
+            width: 258px;
         }
 
         .reason-list-section ul.ul-metric li:nth-child(3) {
-            width: 18.5%;
+            width: 168px;
         }
 
         .reason-list-section ul.ul-metric li:nth-child(4) {
-            width: 34%;
+            width: 302px;
             vertical-align: middle;
         }
 
         .reason-list-section ul.ul-metric li:nth-child(5) {
-            width: 15%;
-            text-align: left;
+            width: 136px;
+            text-align: right;
             vertical-align: middle;
-            padding-left: 13px;
-            
         }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {

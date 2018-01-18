@@ -46,6 +46,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     isNewIssueButtonClicked: boolean;
     toEditIssue: Issue;
 
+
     isRequestCompleted: boolean;
 
     @ViewChild(AddIssueComponent)
@@ -72,9 +73,14 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     @ViewChild('expandConfirm')
     confirmExpandPopup: CommonConfirmComponent;
 
+    @ViewChild('filterConfirm')
+    confirmFilterPopup: CommonConfirmComponent;
+
     enable: boolean;
 
     toExpandIssue: IssueViewModel;
+
+    isDefaultExpanded: boolean = false;
 
     constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService,private cdRef:ChangeDetectorRef,private weekSelectorService: WeekSelectorService,private metricValueService:MetricValueService) {
     }
@@ -91,7 +97,8 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     }
 
     ngAfterViewChecked() {
-        this.expandDefaultIssue();
+        if (this.isDefaultExpanded === false)
+            this.expandDefaultIssue();
         this.cdRef.detectChanges();
     }
 
@@ -184,7 +191,14 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     }
 
     afterFilterIssue(issueState: IssueStateViewModel) {
-        this.doFilterIssues(issueState.value);
+        if (this.detectInputValueChange()) {
+            this.selectedIssueState = issueState;
+            this.confirmFilterPopup.open();
+            return;
+        } else {
+            this.doFilterIssues(issueState.value);
+        }
+        
     }
 
 
@@ -250,15 +264,31 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     expandDefaultIssue() {
         if (this.issueArray.length === 0)
             return;
-        if(this.issueArray.filter(issue => issue.Expanded == true).length===0)
+        if (this.issueArray.filter(issue => issue.Expanded == true).length === 0) {
             this.expandIssue(this.issueArray[0]);
+            this.isDefaultExpanded = true;
+        }
+
+    }
+
+    hideIssueRelatedMetricList(issue:IssueViewModel) {
+        let metricList = this.getRelatedMetricList(issue);
+        if (metricList !== null)
+            metricList.hide();
+    }
+    showIssueRelatedMetricList(issue: IssueViewModel) {
+        let currentMetricList = this.getRelatedMetricList(issue);
+        if (currentMetricList !== null)
+            currentMetricList.show();
     }
 
     expandIssueClick(issue: IssueViewModel) {
-        if (issue.Expanded)
+        if (issue.Expanded) {
             issue.Expanded = false;
-        else
+            this.hideIssueRelatedMetricList(issue);
+        } else {
             this.expandIssue(issue);
+        }
     }
 
     expandIssue(issue: IssueViewModel) {
@@ -274,22 +304,20 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     expandIssueWithoutCheck(issue: IssueViewModel) {
         this.issueArray.forEach(issue => {
             issue.Expanded = false;
-            let metricList = this.getRelatedMetricList(issue);
-            if (metricList !== null)
-                metricList.hide();
+            this.hideIssueRelatedMetricList(issue);
         });
         issue.Expanded = true;
         this.selectedIssue = issue;
-        let currentMetricList = this.getRelatedMetricList(issue);
-        if (currentMetricList !== null)
-            currentMetricList.show();
+        this.showIssueRelatedMetricList(issue);
     }
 
 
     detectInputValueChange() {
-        if (this.selectedIssue === null || this.selectedIssue === undefined)
+        if (this.selectedIssue === null || this.selectedIssue === undefined )
             return false;
         let currentMetricList = this.getRelatedMetricList(this.selectedIssue);
+        if (currentMetricList === null || currentMetricList === undefined)
+            return false;
         let isMetricValueChanged = currentMetricList.isInputValueChanged();
         if (currentMetricList.reasonLists.length == 0)
             return isMetricValueChanged;
@@ -305,10 +333,25 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
             self.expandIssueWithoutCheck(self.toExpandIssue);
         }, 1500);
     }
+
+    afterSaveChangesCancelFilter() {
+        let self = this;
+        setTimeout(function () {
+            self.doFilterIssues(self.selectedIssueState.value);
+        }, 1500);
+    }
+
     afterSaveChangesExpandConfirm() {
         this.saveIssueClick(this.selectedIssue)
             .subscribe(results => {
                 this.expandIssueWithoutCheck(this.toExpandIssue);
+            });
+    }
+
+    afterSaveChangesFilterConfirm() {
+        this.saveIssueClick(this.selectedIssue)
+            .subscribe(results => {
+                this.doFilterIssues(this.selectedIssueState.value);
             });
     }
 

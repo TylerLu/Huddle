@@ -1316,7 +1316,7 @@
           "type": "config",
           "name": "appsettings",
           "properties": {
-            "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
+            "WEBSITE_NODE_DEFAULT_VERSION": "8.9.3",
             "ida:TenantId": "[parameters('tenantId')]",
             "ida:ClientId": "[parameters('metricClientId')]",
             "ida:ClientSecret": "[parameters('metricClientSecret')]",

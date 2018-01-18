@@ -58,5 +58,6 @@
     </modal-body>
 </modal>
 <metric-list></metric-list>
-<common-confirm-popup (onCancled)="afterSaveChangesCancel($event)" (onConfirmed)="afterSaveChangesConfirm($event)" [message]="'Are you sure you want to save your changes?'" [title]="'ConfirmSave'"></common-confirm-popup>
-<common-confirm-popup #expandConfirm (onCancled)="afterSaveChangesCancelExpand($event)" (onConfirmed)="afterSaveChangesExpandConfirm($event)" [message]="'Are you sure you want to save your changes?'" [title]="'ConfirmSave'"></common-confirm-popup>
+<common-confirm-popup (onCancled)="afterSaveChangesCancel($event)" (onConfirmed)="afterSaveChangesConfirm($event)" [message]="'Are you sure you want to save your changes?'" [title]="'Confirm Save'"></common-confirm-popup>
+<common-confirm-popup #expandConfirm (onCancled)="afterSaveChangesCancelExpand($event)" (onConfirmed)="afterSaveChangesExpandConfirm($event)" [message]="'Are you sure you want to save your changes?'" [title]="'Confirm Save'"></common-confirm-popup>
+<common-confirm-popup #filterConfirm (onCancled)="afterSaveChangesCancelFilter($event)" (onConfirmed)="afterSaveChangesFilterConfirm($event)" [message]="'Are you sure you want to save your changes?'" [title]="'Confirm Save'"></common-confirm-popup>

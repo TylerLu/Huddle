@@ -23,14 +23,4 @@
 }
 .save-container{text-align:center; margin-top:20px;}
 
-/*.ms-TextField .ms-TextField-field, .dropdown-container .ms-Dropdown {
-    width: 423px;
-    max-width: none;
-}
-
-
-
-     .ms-TextField .ms-TextField-field,  .dropdown-container .ms-Dropdown .ms-Dropdown-title {
-        border-radius: 5px;
-        border-color: #a1a1a1;
-    }*/
+.new-reason-container   .row div{min-height:20px;}

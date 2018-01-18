@@ -221,27 +221,21 @@ export class MetricListComponent implements OnInit {
     }
 
     updateMetricValues() {
-        let filteredReasonLists = this.reasonLists.filter(reasonListComponent => reasonListComponent.ifHidden === false);
-        if (filteredReasonLists.length === 0) {
-            return this.metricValueService.updateMetricAndReasonValues(
-                this.metricWeekInputViewModelArray.map(metricWeekVM => metricWeekVM.metricValueArray),
-                [],
-                this.currentMetricValues);
-        } else {
-            let activeObject: ReplaySubject<boolean> = new ReplaySubject(1);
-            this.metricValueService.updateMetricAndReasonValues(
-                this.metricWeekInputViewModelArray.map(metricWeekVM => metricWeekVM.metricValueArray),
-                [],
-                this.currentMetricValues)
-                .subscribe(resp => {
-                    filteredReasonLists[0].updateReasonValues()
-                        .subscribe(resp => {
-                            activeObject.next(resp);
-                        });
-                });
-             return activeObject;
-        }
+        let activeObject: ReplaySubject<boolean> = new ReplaySubject(1);
+        this.metricValueService.updateMetricAndReasonValues(
+            this.metricWeekInputViewModelArray.map(metricWeekVM => metricWeekVM.metricValueArray),
+            [],
+            this.currentMetricValues)
+            .subscribe(resp => {
+                let updatedReasonList = this.reasonLists.map(reasonList => reasonList.updateReasonValues());
+                Observable.combineLatest(updatedReasonList)
+                    .subscribe(resp => {
+                        activeObject.next(true);
+                    });
+            });
+         return activeObject;
     }
+
 
     recalcMetricValues() {
         return this.metricValueService.getMetricReasonValuesJSON(this.metricWeekInputViewModelArray,[]);

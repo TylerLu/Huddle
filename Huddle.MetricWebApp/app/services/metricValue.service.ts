@@ -58,7 +58,7 @@ export class MetricValueService {
         this.dataService.post(Constants.webAPI.metricValuesUrl, { metricValues: toPostMetricVals.map(mvArray => mvArray.map(mv => ModelConverter.toMetricValueBackend(mv))), reasonValues: toPostReasonVals.map(rvArray => rvArray.map(rv => ModelConverter.toReasonValueBackend(rv))) })
             .subscribe(
             resp => {
-                activeObject.next(resp);
+                activeObject.next(true);
             },
             error => HandleError.handleError(error));
         return activeObject;

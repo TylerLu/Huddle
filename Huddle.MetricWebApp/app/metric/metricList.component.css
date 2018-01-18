@@ -3,16 +3,21 @@
 
 .metric-list-section .metric-section {margin-bottom:5px;border-color:#00539d;background-color: #f9f9f9;}
 .metric-list-section .metric-section.expanded{margin-bottom:10px;}
+    .metric-list-section .metric-section.collapsed {
+        border-radius: 3px;
+        border: 1px solid #BABABA;
+        background-color:white;
+    }
 .metric-list-section ul{list-style:none;}
 .metric-list-section ul.ul-metric{margin-bottom:0;position:relative;}
 .metric-list-section ul li{display:inline-block;}
 .metric-list-section ul li.icon-click{width: 17px;position: absolute;height: 17px;left: 10px;top: 16px;cursor:pointer;}
 .metric-list-section ul.ul-metric li{vertical-align:text-bottom;}
-.metric-list-section ul.ul-metric li:nth-child(2){width:29%;}
-.metric-list-section ul.ul-metric li:nth-child(3){width:8%;}
-.metric-list-section ul.ul-metric li:nth-child(4){width:11%;}
-.metric-list-section ul.ul-metric li:nth-child(5){width:34%;vertical-align:middle;}
-.metric-list-section ul.ul-metric li:nth-child(6){width:15%;text-align: right;vertical-align:middle;}
+.metric-list-section ul.ul-metric li:nth-child(2){width:258px;}
+.metric-list-section ul.ul-metric li:nth-child(3){width:71px;}
+.metric-list-section ul.ul-metric li:nth-child(4){width:97px;}
+.metric-list-section ul.ul-metric li:nth-child(5){width:302px;vertical-align:middle;}
+.metric-list-section ul.ul-metric li:nth-child(6){width:133px;text-align: right;vertical-align:middle;}
 .metric-list-section ul.ul-metric li:nth-child(6).gray-header{padding-right:45px;}
 .metric-list-section ul.ul-metric li:nth-child(6) .metric-btn{padding-right:1px;}
 

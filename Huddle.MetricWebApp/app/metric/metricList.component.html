@@ -27,11 +27,11 @@
                 <li>{{getDisplayTargetGoal(item)}}</li>
                 <li><week-input (inputValueChange)="afterInputValueChange($event)" [rowIndex]="0" [weekInputViewModel]="metricWeekInputViewModelArray[i]" [valueType]="getDisplayValueType(item.metric)"></week-input></li>
                 <li>
-                    <div class="btns metric-btn">
+                   
                         <ui-switch (change)="onSwitch(item.metric.id)" [checked]="item.metric.metricState==1?true:false" size="small" defaultBgColor="red"></ui-switch>
                         <span class="on-off-label">{{item.metric.metricState==1?"ON":"OFF"}}</span>
                         <a class="action" (click)="editMetricClick(item.metric)">edit</a>
-                    </div>
+                   
                 </li>
             </ul>
         </div>
