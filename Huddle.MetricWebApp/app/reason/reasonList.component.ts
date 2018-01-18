@@ -79,6 +79,12 @@ export class ReasonListComponent implements OnInit {
        
     }
 
+    removeAllUpdatedFlags() {
+        this.reasonWeekInputViewModelArray.forEach(vm => {
+            vm.reasonValueArray.forEach(rv => rv.isUpdated = false);
+        });
+    }
+
     filterReasons(reasons) {
         this.reasonDailyArray = [];
         this.reasonWeelyArray = [];

@@ -52,35 +52,39 @@ export class WeekInputComponent implements OnInit {
         if (ModelConverter.isMetricValueFrontend(valModel)) {
             let metricVal = ModelConverter.toMetricValueFrontend(valModel);
             if (!metricVal.metricValues)
-                return;
+                this.errorMessage = '';
             if (metricVal.metricValues.toString() === '')
                 metricVal.metricValues = null;
 
-            if (parseInt(metricVal.metricValues.toString()).toString() === "NaN") {
+            if (metricVal.metricValues && parseInt(metricVal.metricValues.toString()).toString() === "NaN") {
                 this.errorMessage = Constants.numberRequired;
                 return;
             }
-            metricVal.metricValues = parseInt(metricVal.metricValues.toString());
+            if(metricVal.metricValues)
+                metricVal.metricValues = parseInt(metricVal.metricValues.toString());
             this.inputValueChange.emit(metricVal.metricValues);
             valueUpdated = (this.currentValues !== this.recalcMetricValues());
         }
         if (ModelConverter.isReasonValueFrontend(valModel)) {
             let reasonVal = ModelConverter.toReasonValueFrontend(valModel);
             if (!reasonVal.reasonMetricValues)
-                return;
+                this.errorMessage = '';
             if (reasonVal.reasonMetricValues.toString() === '')
                 reasonVal.reasonMetricValues = null;
-           
-            if (parseInt(reasonVal.reasonMetricValues.toString()).toString() === "NaN") {
+
+            if (reasonVal.reasonMetricValues && parseInt(reasonVal.reasonMetricValues.toString()).toString() === "NaN") {
                 this.errorMessage = Constants.numberRequired;
                 return;
             }
-            reasonVal.reasonMetricValues = parseInt(reasonVal.reasonMetricValues.toString());
+            if (reasonVal.reasonMetricValues)
+                reasonVal.reasonMetricValues = parseInt(reasonVal.reasonMetricValues.toString());
             this.inputValueChange.emit(reasonVal.reasonMetricValues);
             valueUpdated = (this.currentValues !== this.recalcMetricValues());
 
         }
         if (valueUpdated === true) {
+            this.weekInputViewModel.metricValueArray.forEach(metricVal => metricVal.isUpdated = false);
+            this.weekInputViewModel.reasonValueArray.forEach(reasonVal => reasonVal.isUpdated = false);
             let updatedMetrics: Array<MetricValue[]> = this.metricValueService.getToPostMetricVals([this.weekInputViewModel.metricValueArray], this.currentValues);
             let updatedReasons: Array<ReasonValue[]> = this.metricValueService.getToPostReasonVals([this.weekInputViewModel.reasonValueArray], this.currentValues);
             if (updatedMetrics.length > 0 && updatedMetrics[0].length >0)

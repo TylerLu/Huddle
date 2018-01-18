@@ -35,27 +35,14 @@ export class EditMetricComponent implements OnInit, AfterViewChecked {
     ngOnInit(): void {
     }
 
-    open(issueId, metricId): void {
+    open(issue: Issue, metric: Metric): void {
         this.isShown = true;
         this.isSaving = false;
-        if (issueId>0) {
-            this.issueService.getIssueById(issueId)
-                .subscribe(issue => {
-                    this.issue.id = issue.id;
-                    this.issue.name = issue.name;
-                    this.toEditMetric.issue = issue;
-            });
-        }
-        if (metricId > 0) {
-            this.metricService.getMetricById(metricId)
-                .subscribe(metric => {
-                    this.toEditMetric.id = metric.id;
-                    this.toEditMetric.name = metric.name;
-                    this.toEditMetric.valueType = metric.valueType;
-                    this.toEditMetric.metricState = metric.metricState;
-                    this.toEditMetric.targetGoal = metric.targetGoal;
-            });
-        }
+
+        this.issue = issue;
+        this.toEditMetric.issue = issue;
+        this.toEditMetric = metric;
+        
     }
 
     close(): void {
@@ -71,7 +58,7 @@ export class EditMetricComponent implements OnInit, AfterViewChecked {
 
     saveMetric(): void {
         this.isSaving = true;
-        this.toEditMetric.metricState = (this.toEditMetric.metricState.toLocaleString() === 'false' ? State.closed : State.active);
+        this.toEditMetric.metricState = ((this.toEditMetric.metricState.toLocaleString() === 'false' || this.toEditMetric.metricState.toLocaleString() === '0') ? State.closed : State.active);
 
         this.metricService.editMetric(this.toEditMetric)
             .subscribe(result => {

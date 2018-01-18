@@ -37,6 +37,7 @@ export class MetricListComponent implements OnInit {
     ifHidden: boolean = true;
     currentIssueId: number = 0;
     currentMetricId: number = 0;
+    creentMetric: Metric = null;
     priviousMetricStatus: State;
 
     @Input('currentIssue') currentIssue: Issue;
@@ -220,6 +221,12 @@ export class MetricListComponent implements OnInit {
         return false;
     }
 
+    removeAllUpdatedFlags() {
+        this.metricWeekInputViewModelArray.forEach(vm => {
+            vm.metricValueArray.forEach(mv => mv.isUpdated = false);
+        });
+    }
+
     updateMetricValues() {
         let activeObject: ReplaySubject<boolean> = new ReplaySubject(1);
         this.metricValueService.updateMetricAndReasonValues(
@@ -227,9 +234,11 @@ export class MetricListComponent implements OnInit {
             [],
             this.currentMetricValues)
             .subscribe(resp => {
+                this.removeAllUpdatedFlags();
                 let updatedReasonList = this.reasonLists.map(reasonList => reasonList.updateReasonValues());
                 Observable.combineLatest(updatedReasonList)
                     .subscribe(resp => {
+                        this.reasonLists.forEach(rl => rl.removeAllUpdatedFlags());
                         activeObject.next(true);
                     });
             });
@@ -244,6 +253,7 @@ export class MetricListComponent implements OnInit {
     editMetricClick(metric: Metric) {
         this.currentMetricId = metric.id;
         this.priviousMetricStatus = metric.metricState;
+        this.creentMetric = metric;
         this.modalEditMetric.open();
 
     }
@@ -257,7 +267,7 @@ export class MetricListComponent implements OnInit {
     }
 
     editMetricOpened() {
-        this.editMetricPopUp.open(this.currentIssue.id, this.currentMetricId);
+        this.editMetricPopUp.open(this.currentIssue, this.creentMetric);
     }
 
     afterCloseNewMetric(toAddMetric: Metric) {

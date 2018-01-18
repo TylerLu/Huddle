@@ -76,11 +76,15 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     @ViewChild('filterConfirm')
     confirmFilterPopup: CommonConfirmComponent;
 
+    @ViewChild('queryConfirm')
+    confirmQueryPopup: CommonConfirmComponent;
+
     enable: boolean;
 
     toExpandIssue: IssueViewModel;
-
     isDefaultExpanded: boolean = false;
+
+    toSelecedQuery: QueryResult;
 
     constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService,private cdRef:ChangeDetectorRef,private weekSelectorService: WeekSelectorService,private metricValueService:MetricValueService) {
     }
@@ -204,6 +208,15 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
 
 
     afterQuerySelected(selectedItem: QueryResult) {
+        if (this.detectInputValueChange()) {
+            this.toSelecedQuery = selectedItem;
+            this.confirmQueryPopup.open();
+        } else {
+            this.doSelectQueryResult(selectedItem);
+        }
+    }
+
+    doSelectQueryResult(selectedItem: QueryResult) {
         let selectedIssue: IssueViewModel;
         if (selectedItem['category'] !== undefined) {//issue
             let searchedIssues = this.issueArray.filter((issue, index) => {
@@ -227,12 +240,24 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         }
 
         if (selectedIssue != null) {
-            this.expandIssue(selectedIssue);
+            this.expandIssueWithoutCheck(selectedIssue);
             this.scrollScreen();
         }
     }
 
-   
+    afterSaveChangesCancelQuery() {
+        let self = this;
+        setTimeout(function () {
+            self.doSelectQueryResult(self.toSelecedQuery);
+        }, 1500);
+    }
+
+    afterSaveChangesConfirmQuery() {
+        this.saveIssueClick(this.selectedIssue)
+            .subscribe(results => {
+                this.doSelectQueryResult(this.toSelecedQuery);
+            });
+    }
 
     //popup issue
     addIssueClick() {
@@ -425,8 +450,12 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
 
     afterCloseEditIssue(toEditIssue: Issue) {
         this.modalEditIssue.close();
-        this.issueArray.forEach(issue => {
+        this.issueArray.forEach((issue,index) => {
             if (issue.Issue.id == toEditIssue.id) {
+                if (issue.Issue.issueState != toEditIssue.issueState) {
+                    this.issueArray.splice(index, 1);
+                    return;
+                }
                 issue.Issue.category = toEditIssue.category;
                 issue.Issue.issueState = toEditIssue.issueState;
                 issue.Issue.name = toEditIssue.name;

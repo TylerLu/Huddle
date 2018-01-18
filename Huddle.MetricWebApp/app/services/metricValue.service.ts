@@ -147,16 +147,15 @@ export class MetricValueService {
     public getMetricReasonValuesJSON(metricWeekInputViewModelArray: Array<WeekInputViewModel>, reasonWeekInputViewModelArray: Array<WeekInputViewModel>, ignoredFields?: Array<string>): string {
         if (ignoredFields === undefined || ignoredFields === null)
             ignoredFields = ['isUpdated'];
-        if (ignoredFields && ignoredFields.length > 0) {
-            this.ignoreFieldsForJSONFormat(metricWeekInputViewModelArray, ignoredFields);
-            this.ignoreFieldsForJSONFormat(reasonWeekInputViewModelArray, ignoredFields);
-        }
-        let jsonResult = JSON.stringify({ metricWeekInputViewModelArray: metricWeekInputViewModelArray, reasonWeekInputViewModelArray: reasonWeekInputViewModelArray });
+        let ignoredMetricWeekInputViewModelArray = this.ignoreFieldsForJSONFormat(metricWeekInputViewModelArray, ignoredFields);
+        let ignoredReasonWeekInputViewModelArray = this.ignoreFieldsForJSONFormat(reasonWeekInputViewModelArray, ignoredFields);
+        let jsonResult = JSON.stringify({ metricWeekInputViewModelArray:ignoredMetricWeekInputViewModelArray, reasonWeekInputViewModelArray: ignoredReasonWeekInputViewModelArray });
         return jsonResult;
     }
 
-    private ignoreFieldsForJSONFormat(weekInputViewModelArray: Array<WeekInputViewModel>,ignoredFields: Array<string>) {
-        weekInputViewModelArray.forEach(wm => {
+    private ignoreFieldsForJSONFormat(weekInputViewModelArray: Array<WeekInputViewModel>, ignoredFields: Array<string>) {
+        let clonedWeekInputViewModelArray = JSON.parse(JSON.stringify(weekInputViewModelArray));
+        clonedWeekInputViewModelArray.forEach(wm => {
             wm.metricValueArray.forEach(mv => {
                 if (ignoredFields) {
                     ignoredFields.forEach(field => {
@@ -172,6 +171,7 @@ export class MetricValueService {
                 }
             });
         });
+        return clonedWeekInputViewModelArray;
     }
 
 

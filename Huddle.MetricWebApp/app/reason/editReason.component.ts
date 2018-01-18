@@ -65,7 +65,7 @@ export class EditReasonComponent implements OnInit, AfterViewChecked {
 
 
     saveReason(): void {
-        this.toEditReason.reasonState = (this.toEditReason.reasonState.toLocaleString() === 'false' ? State.closed : State.active);
+        this.toEditReason.reasonState = ((this.toEditReason.reasonState.toLocaleString() === 'false' || this.toEditReason.reasonState.toLocaleString() === '0' )? State.closed : State.active);
         this.reasonService.editReason(this.toEditReason).subscribe(result => {
                 this.close();
         });

@@ -140,7 +140,7 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
         this.isSaving = true;
         this.toEditIssue.owner = this.selectedUser;
         this.toEditIssue.category = this.getCategoryByName(this.selectedCategory);
-        this.toEditIssue.issueState = (this.toEditIssue.issueState.toLocaleString() === 'false' ? IssueState.closed : IssueState.active);
+        this.toEditIssue.issueState = ((this.toEditIssue.issueState.toLocaleString() === '0' || this.toEditIssue.issueState.toLocaleString() === 'false') ? IssueState.closed : IssueState.active);
         this.issueService.editIssue(this.toEditIssue)
             .subscribe(result => {
                 if (result && result > 0) {
