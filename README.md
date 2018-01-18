@@ -49,8 +49,6 @@
 * [Add Reply URL and Admin Consent Bot Web App](#add-reply-url-and-admin-consent-bot-web-app)
 * [Add Reply URL and Admin Consent Metric Web App](#add-reply-url-and-admin-consent-metric-web-app)
 * [Customize and Configure the Bot](#customize-and-configure-the-bot)
-* [Add Microsoft Teams Channel](#add-microsoft-teams-channel)
-* [Verify the Bot](#verify-the-bot)
 * [Authorize Planner API Connection](#authorize-planner-api-connection)
 * [Authorize Teams API Connection](#authorize-teams-api-connection)
 * [Authorize Microsoft Graph API Connection](#authorize-microsoft-graph-api-connection)
@@ -206,42 +204,41 @@ For each team you created, please active the default planer and create 4 buckets
 
    ![](Images/luis-01.png)
 
-3. Click **Import App**.
+3. Click **Import New App**.
 
    ![](Images/luis-02.png)
 
    * Click **Choose File**, and select `/Files/LUISApp.json`.
-   * Click **Import**. 
+   * Click **Done**. 
+
+4. Click **SETTINGS**.
 
    ![](Images/luis-03.png)
 
-4. Copy aside the **App Id**. It will be used as the value of the **Luis App Id** parameter of the ARM Template.
+   Copy aside the **Application ID**. It will be used as the value of the **Luis App Id** parameter of the ARM Template.
 
 ### Set application as public
 
-1. Click **Settings**. 
+1. On the settings page, check **Set application as public**. 
 
    ![](Images/luis-04.png)
 
-2. Check **Set application as public**. 
+2. Click **Save changes**.
 
-   ![](Images/luis-05.png)
-
-3. Click **Yes**.
+   > Note: you might need to input some **description** to enable the **Save changes** button.
 
 ### Train and Publish the App
 
-1. Click **Train & Test** at the left.
+1. Click **Train**.
 
    ![](Images/luis-06.png)
 
-   Click **Train Application**.
-
-2. Click **Publish App** at the left.
+2. Click **Publish**.
 
    ![](Images/luis-07.png)
 
-3. Click **Publish to production slot**.
+   Click **Publish to production slot**.
+
 
 ## Create SharePoint Site and Lists
 
@@ -400,6 +397,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
       | ---------------------------------------- | --------------- | ---------------------------------------- |
       | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
       | Windows Azure Active Directory<br />(Microsoft.Azure.ActiveDirectory) | Delegated       | Read directory data<br />Sign in and read user profile |
+      | Microsoft Graph                          | Delegated       | Read and write all groups<br/>Read all groups<br />Read and write all users' full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Metric Client Id** parameter of the ARM Template.
 
@@ -450,7 +448,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
     ![](Images/app-02.png)
 
-3. Copy the **Application Id**. It will be used as **Microsoft App Id**.
+3. Copy the **Application Id**. It will be used as **Microsoft App Id** parameter of the ARM Template.
 
     ![](Images/app-03.png)
 
@@ -458,11 +456,11 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
     ![](Images/app-04.png)
 
-5. Copy the key then click **OK**. The key will be used as **Microsoft App Password**.
+5. Copy the key then click **OK**. The key will be used as **Microsoft App Password **parameter of the ARM Template.
 
     ![](Images/app-05.png)
 
-6. Then scroll down to the end, click **Save**.
+6. Scroll down to the end. Click **Save**.
 
 
 ## Deploy Azure Components with ARM Template
@@ -532,10 +530,10 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
     > **Tips:**
     >
     > You can click **Edit Parameters** on top of the template after filled all parameters.
-    > 
-    >![](Images/azure-deploy-edit-parameters.png)
     >
-    > Then click **Download** to save parameters on your local computer incase of deployment failure.
+    > ![](Images/azure-deploy-edit-parameters.png)
+    >
+    > Then click **Download** to save parameters on your local computer in case of deployment failure.
     >
     > ![](Images/azure-deploy-download.png)
 
@@ -583,49 +581,54 @@ Follow the similar steps in the previous chapter to add the reply URL and admin 
 
 ### Customize and Configure the Bot
 
-1. Go to the Bot Channels Registration you created, then click **SETTINGS**.
+1. Navigate to the Bot Channels Registration you created.
 
    ![](Images/bot-27.png)
-   
-3. Click **Upload custom icon**, then select `/Files/HuddleBotIcon.png`.
 
-   ![](Images/bot-31.png) 
+2. Upload an icon:
 
-5. Click **Save**
+   * Click **Settings**.
 
-   ![](Images/bot-32.png) 
+     ![](Images/bot-31.png) 
 
-### Add Microsoft Teams Channel
+   * Upload `/Files/HuddleBotIcon.png` as the **Icon**. 
 
-1. Click the **Microsoft Teams Icon** under **Add a channel** section.
+   * Click **Save**.
 
-   ![](Images/bot-14.png)
 
-2. Click **Done**
+3. Add Microsoft Teams Channel:
 
-   ![](Images/bot-15.png)
+   * Click **Channels**.
 
-3. Right-click the new added **Microsoft Teams** channel.
+     ![](Images/bot-14.png)
 
-   ![](Images/bot-16.png)
+   * Click the **Microsoft Teams Icon** under **Add a channel** section.
 
-   Click **Copy link address**, and paste the URL to someplace. It will be used to add the Bot to Microsoft Teams later.
+     ![](Images/bot-15.png)
 
-### Verify the Bot
+     Click **Done**.
 
-1. Navigate to the Bot you registered.
+   * Right-click the new added **Microsoft Teams** channel.
 
-   ![](Images/bot-19.png)
+     ![](Images/bot-16.png)
 
-2. Click **Test in Web Chat**, input `list ideas`, then send.
+   * Click **Copy link address**, and paste the URL to someplace. It will be used to add the Bot to Microsoft Teams later.
 
-   ![](Images/bot-20.png)
+4. Verify the Bot:
 
-3. If you get responses like above, the Bot is deployed successfully.                                   
+   - Click **Test in Web Chat**:
 
-   > Note: If the message could not be sent, please click **retry **for a few times**.**
-   >
-   > ![](Images/bot-21.png)             
+     ![](Images/bot-19.png)
+
+   - Input `list ideas`, then send.
+
+     ![](Images/bot-20.png)
+
+   - If you get responses like above, the Bot is deployed successfully.
+
+     >Note: If the message could not be sent, please click **retry **for a few times**.**
+     >
+     >![](Images/bot-21.png)
 
 ### Authorize Planner API Connection
 
