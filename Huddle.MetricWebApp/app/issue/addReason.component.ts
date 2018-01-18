@@ -9,9 +9,9 @@ import { CommonUtil } from '../utils/commonUtil';
 declare var jQuery: any;
 declare var fabric: any;
 @Component({
-    templateUrl: 'app/issue/addReason.component.html',
+    templateUrl: './addReason.component.html',
     selector: 'add-reason',
-    styleUrls: ['app/issue/addReason.component.css', 'app/shared/shared.css']
+    styleUrls: ['./addReason.component.css', '../shared/shared.css']
 })
 
 export class AddReasonComponent implements OnInit {
@@ -34,7 +34,8 @@ export class AddReasonComponent implements OnInit {
     
 
     saveReason(): void {
-        this.toAddReason.issue = this.currentIssue;
+        // issue is removed from reason
+        //this.toAddReason.issue = this.currentIssue;
         this.reasonService.addReason(this.toAddReason)
             .subscribe(resp => {
                 this.toAddReason.id = resp;

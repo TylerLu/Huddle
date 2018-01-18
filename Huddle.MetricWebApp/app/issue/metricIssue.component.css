@@ -55,7 +55,7 @@ li.toggle .ms-Toggle-field > span{
     margin-top: 16px;
     margin-left: -48px;
     text-transform:uppercase;
-    font-family: OpenSans;
+    font-family: "Segoe UI";
     font-size: 10px;
     font-weight: bold;
     line-height: 1.6;
@@ -82,7 +82,7 @@ li.toggle .ms-Toggle-field > span{
     background-image:url('/images/icons-8-save-64-px.png');
 }
 .edit > span.title{
-    font-family: OpenSans;
+    font-family: "Segoe UI";
     font-size: 10px;
     font-weight: bold;
     line-height: 1.6;
@@ -205,7 +205,7 @@ input.edit{
     margin-top:1px;
     margin-bottom:0;
     margin-right: 17px;
-    font-family: OpenSans;
+    font-family: "Segoe UI";
 }
 .reason-section .reason-filter  > div {
     display: inline-block;

@@ -1,55 +1,98 @@
-﻿import { Component, OnInit, AfterViewChecked, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+﻿import { Component, OnInit, AfterViewChecked,Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from '../services/cookie.service';
 import { IssueService } from '../services/issue.service';
 import { Issue } from '../shared/models/issue';
+import { Metric} from '../shared/models/metric';
+import { Reason } from '../shared/models/reason';
+import { Category } from '../shared/models/category';
 import { IssueState } from '../shared/models/issueState';
 import { IssueViewModel } from './issue.viewmodel';
 import { AllowIssueClick } from '../shared/models/allowIssueClick';
-import { IssueStateViewModel } from './issueState.viewmodel';
+import { IssueStateViewModel } from '../shared/models/issueState.viewmodel';
 import { Constants } from '../shared/constants';
 import { FabricHelper } from '../utils/fabricHelper';
 import { CommonUtil } from '../utils/commonUtil';
 import { AddIssueComponent } from '../issue/addIssue.component';
+import { EditIssueComponent } from '../issue/editIssue.component';
+import { HeaderComponent} from '../header/header.component';
+import { QueryResult} from '../shared/models/queryResult';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { MetricListComponent } from '../metric/metricList.component';
+import { WeekSelectorService } from '../services/weekSelector.service';
+import { WeekDay } from '../shared/models/weekDay';
+import { MetricValueService } from '../services/metricValue.service';
+import { CommonConfirmComponent} from '../confirm/common.confirm.component';
 declare var microsoftTeams: any;
+declare var jQuery: any;
+
 
 @Component({
-    templateUrl: 'app/issueList/issueList.component.html',
+    templateUrl: './issueList.component.html',
     selector: 'issue-list',
-    styleUrls: ['app/issueList/issueList.component.css', 'app/shared/shared.css']
+    styleUrls: ['./issueList.component.css', '../shared/shared.css']
 })
 
-export class IssueListComponent implements OnInit {
-
-    displayedIssueArray = new Array<IssueViewModel>();
-    displayedIssueArrayLength = 6;
+export class IssueListComponent implements OnInit, AfterViewChecked {
 
     issueArray = new Array<IssueViewModel>();
-    issueStates = new Array<IssueStateViewModel>();
     selectedIssueState = new IssueStateViewModel();
     isCreateBtnVisible = true;
     selectedIssue: IssueViewModel;
-    teamId = '1';
+    teamId = Constants.teamId;
     @Input('allowClick') allowClick: AllowIssueClick;
     @Output() afterCheckAllowClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     isNewIssueButtonClicked: boolean;
+    toEditIssue: Issue;
 
     isRequestCompleted: boolean;
 
     @ViewChild(AddIssueComponent)
     private addIssue: AddIssueComponent; 
 
-    constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService) {
+    @ViewChild(EditIssueComponent)
+    private editIssue: EditIssueComponent; 
+
+    @ViewChild(HeaderComponent)
+    private header: HeaderComponent;
+
+    @ViewChildren('metricLists')
+    metricLists:QueryList<MetricListComponent>;
+
+    @ViewChild('modalAddIssue')
+    modalAddIssue: ModalComponent;
+
+    @ViewChild('modalEditIssue')
+    modalEditIssue: ModalComponent;
+
+    @ViewChild(CommonConfirmComponent)
+    confirmPopup: CommonConfirmComponent;
+
+    @ViewChild('expandConfirm')
+    confirmExpandPopup: CommonConfirmComponent;
+
+    enable: boolean;
+
+    toExpandIssue: IssueViewModel;
+
+    constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService,private cdRef:ChangeDetectorRef,private weekSelectorService: WeekSelectorService,private metricValueService:MetricValueService) {
     }
 
     ngOnInit(): void {
         if (CommonUtil.isInMsTeam()) {
             this.initTeamContext();
         } else {
-            this.initIssues();
+            this.initTeamContext();
         }
+        this.subscribeWeekSelector();
         this.isNewIssueButtonClicked = false;
         this.isRequestCompleted = false;
+    }
+
+    ngAfterViewChecked() {
+        this.expandDefaultIssue();
+        this.cdRef.detectChanges();
     }
 
     initIssues() {        
@@ -61,28 +104,12 @@ export class IssueListComponent implements OnInit {
     }
 
     getIssueId(): number {
-        let issueIdStr = '';
-        if (this.isMetricUrl()) {
-            issueIdStr = location.pathname.replace('/' + Constants.route.metricIssue + '/', '');
-        } else {
-            issueIdStr = this.cookieService.get("issueId");
-        }
+        let issueIdStr = this.cookieService.get("issueId");
         if (issueIdStr != '')
             return parseInt(issueIdStr);
-        else
-            return 0;
+        return 0;
     }
 
-    initSelectedIssue() {
-        if (this.isMetricUrl()) {
-            this.issueArray.forEach(issue => {
-                if (this.selectedIssue && this.selectedIssue.Issue && issue.Issue.id == this.selectedIssue.Issue.id) {
-                    issue.IsSelected = true;
-                }
-            });
-            this.resetDisplayIssueArray();
-        }
-    }
 
     initTeamContext() {
         this.teamId = CommonUtil.getTeamId();
@@ -91,47 +118,30 @@ export class IssueListComponent implements OnInit {
 
 
     initIssueStates() {
-        let issue1 = new IssueStateViewModel();
-        issue1.title = IssueState[IssueState.active];
-        issue1.value = IssueState.active;
-        this.issueStates.push(issue1);
-
-        let issue2 = new IssueStateViewModel();
-        issue2.title = IssueState[IssueState.closed];
-        issue2.value = IssueState.closed;
-        this.issueStates.push(issue2);
-
+        this.selectedIssueState = this.header.selectedIssueState;
+         
         let issueId = this.getIssueId();
         if (issueId > 0) {
             this.issueService.getIssueById(issueId)
                 .subscribe(issue => {
                     this.selectedIssue = new IssueViewModel();
                     this.selectedIssue.Issue = issue;
-                    this.selectedIssueState = issue.issueState == IssueState.active?issue1:issue2;
+                    this.selectedIssueState = this.selectedIssueState;
                     this.doFilterIssues(this.selectedIssueState.value);
                 });
         } else {
-            this.selectedIssueState = issue1;
+            this.selectedIssueState = this.selectedIssueState;
             this.doFilterIssues(this.selectedIssueState.value);
         }
     }
 
-    clickIssue(item: IssueViewModel) {
-        this.displayedIssueArray.forEach(item => item.IsSelected = false);
-        item.IsSelected = true;
-        this.selectedIssue = item;
-        this.afterCheckAllowClick.emit(false);
-        if (this.allowClick.allowClick)
-            this.doNavigateIssue(item);
-    }
 
-
-    doNavigateIssue(item?: IssueViewModel): Promise<boolean>{
+    doNavigateIssue(item?: IssueViewModel){
         if (item && item.Issue) {
             this.cookieService.put("issueId", item.Issue.id.toString());
-            return CommonUtil.navigateToUrl('/' + Constants.route.metricIssue + '/' + item.Issue.id, this.router);
+            //open issue
         } else {
-            return CommonUtil.navigateToUrl('/' + Constants.route.addIssue, this.router);
+            //open first issue;
         }
     }
 
@@ -142,87 +152,17 @@ export class IssueListComponent implements OnInit {
             this.doNavigateIssue();
     }
 
-    doFilterIssues(state: number, ifClearSelectedIssue?: boolean) {
-        if (ifClearSelectedIssue == true)
-            this.selectedIssue = null;
+    doFilterIssues(state: number) {
         this.issueService.filterIssueList(state, this.teamId)
             .subscribe(resp => {
-                this.issueArray = resp.map(issue => {
+                this.issueArray = resp.map( (issue,index) => {
                     let issueModel = new IssueViewModel();
                     issueModel.Issue = issue;
                     issueModel.IsSelected = false;
                     return issueModel;
                 });
-                this.resetDisplayIssueArray();
-                if (ifClearSelectedIssue == null) {
-                    if (this.isMetricUrl()) {
-                        this.initSelectedIssue();
-                    }
-                }
-                let self = this;
-                if (this.displayedIssueArray.length > 0) {
-                    if (this.selectedIssue && this.selectedIssue.Issue && this.selectedIssue.Issue.id) {
-                        this.doNavigateIssue(this.selectedIssue)
-                            .then(function () {
-                                self.initSelectedIssue();
-                            });
-                    } else {
-                        this.doNavigateIssue(this.displayedIssueArray[0])
-                            .then(function () {
-                                self.selectedIssue = self.displayedIssueArray[0];
-                                self.initSelectedIssue();
-                            });
-                    }
-                } else {
-                    let emptyIssue = new IssueViewModel();
-                    emptyIssue.Issue = new Issue();
-                    emptyIssue.Issue.id = 0;
-                    this.doNavigateIssue(emptyIssue);
-                }
                 this.isRequestCompleted = true;
             });
-    }
-
-    resetDisplayIssueArray(scrollUp?: boolean) {
-        if (this.issueArray.length == 0)
-            this.displayedIssueArray = new Array<IssueViewModel>();
-        if (scrollUp == null) {
-            if (this.selectedIssue == null || this.displayedIssueArray.length ==0) {
-                this.displayedIssueArray = this.issueArray.slice(0, this.displayedIssueArrayLength);
-            } else {
-                let selectedIssueIndex = -1;
-                this.issueArray.forEach((issue, index) => {
-                    if (issue.Issue.id == this.selectedIssue.Issue.id)
-                        selectedIssueIndex = index;
-                });
-                if (selectedIssueIndex > this.displayedIssueArray.length)
-                    this.displayedIssueArray = this.issueArray.slice(selectedIssueIndex - this.displayedIssueArrayLength + 1, selectedIssueIndex + 1);
-                else
-                    this.displayedIssueArray = this.issueArray.slice(selectedIssueIndex, selectedIssueIndex + this.displayedIssueArrayLength);
-            }
-
-        } else {
-            let currentIssueIndex = -1;
-            this.issueArray.forEach((issue, index) => {
-                    if (issue.Issue.id == this.displayedIssueArray[0].Issue.id)
-                        currentIssueIndex = index;
-            });
-            if (scrollUp == true) {
-                if (this.displayedIssueArray[0].Issue.id == this.issueArray[0].Issue.id)
-                    return false;
-                this.displayedIssueArray = this.issueArray.slice(currentIssueIndex - 1, currentIssueIndex - 1 + this.displayedIssueArrayLength);
-            } else if (scrollUp == false) {
-                if (this.displayedIssueArray[this.displayedIssueArray.length - 1].Issue.id == this.issueArray[this.issueArray.length - 1].Issue.id)
-                    return false;
-                this.displayedIssueArray = this.issueArray.slice(currentIssueIndex + 1, currentIssueIndex + 1 + this.displayedIssueArrayLength);
-            } 
-            
-        }
-        return false;
-    }
-
-    filterIssueState(state: number, ifClearSelectedIssue?: boolean) {
-        this.doFilterIssues(state, ifClearSelectedIssue);
     }
 
     createIssue() {
@@ -233,24 +173,235 @@ export class IssueListComponent implements OnInit {
         }
     }
 
-    issueAdded(event: Issue) {
-        if (event.id <= 0)
-            return;
-        this.displayedIssueArray.forEach(item => item.IsSelected = false);
-        let newIssueModel = new IssueViewModel();
-        newIssueModel.IsSelected = true;
-        newIssueModel.IssueState = IssueState.active.toString();
-        newIssueModel.Issue = event;
-        this.issueArray.push(newIssueModel);
-        this.doNavigateIssue(newIssueModel);
-        this.resetDisplayIssueArray();
-    }
+
 
     updateIssue(updatedIssue: Issue) {
-        let findResult = this.displayedIssueArray.filter(issue => issue.Issue.id == updatedIssue.id);
+        let findResult = this.issueArray.filter(issue => issue.Issue.id == updatedIssue.id);
         if (findResult.length == 0)
             return;
         findResult[0].Issue.name = updatedIssue.name;
         findResult[0].Issue.metric = updatedIssue.metric;
     }
+
+    afterFilterIssue(issueState: IssueStateViewModel) {
+        this.doFilterIssues(issueState.value);
+    }
+
+
+
+    afterQuerySelected(selectedItem: QueryResult) {
+        let selectedIssue: IssueViewModel;
+        if (selectedItem['category'] !== undefined) {//issue
+            let searchedIssues = this.issueArray.filter((issue, index) => {
+                return issue.Issue.id == selectedItem.id;
+            });
+            if (searchedIssues.length > 0) {
+                selectedIssue = searchedIssues[0];
+            }
+        } else if (selectedItem['issue'] !== undefined) {//metric
+            this.issueArray.forEach(issue => {
+                if (issue.Issue.id == (selectedItem as Metric).issue.id) {
+                    selectedIssue = issue;
+                }
+            });
+        } else {//reason
+            this.issueArray.forEach(issue => {
+                if (issue.Issue.id == (selectedItem as Reason).metric.issue.id) {
+                    selectedIssue = issue;
+                }
+            });
+        }
+
+        if (selectedIssue != null) {
+            this.expandIssue(selectedIssue);
+            this.scrollScreen();
+        }
+    }
+
+   
+
+    //popup issue
+    addIssueClick() {
+        this.modalAddIssue.open();
+    }
+    closed() {
+    }
+
+    dismissed() {
+    }
+
+    opened() {
+        this.addIssue.open();
+    }
+
+    editIssueOpened() {
+        this.editIssue.open(this.toEditIssue.id);
+    }
+
+    //switch
+    onSwitch(a: any) {
+        console.log(a);
+    }
+
+    checkAllowWeekClick(event: boolean) {
+        this.header.checkAllowWeekClick(event);
+    }
+
+    expandDefaultIssue() {
+        if (this.issueArray.length === 0)
+            return;
+        if(this.issueArray.filter(issue => issue.Expanded == true).length===0)
+            this.expandIssue(this.issueArray[0]);
+    }
+
+    expandIssueClick(issue: IssueViewModel) {
+        if (issue.Expanded)
+            issue.Expanded = false;
+        else
+            this.expandIssue(issue);
+    }
+
+    expandIssue(issue: IssueViewModel) {
+        if (this.detectInputValueChange()) {
+            this.toExpandIssue = issue;
+            this.confirmExpandPopup.open();
+            return;
+        } else {
+            this.expandIssueWithoutCheck(issue);
+        }
+    }
+
+    expandIssueWithoutCheck(issue: IssueViewModel) {
+        this.issueArray.forEach(issue => {
+            issue.Expanded = false;
+            let metricList = this.getRelatedMetricList(issue);
+            if (metricList !== null)
+                metricList.hide();
+        });
+        issue.Expanded = true;
+        this.selectedIssue = issue;
+        let currentMetricList = this.getRelatedMetricList(issue);
+        if (currentMetricList !== null)
+            currentMetricList.show();
+    }
+
+
+    detectInputValueChange() {
+        if (this.selectedIssue === null || this.selectedIssue === undefined)
+            return false;
+        let currentMetricList = this.getRelatedMetricList(this.selectedIssue);
+        let isMetricValueChanged = currentMetricList.isInputValueChanged();
+        if (currentMetricList.reasonLists.length == 0)
+            return isMetricValueChanged;
+        let isReasonValueChanged = currentMetricList.reasonLists
+            .map(reasonList => reasonList.isInputValueChanged())
+            .reduce((x, y) => x || y);
+        return isMetricValueChanged || isReasonValueChanged;                                                     
+    }
+
+    afterSaveChangesCancelExpand() {
+        let self = this;
+        setTimeout(function () {
+            self.expandIssueWithoutCheck(self.toExpandIssue);
+        }, 1500);
+    }
+    afterSaveChangesExpandConfirm() {
+        this.saveIssueClick(this.selectedIssue)
+            .subscribe(results => {
+                this.expandIssueWithoutCheck(this.toExpandIssue);
+            });
+    }
+
+    getRelatedMetricList(issue: IssueViewModel) {
+        let result = this.metricLists.filter(metricList => metricList.currentIssue.id == issue.Issue.id);
+        if (result.length > 0)
+            return result[0];
+        return null;
+    }
+
+
+    scrollScreen(): void {
+
+        setTimeout(function () {
+            let expandedIssue = jQuery("div.issue-section.expanded");
+            if (expandedIssue.offset()) {
+                let top = expandedIssue.offset().top;
+                jQuery("html").animate({ scrollTop: top }, 600);
+            }
+            
+        }, 1500);
+    }
+
+    subscribeWeekSelector() {
+        this.weekSelectorService.selectWeek.subscribe(weekDay => {
+            //this.confirmPopup.open();
+        });
+        this.weekSelectorService.selectClick.subscribe(checkClick => {
+            let self = this;
+            setTimeout(function () {
+                if (self.weekSelectorService.isAllowClick() === false) {
+                    self.confirmPopup.open();
+                }
+            }, 1000);
+        });
+    }
+
+    afterSaveChangesCancel() {
+        let self = this;
+        setTimeout(function () {
+            self.weekSelectorService.continueChangeWeek();
+        }, 1500);
+    }
+    afterSaveChangesConfirm() {
+        this.saveIssueClick(this.selectedIssue)
+            .subscribe(results => {
+                this.weekSelectorService.continueChangeWeek();
+            });
+    }
+
+    editIssueClick(issue: IssueViewModel) {
+        this.toEditIssue = issue.Issue;
+        this.modalEditIssue.open();
+    }
+
+    saveIssueClick(issue: IssueViewModel) {
+        let currentMetricList = this.getRelatedMetricList(issue);
+        return currentMetricList.updateMetricValues();
+    }
+
+    afterCloseNewIssue(toAddIssue: Issue) {
+        this.modalAddIssue.close();
+        if (!toAddIssue.id || toAddIssue.id <= 0)
+            return;
+        let newIssueModel = new IssueViewModel();
+        newIssueModel.IsSelected = false;
+        newIssueModel.IssueState = IssueState.active.toString();
+        newIssueModel.Issue = toAddIssue;
+        this.issueArray.push(newIssueModel);
+    }
+
+    afterCloseEditIssue(toEditIssue: Issue) {
+        this.modalEditIssue.close();
+        this.issueArray.forEach(issue => {
+            if (issue.Issue.id == toEditIssue.id) {
+                issue.Issue.category = toEditIssue.category;
+                issue.Issue.issueState = toEditIssue.issueState;
+                issue.Issue.name = toEditIssue.name;
+                issue.Issue.owner = toEditIssue.owner;
+                return;
+            }
+        });
+
+    }
+
+    afterDeleteIssue(deletedIssue: Issue) {
+        this.modalEditIssue.close();
+        this.issueArray.forEach((issue, index) => {
+            if (issue.Issue.id == deletedIssue.id) {
+                this.issueArray.splice(index, 1);
+                return;
+            }
+        });
+    }
+
 }

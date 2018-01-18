@@ -2,11 +2,14 @@
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { DataService} from '../services/data.service';
 import { Issue } from '../shared/models/issue';
+import { User } from '../shared/models/user';
+import { IssueViewModel } from '../issueList/issue.viewmodel';
 import { Category} from '../shared/models/category';
 import { Reason} from '../shared/models/reason';
 import { Constants } from '../shared/constants';
 import { ModelConverter } from '../utils/modelConverter';
 import { DateHelper } from '../utils/dateHelper';
+import { HandleError } from '../shared/HandleError';
 
 @Injectable()
 export class IssueService {
@@ -24,7 +27,9 @@ export class IssueService {
                 }, this);
                 activeObject.next(result);
             },
-            (error) => { activeObject.error(error) });
+            (error) => {
+                HandleError.handleError(error);
+            });
         return activeObject;
     }
 
@@ -38,7 +43,25 @@ export class IssueService {
                 }, this);
                 activeObject.next(result);
             },
-            (error) => { activeObject.error(error) });
+            (error) => {
+                HandleError.handleError(error);
+            });
+        return activeObject;
+    }
+
+    public getUsers(teamId: string): Observable<Array<User>> {
+        let activeObject: ReplaySubject<User[]> = new ReplaySubject(1);
+        this.dataService.getArray<User>(Constants.webAPI.teamsUrl + '/' + teamId)
+            .subscribe((resp) => {
+                let result: User[] = [];
+                resp.forEach(function (user, index) {
+                    result.push(user);
+                }, this);
+                activeObject.next(result);
+            },
+            (error) => {
+                HandleError.handleError(error);
+            });
         return activeObject;
     }
 
@@ -52,20 +75,48 @@ export class IssueService {
                 activeObject.next(issue);
             },
             (error) => {
-                activeObject.error(error);
+                HandleError.handleError(error);
             });
         return activeObject;
     }
 
-    public addIssue(issue: Issue, reasons: Reason[], teamId: string): Observable<number> {
+    public addIssue(issue: Issue, teamId: string): Observable<Issue> {
+        let activeObject: ReplaySubject<Issue> = new ReplaySubject(1);
+        this.dataService.post(Constants.webAPI.issuesUrl, { issue: ModelConverter.ToIssueBackend(issue), teamId: teamId })
+            .subscribe(
+            resp => {
+                activeObject.next(resp);
+            },
+            error => {
+                HandleError.handleError(error);
+            }
+            );
+        return activeObject;
+    }
+
+    public editIssue(issue: Issue): Observable<number> {
         let activeObject: ReplaySubject<number> = new ReplaySubject(1);
-        this.dataService.post(Constants.webAPI.issuesUrl, { issue: ModelConverter.ToIssueBackend(issue), reasons: ModelConverter.ToReasonListBackend(reasons), teamId: teamId })
+        this.dataService.post(Constants.webAPI.issueEditUrl, { issue: ModelConverter.ToIssueBackend(issue) })
             .subscribe(
             resp => {
                 activeObject.next(resp.issueId);
             },
-            error => activeObject.error(error));
+            error => {
+                HandleError.handleError(error);
+            });
         return activeObject;
     }
 
+    public deleteIssue(id: number): Observable<number> {
+        let activeObject: ReplaySubject<number> = new ReplaySubject(1);
+        this.dataService.delete(Constants.webAPI.issueDeleteUrl + "/" + id)
+            .subscribe(
+            resp => {
+                activeObject.next(resp.issueId);
+            },
+            error => {
+                HandleError.handleError(error);
+            });
+        return activeObject;
+    }
 }

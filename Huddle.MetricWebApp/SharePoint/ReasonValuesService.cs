@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Huddle.MetricWebApp.SharePoint
 {
-    public class ReasonMetricsService
+    public class ReasonValuesService
     {
-        public static async Task<List<ReasonMetric[]>> GetItemsAsync(List<string> reasonIds, DateTime weekStartDate)
+        public static async Task<List<ReasonValue[]>> GetItemsAsync(List<string> reasonIds, DateTime weekStartDate)
         {
 
 
@@ -37,29 +37,29 @@ namespace Huddle.MetricWebApp.SharePoint
                                 <Value IncludeTimeValue='TRUE' StorageTZ='TRUE' Type='DateTime'>{3}</Value>
                             </Leq>
                         </And>
-                </And>", SPLists.ReasonMetrics.Columns.Reason,SPLists.ReasonMetrics.Columns.InputDate, startUTC, endUTC);
+                </And>", SPLists.ReasonValues.Columns.Reason,SPLists.ReasonValues.Columns.Date, startUTC, endUTC);
 
                 var query = new CamlQuery();
                 query.ViewXml = string.Format("<View><Query><Where>{0}</Where></Query></View>", filter);
 
-                var items = clientContext.GetItems(SPLists.ReasonMetrics.Title, query);
-                return items.Select(item => item.ToReasonMetric())
+                var items = clientContext.GetItems(SPLists.ReasonValues.Title, query);
+                return items.Select(item => item.ToReasonValue())
                             .GroupBy(item => item.Reason.Id)
                             .Select(grp => grp.ToArray())
                             .ToList();
             }
         }
 
-        public static async Task InsertItemAsync(ReasonMetric item)
+        public static async Task InsertItemAsync(ReasonValue item)
         {
             using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
             {
-                var list = clientContext.Web.Lists.GetByTitle(SPLists.ReasonMetrics.Title); ;
+                var list = clientContext.Web.Lists.GetByTitle(SPLists.ReasonValues.Title); ;
                 ListItemCreationInformation newItem = new ListItemCreationInformation();
                 ListItem listItem = list.AddItem(new ListItemCreationInformation());
-                listItem[SPLists.ReasonMetrics.Columns.Reason] = SharePointHelper.BuildSingleLookFieldValue(item.Reason.Id, item.Reason.Name);
-                listItem[SPLists.ReasonMetrics.Columns.InputDate] = item.InputDate;
-                listItem[SPLists.ReasonMetrics.Columns.ReasonMetricValue] = item.ReasonMetricValues;
+                listItem[SPLists.ReasonValues.Columns.Reason] = SharePointHelper.BuildSingleLookFieldValue(item.Reason.Id, item.Reason.Name);
+                listItem[SPLists.ReasonValues.Columns.Date] = item.InputDate;
+                listItem[SPLists.ReasonValues.Columns.Value] = item.Value;
                 listItem.Update();
                 clientContext.Load(listItem);
                 clientContext.ExecuteQuery();
@@ -67,7 +67,7 @@ namespace Huddle.MetricWebApp.SharePoint
             }
         }
 
-        public static async Task UpdateItemAsync(ReasonMetric item)
+        public static async Task UpdateItemAsync(ReasonValue item)
         {
             using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
             {
@@ -77,19 +77,43 @@ namespace Huddle.MetricWebApp.SharePoint
                         <Query>
                             <Where>
                                 <Eq>
-                                    <FieldRef Name='" + SPLists.ReasonMetrics.Columns.ID + @"'/>
+                                    <FieldRef Name='" + SPLists.ReasonValues.Columns.ID + @"'/>
                                     <Value Type='int'>" + item.Id + @"</Value>
                                 </Eq>
                             </Where>
                          </Query>
                     </View>";
-                var items = clientContext.GetItems(SPLists.ReasonMetrics.Title, query);
+                var items = clientContext.GetItems(SPLists.ReasonValues.Title, query);
                 var queryItem = items.FirstOrDefault();
                 if (queryItem == null)
                     return;
-                queryItem[SPLists.ReasonMetrics.Columns.ReasonMetricValue] = item.ReasonMetricValues;
+                queryItem[SPLists.ReasonValues.Columns.Value] = item.Value;
                 queryItem.Update();
                 clientContext.ExecuteQuery();
+            }
+        }
+
+        public static async Task DeleteReasonValuesByReasonId(int reasonId)
+        {
+            var filter = string.Format(@"
+                    <Eq>
+                        <FieldRef Name='{0}' LookupId='TRUE'/>
+                        <Value Type='Lookup'>{1}</Value> 
+                    </Eq>                   
+                ", SPLists.ReasonValues.Columns.Reason, reasonId);
+
+            var query = new CamlQuery();
+            query.ViewXml = string.Format("<View><Query><Where>{0}</Where></Query></View>", filter);
+
+            using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
+            {
+                var items = clientContext.GetItems(SPLists.ReasonValues.Title, query);
+
+                for (int i = items.Count - 1; i > -1; i--)
+                {
+                    items[i].DeleteObject();
+                    clientContext.ExecuteQuery();
+                }
             }
         }
     }

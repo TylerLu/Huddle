@@ -14,62 +14,67 @@ namespace Huddle.MetricWebApp.Controllers
 {
     public class MetricValuesController : BaseAPIController
     {
-        [Route("api/metricvalues/{issueId}/{reasonIds}/{weekStartDay}")]
-        public async Task<HttpResponseMessage> Get(int issueId,string reasonIds,DateTime weekStartDay)
+        [Route("api/metricvalues/{metricIds}/{reasonIds}/{weekStartDay}")]
+        public async Task<HttpResponseMessage> Get(string metricIds,string reasonIds,DateTime weekStartDay)
         {
-            var issueMetrics = await IssueMetricsService.GetItemsAsync(issueId, weekStartDay);
-            if (string.IsNullOrEmpty(reasonIds))
-                return ToJson(new { issueMetrics = issueMetrics });
+            var metricValues = new List<MetricValue[]>();
+            var metricIdList= metricIds.Split(new char[] { '-' }).ToList();
+            metricValues = await MetricValuesService.GetItemsAsync(metricIdList, weekStartDay);
 
-            var reasonMetrics = new List<ReasonMetric[]>();
+            var reasonValues = new List<ReasonValue[]>();
             var reasonIdList= reasonIds.Split(new char[] { '-' }).ToList();
-            reasonMetrics = await ReasonMetricsService.GetItemsAsync(reasonIdList, weekStartDay);
-            var result = reasonMetrics.Select(rm => rm.ToJson()).ToList();
-            result.Add(issueMetrics.ToJson());
-            return ToJson(result);
+            reasonValues = await ReasonValuesService.GetItemsAsync(reasonIdList, weekStartDay);
+
+            var metricValsData = metricValues.Select(mv => mv.ToJson()).ToList();
+            var reasonValsData = reasonValues.Select(rv => rv.ToJson()).ToList();
+
+            metricValsData.AddRange(reasonValsData);
+
+            return ToJson(metricValsData);
         }
 
         // POST api/<controller>
         public async Task<HttpResponseMessage> Post(JObject objData)
         {
             dynamic jsonData = objData;
-            JArray issueMetrics = jsonData.issueMetrics;
-            var toAddIssueMetrics = issueMetrics.Select(im => im.ToObject<IssueMetric>()).ToList();
 
-            JArray reasonMetricArrays = jsonData.reasonMetrics;
-            var toAddReasonMetrics = reasonMetricArrays.Select(rmArray=> {
-                return rmArray.Select(rm => rm.ToObject<ReasonMetric>()).ToList();
+            JArray metricValuesArrays = jsonData.metricValues;
+            var toAddMetricValues = metricValuesArrays.Select(mvArray =>
+            {
+                return mvArray.Select(mv => mv.ToObject<MetricValue>()).ToList();
             }).ToList();
 
-            await IssuesService.UpdateItemAsync(toAddIssueMetrics.First().Issue);
-
-            toAddIssueMetrics.ForEach(async issueMetric =>
+            JArray reasonMetricArrays = jsonData.reasonValues;
+            var toAddReasonValues = reasonMetricArrays.Select(rvArray =>
             {
-                if (issueMetric.MetricValues.HasValue)
+                return rvArray.Select(rm => rm.ToObject<ReasonValue>()).ToList();
+            }).ToList();
+
+            toAddMetricValues.ForEach(metricValueList =>
+            {
+                metricValueList.ForEach(async metricValue =>
                 {
-                    if (issueMetric.Id == 0)
-                        await IssueMetricsService.InsertItemAsync(issueMetric);
-                    else
-                        await IssueMetricsService.UpdateItemAsync(issueMetric);
-                }
-            });
-
-            toAddReasonMetrics.ForEach(async reasonMetricList =>
-            {
-                await ReasonsService.UpdateItemAsync(reasonMetricList.First().Reason);
-            });
-
-            
-            toAddReasonMetrics.ForEach(reasonMetricList =>
-            {
-                reasonMetricList.ForEach(async reasonMetric =>
-                {
-                    if (reasonMetric.ReasonMetricValues.HasValue)
+                    if (metricValue.Value.HasValue)
                     {
-                        if (reasonMetric.Id == 0)
-                            await ReasonMetricsService.InsertItemAsync(reasonMetric);
+                        if (metricValue.Id == 0)
+                            await MetricValuesService.InsertItemAsync(metricValue);
                         else
-                            await ReasonMetricsService.UpdateItemAsync(reasonMetric);
+                            await MetricValuesService.UpdateItemAsync(metricValue);
+                    }
+                });
+            });
+
+
+            toAddReasonValues.ForEach(reasonValueList =>
+            {
+                reasonValueList.ForEach(async reasonValue =>
+                {
+                    if (reasonValue.Value.HasValue)
+                    {
+                        if (reasonValue.Id == 0)
+                            await ReasonValuesService.InsertItemAsync(reasonValue);
+                        else
+                            await ReasonValuesService.UpdateItemAsync(reasonValue);
                     }
                 });
             });

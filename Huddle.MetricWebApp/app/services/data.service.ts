@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
+import { HandleError } from '../shared/HandleError';
 
 @Injectable()
 export class DataService {
@@ -40,7 +41,7 @@ export class DataService {
                         activeProject.next(data);
                     },
                     (error) => {
-                        activeProject.error(error);
+                        HandleError.handleError(error);
                     });
         return activeProject;
     }
@@ -53,7 +54,7 @@ export class DataService {
                         activeProject.next(<T>data.json());
                     },
                     (error)=>{
-                        activeProject.error(error);
+                        HandleError.handleError(error);
                     });
         return activeProject;
     }
@@ -73,6 +74,16 @@ export class DataService {
                             (data)=>activeProject.next(data.json()),
                             (error)=>activeProject.error(error)
                          );
+        return activeProject;
+    }
+
+    public delete(actionUrl: string) {
+        let activeProject: ReplaySubject<any> = new ReplaySubject(1);
+        this._http.delete(actionUrl)
+            .subscribe(
+            (data) => activeProject.next(data.json()),
+            (error) => activeProject.error(error)
+            );
         return activeProject;
     }
 

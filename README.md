@@ -16,12 +16,6 @@
 * [Set application as public](#set-application-as-public)
 * [Train and Publish the App](#train-and-publish-the-app)
 
-[Create and configure Bot](#create-and-configure-bot)
-
-* [Create a Bot](#create-a-bot)
-* [Customize and Configure the Bot](#customize-and-configure-the-bot)
-* [Add Microsoft Teams Channel](#add-microsoft-teams-channel)
-
 [Create SharePoint Site and Lists](#create-sharepoint-site-and-lists)
 
 * [Create a site collection](#create-a-site-collection)
@@ -42,6 +36,8 @@
 * [Create App Registration for the MS Graph Connector](#create-app-registration-for-the-ms-graph-connector)
 * [Add keyCredential to App Registrations](#add-keycredential-to-app-registrations)
 
+[Register app for Bot Registration](#register-app-for-bot-registration)
+
 [Deploy Azure Components with ARM Template](#deploy-azure-components-with-arm-template)
 
 * [GitHub Authorize](#github-authorize)
@@ -52,7 +48,8 @@
 
 * [Add Reply URL and Admin Consent Bot Web App](#add-reply-url-and-admin-consent-bot-web-app)
 * [Add Reply URL and Admin Consent Metric Web App](#add-reply-url-and-admin-consent-metric-web-app)
-* [Update Bot Messaging Endpoint](#update-bot-messaging-endpoint)
+* [Customize and Configure the Bot](#customize-and-configure-the-bot)
+* [Add Microsoft Teams Channel](#add-microsoft-teams-channel)
 * [Verify the Bot](#verify-the-bot)
 * [Authorize Planner API Connection](#authorize-planner-api-connection)
 * [Authorize Teams API Connection](#authorize-teams-api-connection)
@@ -216,7 +213,7 @@ For each team you created, please active the default planer and create 4 buckets
    * Click **Choose File**, and select `/Files/LUISApp.json`.
    * Click **Import**. 
 
-   ​                        ![](Images/luis-03.png)
+   ![](Images/luis-03.png)
 
 4. Copy aside the **App Id**. It will be used as the value of the **Luis App Id** parameter of the ARM Template.
 
@@ -245,111 +242,6 @@ For each team you created, please active the default planer and create 4 buckets
    ![](Images/luis-07.png)
 
 3. Click **Publish to production slot**.
-
-## Create and configure Bot
-
-### Create a Bot
-
-1. Open [https://dev.botframework.com](https://dev.botframework.com) in a browser, then sign in with the Huddle work account.
-
-   ![](Images/bot-01.png)
-
-2. Click **My bots**, then click **Create a bot**.
-
-   ![](Images/bot-02.png)
-
-3. Click **Create**
-
-   ![](Images/bot-03.png)
-
-4. Select **Register an existing bot built using Bot Builder SDK**. Then click **Ok**.
-
-### Customize and Configure the Bot
-
-1. Upload icon:
-
-   ![](Images/bot-04.png)
-
-   Click **Upload custom icon**, then select `/Files/HuddleBotIcon.png`.
-
-
-2. Input the fields:
-
-   ![](Images/bot-05.png)
-
-   * **Display name**: Huddle Bot
-
-   * **Bot handle**: HuddleBot*<Suffix>*
-
-   * **Long description**: This is the idea bot used to create and list ideas 
-
-     > Note: 
-     >
-     > - **Bot handle** should be unique, please add some suffix to avoid confliction.
-     > - **Bot handle** will be used as the value of **Bot Id** parameter of the ARM Template. Please copy it aside.
-
-3. Leave **Message endpoint** empty for now. We will fill it later.
-
-   ![](Images/bot-06.png)
-
-
-4. Configure Microsoft App:
-
-   ![](Images/bot-07.png)
-
-   Click **Create Microsoft App ID and password**.
-
-   ![](Images/bot-08.png)
-
-   Login in with the Huddle work account.
-
-   An app will be created automatically:
-
-   ![](Images/bot-09.png)
-
-   Copy aside the App ID. It will be used as the value of **Microsoft App Id** App setting. It will also be used in the Teams App **manifest.json** file as id.
-
-   Then click **Generate an app password to continue**.
-
-   ![](Images/bot-10.png)
-
-   Copy aside the password. It will be used as the value of **Microsoft App Password **parameter of the ARM Template.
-
-   Then click **OK**.
-
-   Click **Finish and go back to Bot Framework**.
-
-   ![](Images/bot-11.png)
-
-5. Skip **Analytics** and **Admin** section.
-
-6. Go to the end of the page:
-
-   ![](Images/bot-12.png)
-
-   Check the **I agree to ...** checkbox, and click **Register**.
-
-   > Note: If you got an error of the Bot handle: Id is already in use. Please use another one.
-
-7. Click **OK**. 
-
-   ![](Images/bot-13.png)
-
-### Add Microsoft Teams Channel
-
-1. Click the **Microsoft Teams Icon** under **Add a channel** section.
-
-   ![](Images/bot-14.png)
-
-2. Click **Done**
-
-   ![](Images/bot-15.png)
-
-3. Right-click the new added **Microsoft Teams** channel.
-
-   ![](Images/bot-16.png)
-
-   Click **Copy link address**, and paste the URL to someplace. It will be used to add the Bot to Microsoft Teams later.
 
 ## Create SharePoint Site and Lists
 
@@ -388,7 +280,7 @@ For each team you created, please active the default planer and create 4 buckets
 2. Open Power Shell, then execute the command below to connect to the site you just created:
 
    ```powershell
-   Connect-PnPOnline –Url https://<Tenant>.sharepoint.com/sites/<Site> –Credentials (Get-Credential)
+   Connect-PnPOnline -Url https://<Tenant>.sharepoint.com/sites/<Site> -Credentials (Get-Credential)
    ```
 
    > Note: Please replace `<Tenant>` and `<Site>`.
@@ -420,7 +312,7 @@ Add some categories to the Categories list, for example:
 Run PowerShell as administrator, then execute the commands below:
 
 ~~~powershell
-$cert = New-SelfSignedCertificate -Type Custom –KeyExportPolicy Exportable -KeySpec Signature -Subject "CN=Huddle App-only Cert" -NotAfter (Get-Date).AddYears(20) -CertStoreLocation "cert:\CurrentUser\My" -KeyLength 2048
+$cert = New-SelfSignedCertificate -Type Custom -KeyExportPolicy Exportable -KeySpec Signature -Subject "CN=Huddle App-only Cert" -NotAfter (Get-Date).AddYears(20) -CertStoreLocation "cert:\CurrentUser\My" -KeyLength 2048
 ~~~
 
 > Note: please keep the PowerShell window open until you finish the steps below.
@@ -486,7 +378,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
       | API                                      | Permission Type | Permissions                              |
       | ---------------------------------------- | --------------- | ---------------------------------------- |
       | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
-      | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all users’ full profiles |
+      | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all users' full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Bot Client Id** parameter of the ARM Template.
 
@@ -527,7 +419,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
 
       | API             | Permission Type | Permissions                              |
       | --------------- | --------------- | ---------------------------------------- |
-      | Microsoft Graph | Delegated       | Read and write all groups<br />Read all users’ full profiles |
+      | Microsoft Graph | Delegated       | Read and write all groups<br />Read all users' full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Graph Client Id** parameter of the ARM Template.
 
@@ -547,6 +439,30 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
 3. Insert the keyCredential into the square brackets of the **keyCredentials** node.
 4. Click **Save**.
+
+## Register app for Bot Registration
+
+1. Open [https://apps.dev.microsoft.com/portal/register-app](https://apps.dev.microsoft.com/portal/register-app) in a browser, then sign in with the Huddle work account.
+
+    ![](Images/app-01.png)
+
+2. Fill the field **Application Name**, then click **Create**.
+
+    ![](Images/app-02.png)
+
+3. Copy the **Application Id**. It will be used as **Microsoft App Id**.
+
+    ![](Images/app-03.png)
+
+4. Click **Generate New Password** in **Application Secrets** section.
+
+    ![](Images/app-04.png)
+
+5. Copy the key then click **OK**. The key will be used as **Microsoft App Password**.
+
+    ![](Images/app-05.png)
+
+6. Then scroll down to the end, click **Save**.
 
 
 ## Deploy Azure Components with ARM Template
@@ -606,11 +522,22 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
    You have collected most of the values in previous steps. For the rest parameters:
 
+   * **Bot Name**: the name of the bot, will be used as Display Name of Bot Registration.
    * **Global Team**: the name of the global team.
    * **Source Code Repository**:  use the URL of the repository you just created -`https://github.com/<YourAccount>/Huddle`
    * **Source Code Branch**: mater
    * **Source code Manual Integration**: 
    * Check **I agree to the terms and conditions stated above**.
+
+    > **Tips:**
+    >
+    > You can click **Edit Parameters** on top of the template after filled all parameters.
+    > 
+    >![](Images/azure-deploy-edit-parameters.png)
+    >
+    > Then click **Download** to save parameters on your local computer incase of deployment failure.
+    >
+    > ![](Images/azure-deploy-download.png)
 
 4. Click **Purchase**.
 
@@ -654,23 +581,35 @@ Please **Redeploy** with the same parameters and to the same resource group.
 
 Follow the similar steps in the previous chapter to add the reply URL and admin consent. 
 
-### Update Bot Messaging Endpoint
+### Customize and Configure the Bot
 
-1. Append `/api/messages` to the base URL of the Bot Web App, we will get the message endpoint URL.
+1. Go to the Bot Channels Registration you created, then click **SETTINGS**.
 
-   For example: `https://huddle-bot-dev.azurewebsites.net/api/messages`
+   ![](Images/bot-27.png)
+   
+3. Click **Upload custom icon**, then select `/Files/HuddleBotIcon.png`.
 
-2. Got to the Bot you created, then click **SETTINGS**.
+   ![](Images/bot-31.png) 
 
-   ![](Images/bot-17.png)
+5. Click **Save**
 
-3. Fill the **Message endpoint**
+   ![](Images/bot-32.png) 
 
-4. Click **Save Changes** at the bottom.
+### Add Microsoft Teams Channel
 
-   >Note: if you get error like below, please refresh the page and try it several times.
-   >
-   >![](Images/bot-18.png)
+1. Click the **Microsoft Teams Icon** under **Add a channel** section.
+
+   ![](Images/bot-14.png)
+
+2. Click **Done**
+
+   ![](Images/bot-15.png)
+
+3. Right-click the new added **Microsoft Teams** channel.
+
+   ![](Images/bot-16.png)
+
+   Click **Copy link address**, and paste the URL to someplace. It will be used to add the Bot to Microsoft Teams later.
 
 ### Verify the Bot
 
@@ -678,7 +617,7 @@ Follow the similar steps in the previous chapter to add the reply URL and admin 
 
    ![](Images/bot-19.png)
 
-2. Click **->Test**, input `list ideas`, then send.
+2. Click **Test in Web Chat**, input `list ideas`, then send.
 
    ![](Images/bot-20.png)
 

@@ -194,6 +194,7 @@ namespace Huddle.WebJob.Services
             parameters.Add("planId", planId);
             parameters.Add("title", idea.Title);
             parameters.Add("description", detail.Description);
+            parameters.Add("startDateTime", idea.StartDateTime);
             var newIdea = await HttpHelper.Request<Idea>(Constants.LogicAppUrls.CreateTask, parameters);
             LogService.LogInfo($"Created idea {newIdea.Title} (ID: {newIdea.Id}) in global team.");
 

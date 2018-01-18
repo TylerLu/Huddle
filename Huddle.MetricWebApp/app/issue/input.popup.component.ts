@@ -8,9 +8,9 @@ import { Constants } from '../shared/constants';
 import { CommonUtil } from '../utils/commonUtil';
 
 @Component({
-    templateUrl: 'app/issue/input.popup.component.html',
+    templateUrl: './input.popup.component.html',
     selector: 'input-popup',
-    styleUrls: ['app/issue/input.popup.component.css', 'app/shared/shared.css']
+    styleUrls: ['./input.popup.component.css', '../shared/shared.css']
 })
 
 export class InputPopupComponent implements OnInit {

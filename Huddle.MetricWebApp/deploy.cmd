@@ -65,11 +65,15 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 :: Deployment
 :: ----------
 
-:: 0. Install npm dependencies
-IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (
-  echo Installing npm packages
+:: 0. Install npm dependencies and build
+IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (  
   pushd "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp"
+  echo Installing npm packages
   call :ExecuteCmd npm install
+  echo Installing angular/cli@1.6.4
+  call :ExecuteCmd npm install -g @angular/cli@1.6.4
+  echo Executing ng build
+  call :ExecuteCmd ng build
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
@@ -97,14 +101,9 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-:: 4. Install npm dependencies
-IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
-  echo Installing npm packages
-  pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd npm install
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
+:: 4. Sync dist folder
+call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\dist" -t "%DEPLOYMENT_TARGET%\dist" -x
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
 

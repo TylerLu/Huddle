@@ -2,7 +2,7 @@
 
 @Component({
     selector: 'tab-privacy',
-    templateUrl:'/app/teamTab/teamTab.privacy.component.html'
+    templateUrl:'./teamTab.privacy.component.html'
 })
 
 export class TeamTabPrivacyComponent implements OnInit {

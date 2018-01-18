@@ -1,12 +1,11 @@
-﻿<div class="main-content">
-    <div class="btns">
-        <div class="previous-selector selector" (click)="clickPreviousWeek()">
-            <img src="/images/icons-8-back.png" />
-        </div><div class="next-selector selector"  (click)="clickNextWeek()">
-            <img src="/images/icons-8-next.png" />
-        </div>
+﻿<div class="date-range">
+    <div class="previous-selector selector" (click)="clickPreviousWeek()">
+        <img src="/images/icons-8-back.png" />
     </div>
     <div class="dates">
-        <label class="ms-Label">{{datesIntervalStr}}</label>
+        <label class="current-date font-bold">{{datesIntervalStr}}</label>
+    </div>
+    <div class="next-selector selector" (click)="clickNextWeek()">
+        <img src="/images/icons-8-next.png" />
     </div>
 </div>

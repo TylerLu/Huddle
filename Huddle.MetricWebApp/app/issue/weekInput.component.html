@@ -1,14 +1,19 @@
-﻿<ul [hidden]="!(weekInputViewModel.isIssueMetric)">
+﻿<ul [hidden]="!(weekInputViewModel.isMetricValue)">
     <li *ngFor="let weekDay of currentWeekDays;let i = index" [ngClass]="{'odd': rowIndex%2!=0}">
-        <div class="ms-TextField times-field">
-            <input class="ms-TextField-field" type="text" placeholder=""  [(ngModel)]="weekInputViewModel?.issueMetricArray[i].metricValues" >
-        </div>
+        <div class="times-field">
+            <div *ngIf="valueType==='$'" class="dollardiv">
+                {{valueType==='$'?valueType:''}}
+            </div>
+                <input class="value-field" type="text" placeholder="" [(ngModel)]="weekInputViewModel?.metricValueArray[i].metricValues" (ngModelChange)="valueChange(weekInputViewModel?.metricValueArray[i])" [ngClass]="{'updated':weekInputViewModel?.metricValueArray[i].isUpdated}">
+            <div class="percentdiv" *ngIf="valueType==='%'">{{valueType==='%'?valueType:''}} </div>
+</div>
     </li>
 </ul>
-<ul [hidden]="weekInputViewModel.isIssueMetric">
+<div class="error">{{errorMessage}}</div>
+<ul [hidden]="weekInputViewModel.isMetricValue" [ngClass]="{'weekly':weekInputViewModel.isWeeklyReason}">
     <li *ngFor="let weekDay of currentWeekDays;let i = index" [ngClass]="{'odd': rowIndex%2!=0}">
-        <div class="ms-TextField times-field">
-            <input class="ms-TextField-field" type="text" placeholder="" [(ngModel)]="weekInputViewModel?.reasonMetricArray[i].reasonMetricValues">
+        <div class="times-field">
+            <input class="value-field" type="text" placeholder="" [(ngModel)]="weekInputViewModel?.reasonValueArray[i].reasonMetricValues" (ngModelChange)="valueChange(weekInputViewModel?.reasonValueArray[i])" [ngClass]="{'updated':weekInputViewModel?.reasonValueArray[i].isUpdated}">
         </div>
     </li>
 </ul>
