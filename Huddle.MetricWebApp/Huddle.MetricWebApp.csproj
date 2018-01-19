@@ -338,12 +338,6 @@
     <Content Include="app\issue\editIssue.component.html" />
     <Content Include="app\issue\addIssue.component.css" />
     <Content Include="app\issue\addIssue.component.html" />
-    <Content Include="app\issue\addReason.component.css" />
-    <Content Include="app\issue\addReason.component.html" />
-    <Content Include="app\issue\input.popup.component.css" />
-    <Content Include="app\issue\input.popup.component.html" />
-    <Content Include="app\issue\metricIssue.component.css" />
-    <Content Include="app\issue\metricIssue.component.html" />
     <Content Include="app\issue\weekInput.component.css" />
     <Content Include="app\issue\weekInput.component.html" />
     <Content Include="app\issue\weekSelector.component.css" />
@@ -481,7 +475,6 @@
     <TypeScriptCompile Include="app\issueList\issue.viewmodel.ts" />
     <TypeScriptCompile Include="app\issueList\issueList.component.ts" />
     <TypeScriptCompile Include="app\issue\editIssue.component.ts" />
-    <TypeScriptCompile Include="app\issue\addReason.component.ts" />
     <TypeScriptCompile Include="app\metric\editMetric.component.ts" />
     <TypeScriptCompile Include="app\metric\addMetric.component.ts" />
     <TypeScriptCompile Include="app\metric\metric.viewmodel.ts" />
@@ -498,8 +491,6 @@
     <TypeScriptCompile Include="app\shared\models\allowClick.ts" />
     <TypeScriptCompile Include="app\shared\models\issueState.viewmodel.ts" />
     <TypeScriptCompile Include="app\issue\addIssue.component.ts" />
-    <TypeScriptCompile Include="app\issue\input.popup.component.ts" />
-    <TypeScriptCompile Include="app\issue\metricIssue.component.ts" />
     <TypeScriptCompile Include="app\issue\state.viewmodel.ts" />
     <TypeScriptCompile Include="app\issue\weekInput.component.ts" />
     <TypeScriptCompile Include="app\issue\weekSelector.component.ts" />

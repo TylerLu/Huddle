@@ -15,9 +15,9 @@
 .metric-list-section ul.ul-metric li{vertical-align:text-bottom;}
 .metric-list-section ul.ul-metric li:nth-child(2){width:258px;}
 .metric-list-section ul.ul-metric li:nth-child(3){width:71px;}
-.metric-list-section ul.ul-metric li:nth-child(4){width:97px;}
+.metric-list-section ul.ul-metric li:nth-child(4){width:93px;}
 .metric-list-section ul.ul-metric li:nth-child(5){width:302px;vertical-align:middle;}
-.metric-list-section ul.ul-metric li:nth-child(6){width:133px;text-align: right;vertical-align:middle;}
+.metric-list-section ul.ul-metric li:nth-child(6){width:137px;text-align: right;vertical-align:middle;}
 .metric-list-section ul.ul-metric li:nth-child(6).gray-header{padding-right:45px;}
 .metric-list-section ul.ul-metric li:nth-child(6) .metric-btn{padding-right:1px;}
 

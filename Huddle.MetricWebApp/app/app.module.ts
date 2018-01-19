@@ -14,20 +14,11 @@ import { IssueListComponent } from './issueList/issueList.component';
 import { HeaderComponent } from './header/header.component';
 import { AddIssueComponent } from './issue/addIssue.component';
 import { EditIssueComponent } from './issue/editIssue.component';
-import { MetricIssueComponent } from './issue/metricIssue.component';
 import { AddMetricComponent } from './metric/addMetric.component';
 import { EditMetricComponent } from './metric/editMetric.component';
 import { WeekSelectorComponent } from './issue/weekSelector.component';
 import { WeekInputComponent } from './issue/weekInput.component';
-import { AddReasonComponent } from './issue/addReason.component';
-import { InputPopupComponent } from './issue/input.popup.component';
 import { MetricListComponent } from './metric/metricList.component';
-import { TeamTabComponent } from './teamTab/teamTab.component';
-import { TeamTabConfigureComponent } from './teamTab/teamTab.configure.component';
-import { TeamTabSignInComponent } from './teamTab/teamTab.signIn.component';
-import { TeamTabSignInCallBackComponent } from './teamTab/teamTab.signIn.callback.component';
-import { TeamTabPrivacyComponent} from './teamTab/teamTab.privacy.component';
-import { TeamTabTermsComponent } from './teamTab/teamTab.terms.component';
 import { ReasonListComponent } from './reason/reasonList.component';
 import { NewReasonComponent } from './reason/newReason.component';
 import { EditReasonComponent } from './reason/editReason.component';
@@ -60,17 +51,8 @@ import { CommonConfirmComponent } from './confirm/common.confirm.component';
         HeaderComponent,
         AddIssueComponent,
         EditIssueComponent,
-        MetricIssueComponent,
         WeekInputComponent,
         WeekSelectorComponent,
-        AddReasonComponent,
-        InputPopupComponent,
-        TeamTabComponent,
-        TeamTabConfigureComponent,
-        TeamTabSignInComponent,
-        TeamTabSignInCallBackComponent,
-        TeamTabPrivacyComponent,
-        TeamTabTermsComponent,
         ReasonListComponent,
         NewReasonComponent,
         EditReasonComponent,

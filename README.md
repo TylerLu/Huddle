@@ -48,6 +48,7 @@
 
 * [Add Reply URL and Admin Consent Bot Web App](#add-reply-url-and-admin-consent-bot-web-app)
 * [Add Reply URL and Admin Consent Metric Web App](#add-reply-url-and-admin-consent-metric-web-app)
+* [Add Reply URL to MS Graph Connector App Registration](#add-reply-url-to-ms-graph-connector-app-registration)
 * [Customize and Configure the Bot](#customize-and-configure-the-bot)
 * [Authorize Planner API Connection](#authorize-planner-api-connection)
 * [Authorize Teams API Connection](#authorize-teams-api-connection)
@@ -579,6 +580,24 @@ Please **Redeploy** with the same parameters and to the same resource group.
 
 Follow the similar steps in the previous chapter to add the reply URL and admin consent. 
 
+### Add Reply URL to MS Graph Connector App Registration
+
+1. Get the redirect URL from the Microsoft graph connector. 
+
+   ![](Images/graph-connector.png)
+
+   * Click the connector, then click **Edit**:
+
+   ![](Images/graph-connector-edit.png)
+
+   * Click **Security**:
+
+     ![](Images/graph-connector-redirect-url.png)
+
+     Copy the **Redirect URL** at the bottom of the page.
+
+2. Add it to reply URLs of the MS Graph Connector App Registration.
+
 ### Customize and Configure the Bot
 
 1. Navigate to the Bot Channels Registration you created.
@@ -655,29 +674,15 @@ Follow the similar steps in the previous chapter to add the reply URL and admin 
 
 ### Authorize Teams API Connection
 
-Follow the similar steps in the previous chapter to authorize **teams** API Connection.
+Follow the similar steps in the previous chapter to authorize the **teams** API Connection.
 
 ![](Images/teams-api-connection.png)
 
 ### Authorize Microsoft Graph API Connection
 
-Due to some unknown reason, we can authorize the **microsoft-graph** API Connection as above. 
+Follow the similar steps in the previous chapter to authorize the **microsoft-graph** API. 
 
 ![](Images/ms-graph-connection.png)
-
-Please use the steps below instead.
-
-1. Click **ListPlans** Logic App
-
-   ![](Images/list-plans-logic-app-01.png)          
-
-2. Click **Edit**
-
-    ![](Images/list-plans-logic-app-02.png)
-
-3. Click **Connections **to expand it, then click **Invalid connection**. ![](Images/list-plans-logic-app-03.png)
-
-4. Pickup or input the Huddle account used to authorize planner and teams API Connections, then sign in.
 
 ## Configure Teams App
 

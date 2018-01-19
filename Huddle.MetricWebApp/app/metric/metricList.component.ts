@@ -235,10 +235,14 @@ export class MetricListComponent implements OnInit {
             this.currentMetricValues)
             .subscribe(resp => {
                 this.removeAllUpdatedFlags();
+                this.currentMetricValues = this.recalcMetricValues();
                 let updatedReasonList = this.reasonLists.map(reasonList => reasonList.updateReasonValues());
                 Observable.combineLatest(updatedReasonList)
                     .subscribe(resp => {
-                        this.reasonLists.forEach(rl => rl.removeAllUpdatedFlags());
+                        this.reasonLists.forEach(rl => {
+                            rl.removeAllUpdatedFlags();
+                            rl.currentReasonValues = rl.recalcMetricValues();
+                        });
                         activeObject.next(true);
                     });
             });
