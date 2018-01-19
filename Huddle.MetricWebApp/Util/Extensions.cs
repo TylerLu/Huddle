@@ -50,7 +50,7 @@ namespace Huddle.MetricWebApp.Util
             return new
             {
                 id = metric.Id,
-                issue = metric.Issue,
+                issue = metric.Issue!=null? metric.Issue.ToJson():metric.Issue,
                 name = metric.Name,
                 targetGoal = metric.TargetGoal,
                 valueType = metric.ValueType,
@@ -65,7 +65,7 @@ namespace Huddle.MetricWebApp.Util
             {
                 id = reason.Id,
                 name = reason.Name,
-                metric = reason.Metric,
+                metric = reason.Metric!=null?reason.Metric.ToJson():reason.Metric,
                 startDate = reason.StartDate,
                 reasonState = reason.State,
                 reasonTracking = reason.ReasonTracking,
