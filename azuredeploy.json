@@ -1256,7 +1256,7 @@
             "[resourceId('Microsoft.Logic/workflows', 'GetTaskDetails')]",
             "[resourceId('Microsoft.Logic/workflows', 'CreateTask')]",
             "[resourceId('Microsoft.Logic/workflows', 'DeleteTask')]",
-            "[resourceId('Microsoft.BotService/botService', variables('botId'))]"
+            "[resourceId('Microsoft.BotService/botServices', variables('botId'))]"
           ]
         },
         {

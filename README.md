@@ -262,7 +262,7 @@ For each team you created, please active the default planer and create 4 buckets
    * In the **Template Selection** section, select **Team Site** as **site template.**
    * Choose a  **Time Zone**.
    * **Administrator** should be the alias of the individual you want to have full administrator rights on this site. 
-   * Leave **Server Resource Quota**at 300. (This value can be adjusted later if needed)
+   * Leave **Server Resource Quota** at 300. (This value can be adjusted later if needed)
 
 4. Click **OK**.
 
@@ -306,7 +306,7 @@ Add some categories to the Categories list, for example:
 
 ### Generate certificate with PowerShell
 
-Run PowerShell as administrator, then execute the commands below:
+Run PowerShell **as administrator**, then execute the commands below:
 
 ~~~powershell
 $cert = New-SelfSignedCertificate -Type Custom -KeyExportPolicy Exportable -KeySpec Signature -Subject "CN=Huddle App-only Cert" -NotAfter (Get-Date).AddYears(20) -CertStoreLocation "cert:\CurrentUser\My" -KeyLength 2048
@@ -456,7 +456,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 
     ![](Images/app-04.png)
 
-5. Copy the key then click **OK**. The key will be used as **Microsoft App Password **parameter of the ARM Template.
+5. Copy the key then click **OK**. The key will be used as **Microsoft App Password** parameter of the ARM Template.
 
     ![](Images/app-05.png)
 
@@ -523,8 +523,8 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
    * **Bot Name**: the name of the bot, will be used as Display Name of Bot Registration.
    * **Global Team**: the name of the global team.
    * **Source Code Repository**:  use the URL of the repository you just created -`https://github.com/<YourAccount>/Huddle`
-   * **Source Code Branch**: mater
-   * **Source code Manual Integration**: 
+   * **Source Code Branch**: master
+   * **Source code Manual Integration**: false
    * Check **I agree to the terms and conditions stated above**.
 
     > **Tips:**
