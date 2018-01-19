@@ -8,12 +8,6 @@
     "botName": {
       "type": "string"
     },
-    "microsoftAppId": {
-      "type": "string"
-    },
-    "microsoftAppPassword": {
-      "type": "securestring "
-    },
     "tenantId": {
       "type": "string"
     },
@@ -34,6 +28,12 @@
     },
     "graphClientSecret": {
       "type": "securestring"
+    },
+    "microsoftAppId": {
+      "type": "string"
+    },
+    "microsoftAppPassword": {
+      "type": "securestring "
     },
     "certificatePfxBase64": {
       "type": "string"
