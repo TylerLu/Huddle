@@ -9,7 +9,7 @@ namespace Huddle.MetricWebApp.Models
     {
         public int Id { get; set; }
         public Reason Reason { get; set; }
-        public int? Value { get; set; }
+        public double? Value { get; set; }
         public DateTime InputDate { get; set; }
     }
 }

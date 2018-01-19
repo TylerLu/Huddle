@@ -30,7 +30,7 @@ export class ReasonListComponent implements OnInit {
 
     reasonsArray = new Array<Reason>();
     metricId = 1;
-    reasonToEditId: number;
+    reasonToEdit: Reason=null;
     addReasonType: string;
     ifHidden: boolean = true;
 
@@ -105,8 +105,8 @@ export class ReasonListComponent implements OnInit {
         this.modalAddReason.open();
     }
 
-    editReasonClick(id: number) {
-        this.reasonToEditId = id;
+    editReasonClick(reason: Reason) {
+        this.reasonToEdit = reason;
         this.modalEditReason.open();
     }
     closed() {
@@ -120,9 +120,11 @@ export class ReasonListComponent implements OnInit {
     }
 
     editReasonOpened() {
-        this.editReasonPopUp.iniControls(this.reasonToEditId);
+        this.editReasonPopUp.iniControls(this.reasonToEdit);
     }
-
+    getDisplayValueType(reason: Reason) {
+        return CommonUtil.getDisplayValueType(reason.valueType);
+    }
     //switch
     onSwitch(id: any) {
         this.reasonService.updateReasonStatus(id);

@@ -21,13 +21,13 @@
                 {{item.reasonTracking}}
             </li>
             <li>
-                <week-input [rowIndex]="0" (inputValueChange)="afterInputValueChange($event)"  [weekInputViewModel]="reasonDailyWeekInputViewModelArray[i]"></week-input>
+                <week-input [rowIndex]="0" (inputValueChange)="afterInputValueChange($event)"  [weekInputViewModel]="reasonDailyWeekInputViewModelArray[i]" [valueType]="getDisplayValueType(item)"></week-input>
             </li>
             <li>
                 <ui-switch (change)="onSwitch(item.id)" [checked]="item.reasonState==1?true:false" size="small" defaultBgColor="red"></ui-switch>
                
                     <span class="on-off-label">{{item.reasonState==1?"ON":"OFF"}}</span>
-                    <a (click)="editReasonClick(item.id)" class="edit-reason-link">EDIT</a>
+                    <a (click)="editReasonClick(item)" class="edit-reason-link">EDIT</a>
                
             </li>
 
@@ -57,7 +57,7 @@
                 {{item.reasonTracking}}
             </li>
             <li>
-                <week-input [rowIndex]="0" [weekInputViewModel]="reasonWeeklyWeekInputViewModelArray[j]"></week-input>
+                <week-input [rowIndex]="0" [weekInputViewModel]="reasonWeeklyWeekInputViewModelArray[j]" [valueType]="getDisplayValueType(item)"></week-input>
             </li>
             <li>
                 <ui-switch (change)="onSwitch(item.id)" [checked]="item.reasonState==1?true:false" size="small" defaultBgColor="red"></ui-switch>

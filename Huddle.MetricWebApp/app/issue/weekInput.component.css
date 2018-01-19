@@ -23,7 +23,7 @@ ul.weekly>li:first-child{display:block;}
     border: solid 1px #b5b5b5;
     text-align: center;
 }
-ul.weekly>li:first-child .times-field >input{width: 276px;}
+ul.weekly>li:first-child .times-field >input{width: 30px;}
 .times-field input.updated {
     background-image:url('/images/triangle.png');
     background-repeat:no-repeat;

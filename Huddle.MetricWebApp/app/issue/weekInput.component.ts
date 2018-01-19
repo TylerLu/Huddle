@@ -51,33 +51,27 @@ export class WeekInputComponent implements OnInit {
         this.errorMessage = "";
         if (ModelConverter.isMetricValueFrontend(valModel)) {
             let metricVal = ModelConverter.toMetricValueFrontend(valModel);
-            if (!metricVal.metricValues)
-                this.errorMessage = '';
             if (metricVal.metricValues.toString() === '')
                 metricVal.metricValues = null;
-
-            if (metricVal.metricValues && parseInt(metricVal.metricValues.toString()).toString() === "NaN") {
-                this.errorMessage = Constants.numberRequired;
+            
+            let checkResult = this.checkInput(metricVal.metricValues);
+            if (!checkResult)
                 return;
-            }
-            if(metricVal.metricValues)
-                metricVal.metricValues = parseInt(metricVal.metricValues.toString());
+            if (metricVal.metricValues.toString() != '-')
+                metricVal.metricValues = parseFloat(metricVal.metricValues.toString());
             this.inputValueChange.emit(metricVal.metricValues);
             valueUpdated = (this.currentValues !== this.recalcMetricValues());
         }
         if (ModelConverter.isReasonValueFrontend(valModel)) {
             let reasonVal = ModelConverter.toReasonValueFrontend(valModel);
-            if (!reasonVal.reasonMetricValues)
-                this.errorMessage = '';
-            if (reasonVal.reasonMetricValues.toString() === '')
+             if (reasonVal.reasonMetricValues.toString() === '')
                 reasonVal.reasonMetricValues = null;
 
-            if (reasonVal.reasonMetricValues && parseInt(reasonVal.reasonMetricValues.toString()).toString() === "NaN") {
-                this.errorMessage = Constants.numberRequired;
-                return;
-            }
+             let checkResult = this.checkInput(reasonVal.reasonMetricValues);
+             if (!checkResult)
+                 return;
             if (reasonVal.reasonMetricValues)
-                reasonVal.reasonMetricValues = parseInt(reasonVal.reasonMetricValues.toString());
+                reasonVal.reasonMetricValues = parseFloat(reasonVal.reasonMetricValues.toString());
             this.inputValueChange.emit(reasonVal.reasonMetricValues);
             valueUpdated = (this.currentValues !== this.recalcMetricValues());
 
@@ -99,5 +93,20 @@ export class WeekInputComponent implements OnInit {
 
     recalcMetricValues() {
         return this.metricValueService.getMetricReasonValuesJSON([this.weekInputViewModel], [this.weekInputViewModel],['isUpdated']);
+    }
+
+    checkInput(inputValue:any) {
+
+        if (!inputValue) {
+            this.errorMessage = '';
+            return false;
+        }
+        let regex = /^(\-|\+)?\d+(\.\d+)?$/;
+        let regexp = new RegExp(regex);
+        if (!regexp.test(inputValue)) {
+            this.errorMessage = Constants.numberRequired;
+            return false;
+        }
+        return true;
     }
 }

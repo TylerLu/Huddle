@@ -192,3 +192,16 @@ textarea {
 .deleteDialog .save-container {
     text-align: center;
 }
+@media (min-width: 992px) {
+    .container {
+        min-width: 1024px;
+        max-width: 1024px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        min-width: 1024px;
+        max-width: 1024px;
+    }
+}

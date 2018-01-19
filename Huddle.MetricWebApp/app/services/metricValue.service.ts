@@ -11,6 +11,8 @@ import { Constants } from '../shared/constants';
 import { ModelConverter } from '../utils/modelConverter';
 import { DateHelper } from '../utils/dateHelper';
 import { HandleError } from '../shared/HandleError';
+import { State } from '../shared/models/state';
+import { IssueState } from '../shared/models/issueState';
 
 @Injectable()
 export class MetricValueService {
@@ -153,8 +155,11 @@ export class MetricValueService {
         return jsonResult;
     }
 
+    /*
+    * ignore activeMetricCount and state by default
+    */
     private ignoreFieldsForJSONFormat(weekInputViewModelArray: Array<WeekInputViewModel>, ignoredFields: Array<string>) {
-        let clonedWeekInputViewModelArray = JSON.parse(JSON.stringify(weekInputViewModelArray));
+        let clonedWeekInputViewModelArray: Array<WeekInputViewModel> = JSON.parse(JSON.stringify(weekInputViewModelArray));
         clonedWeekInputViewModelArray.forEach(wm => {
             wm.metricValueArray.forEach(mv => {
                 if (ignoredFields) {
@@ -162,12 +167,27 @@ export class MetricValueService {
                         mv[field] = '';
                     });
                 }
+                if (mv.metric) {
+                    mv.metric.metricState = State.active;
+                    if (mv.metric.issue) {
+                        mv.metric.issue.activeMetricCount = 0;
+                        mv.metric.issue.issueState = IssueState.active;
+                    }
+                }
             });
             wm.reasonValueArray.forEach(rv => {
                 if (ignoredFields) {
                     ignoredFields.forEach(field => {
                         rv[field] = '';
                     });
+                }
+                if (rv.reason) {
+                    rv.reason.reasonState = State.active;
+                    if (rv.reason.metric) {
+                        rv.reason.metric.metricState = State.active;
+                        if (rv.reason.metric.issue)
+                            rv.reason.metric.issue.issueState = IssueState.active;
+                    }
                 }
             });
         });

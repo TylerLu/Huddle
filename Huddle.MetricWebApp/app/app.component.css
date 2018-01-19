@@ -3,6 +3,7 @@
     width:1366px;
     padding-left:0;
     padding-right:0;
+    min-width:1024px !important;
 }
 .container > *{
     display:inline-block;

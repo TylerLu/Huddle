@@ -256,13 +256,13 @@ For each team you created, please active the default planer and create 4 buckets
 
    ![](Images/sp-02.png)
 
-   * In the **Title **field, enter site title. 
+   * In the **Title** field, enter site title. 
    * In the **Web Site Address** field, enter hospital site URL.
    * **Select a language**: English
-   * In the **Template Selection** section, select **Team Site **as **site template.**
+   * In the **Template Selection** section, select **Team Site** as **site template.**
    * Choose a  **Time Zone**.
-   * **Administrator **should be the alias of the individual you want to have full administrator rights on this site. 
-   * Leave Server Resource Quota **at 300. (This value can be adjusted later if needed)
+   * **Administrator** should be the alias of the individual you want to have full administrator rights on this site. 
+   * Leave **Server Resource Quota**at 300. (This value can be adjusted later if needed)
 
 4. Click **OK**.
 
@@ -375,7 +375,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
       | API                                      | Permission Type | Permissions                              |
       | ---------------------------------------- | --------------- | ---------------------------------------- |
       | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
-      | Microsoft  Graph                         | Delegated       | Read and  all groups<br />Read  all users' full profiles |
+      | Microsoft  Graph                         | Delegated       | Read and write all groups<br />Read all users' full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Bot Client Id** parameter of the ARM Template.
 

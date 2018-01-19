@@ -149,10 +149,10 @@ namespace Huddle.MetricWebApp.SharePoint
             };
         }
 
-        private static int ToMetricValues(this ListItem item, string metricField)
+        private static double ToMetricValues(this ListItem item, string metricField)
         {
-            double metricValue = (double)item[metricField];
-            return System.Convert.ToInt32(metricValue);
+            double metricValue = System.Convert.ToDouble(item[metricField]);
+            return metricValue;
         }
 
     }

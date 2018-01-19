@@ -34,19 +34,10 @@ export class EditReasonComponent implements OnInit, AfterViewChecked {
        
     }
 
-    iniControls(reasonId): void {
-        if (reasonId > 0) {
-            this.reasonService.getReasonById(reasonId)
-                .subscribe(reason => {
-                    this.toEditReason.metric = this.relatedMetric;
-                    this.toEditReason.id = reason.id;
-                    this.toEditReason.name = reason.name;
-                    this.toEditReason.reasonTracking = reason.reasonTracking;
-                    this.toEditReason.trackingFrequency = reason.trackingFrequency;
-                    this.toEditReason.valueType = reason.valueType;
-                    this.toEditReason.reasonState = reason.reasonState;
-                });
-        }
+    iniControls(reason: Reason): void {
+        this.toEditReason = reason;
+        this.toEditReason.metric = this.relatedMetric;
+       
     }
 
     clearData(): void {
