@@ -20,7 +20,6 @@ namespace Huddle.BotWebApp.Services
             var plans = await graphServiceClient.Groups[team.Id].Planner.Plans
                 .Request()
                 .Filter($"title eq '{team.DisplayName}'") //does not work
-                .Expand(i => i.Buckets) // does not work
                 .GetAsync();
 
             return plans

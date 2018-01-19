@@ -77,7 +77,7 @@ namespace Huddle.BotWebApp.Services
             }
             catch (Exception ex)
             {
-                replyActivity = activity.CreateReply($"Error: " + ex.Message + "\r\n" + ex.StackTrace);
+                replyActivity.Text = "Failed to add item to MetricIdea list: " + ex.Message;
             }
 
             var card = new O365ConnectorCard("Idea created",
