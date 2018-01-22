@@ -84,7 +84,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     toExpandIssue: IssueViewModel;
     isDefaultExpanded: boolean = false;
 
-    toSelecedQuery: QueryResult;
+    toSelectedQuery: QueryResult;
 
     constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService,private cdRef:ChangeDetectorRef,private weekSelectorService: WeekSelectorService,private metricValueService:MetricValueService) {
     }
@@ -209,8 +209,10 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
 
     afterQuerySelected(selectedItem: QueryResult) {
         if (this.detectInputValueChange()) {
-            this.toSelecedQuery = selectedItem;
-            this.confirmQueryPopup.open();
+            if (typeof selectedItem !== 'string') {
+                this.toSelectedQuery = selectedItem;
+                this.confirmQueryPopup.open();
+            }
         } else {
             this.doSelectQueryResult(selectedItem);
         }
@@ -227,13 +229,13 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
             }
         } else if (selectedItem['issue'] !== undefined) {//metric
             this.issueArray.forEach(issue => {
-                if (issue.Issue.id == (selectedItem as Metric).issue.id) {
+                if (issue.Issue.id == selectedItem['issue'].id) {
                     selectedIssue = issue;
                 }
             });
         } else {//reason
             this.issueArray.forEach(issue => {
-                if (issue.Issue.id == (selectedItem as Reason).metric.issue.id) {
+                if (issue.Issue.id == selectedItem['metric'].issue.id) {
                     selectedIssue = issue;
                 }
             });
@@ -248,14 +250,14 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     afterSaveChangesCancelQuery() {
         let self = this;
         setTimeout(function () {
-            self.doSelectQueryResult(self.toSelecedQuery);
+            self.doSelectQueryResult(self.toSelectedQuery);
         }, 1500);
     }
 
     afterSaveChangesConfirmQuery() {
         this.saveIssueClick(this.selectedIssue)
             .subscribe(results => {
-                this.doSelectQueryResult(this.toSelecedQuery);
+                this.doSelectQueryResult(this.toSelectedQuery);
             });
     }
 

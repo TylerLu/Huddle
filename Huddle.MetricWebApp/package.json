@@ -33,7 +33,7 @@
     "systemjs": "0.19.40"
   },
   "devDependencies": {
-    "@angular/cli": "1.6.5",
+    "@angular/cli": "^1.6.5",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
     "@types/jasmine": "~2.5.53",
