@@ -69,16 +69,20 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (  
   pushd "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp"
 
+  echo Installing npm 5.6.0
+  call :ExecuteCmd npm install -g npm@5.6.0
+  IF !ERRORLEVEL! NEQ 0 goto error
+  
+  echo Installing angular/cli 1.6.5
+  call :ExecuteCmd npm install -g @angular/cli@1.6.5
+  IF !ERRORLEVEL! NEQ 0 goto error
+
   echo Installing npm packages
   call :ExecuteCmd npm install
   IF !ERRORLEVEL! NEQ 0 goto error
 
-  echo Installing angular/cli@1.6.5
-  call :ExecuteCmd npm install -g @angular/cli@1.6.5
-  IF !ERRORLEVEL! NEQ 0 goto error
-
   echo Executing ng build
-  call :ExecuteCmd ng build
+  call :ExecuteCmd node "D:\local\AppData\npm\node_modules\@angular\cli\bin\ng" build
   IF !ERRORLEVEL! NEQ 0 goto error
 
   popd
