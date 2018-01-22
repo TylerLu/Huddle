@@ -236,12 +236,14 @@ export class MetricListComponent implements OnInit {
             .subscribe(resp => {
                 this.removeAllUpdatedFlags();
                 this.currentMetricValues = this.recalcMetricValues();
+                this.weekSelectorService.allowSelectForMetric();
                 let updatedReasonList = this.reasonLists.map(reasonList => reasonList.updateReasonValues());
                 Observable.combineLatest(updatedReasonList)
                     .subscribe(resp => {
                         this.reasonLists.forEach(rl => {
                             rl.removeAllUpdatedFlags();
                             rl.currentReasonValues = rl.recalcMetricValues();
+                            this.weekSelectorService.allowSelectForReason();
                         });
                         activeObject.next(true);
                     });

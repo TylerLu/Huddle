@@ -63,7 +63,7 @@
                 <ui-switch (change)="onSwitch(item.id)" [checked]="item.reasonState==1?true:false" size="small" defaultBgColor="red"></ui-switch>
                
                     <span class="on-off-label">{{item.reasonState==1?"ON":"OFF"}}</span>
-                    <a (click)="editReasonClick(item.id)" class="edit-reason-link">EDIT</a>
+                    <a (click)="editReasonClick(item)" class="edit-reason-link">EDIT</a>
                
             </li>
 
