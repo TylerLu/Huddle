@@ -73,8 +73,8 @@ IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (
   call :ExecuteCmd npm install
   IF !ERRORLEVEL! NEQ 0 goto error
 
-  echo Installing angular/cli@1.6.4
-  call :ExecuteCmd npm install -g @angular/cli@1.6.4
+  echo Installing angular/cli@1.6.5
+  call :ExecuteCmd npm install -g @angular/cli@1.6.5
   IF !ERRORLEVEL! NEQ 0 goto error
 
   echo Executing ng build
