@@ -179,7 +179,7 @@ namespace Huddle.MetricWebApp.SharePoint
             }
         }
 
-        public static async Task<bool> CalcActiveMetricCount(List<Issue> issueList)
+        public static async Task<bool> CalcMetricCount(List<Issue> issueList)
         {
             if (!issueList.Any())
                 return false;
@@ -200,7 +200,7 @@ namespace Huddle.MetricWebApp.SharePoint
                      .OrderBy(item => item.Id)
                      .ToArray();
                 issueList.ForEach(issue => {
-                    issue.ActiveMetricCount = metricArray.Count(metric => metric.Issue.Id == issue.Id && metric.State == 1);
+                    issue.ActiveMetricCount = metricArray.Count(metric => metric.Issue.Id == issue.Id );
                 });
                 return true;
             }

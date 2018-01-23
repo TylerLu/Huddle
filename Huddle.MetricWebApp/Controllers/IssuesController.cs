@@ -73,7 +73,7 @@ namespace Huddle.MetricWebApp.Controllers
         public async Task<HttpResponseMessage> Get(int state,string teamId)
         {
             var issueList = (await IssuesService.GetItemsAsync(state, teamId)).ToList();
-            await MetricsService.CalcActiveMetricCount(issueList);
+            await MetricsService.CalcMetricCount(issueList);
             var result = issueList.Select(issue => issue.ToJson()).ToArray();
             return ToJson(result);
         }

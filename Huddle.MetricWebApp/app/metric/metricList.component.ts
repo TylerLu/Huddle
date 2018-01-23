@@ -106,18 +106,6 @@ export class MetricListComponent implements OnInit {
 
     onSwitch(id:number) {
         this.metricService.updateMetricStatus(id);
-        this.metricArray.forEach(metric => {
-            if (metric.metric.id == id) {
-                if (metric.metric.metricState == State.active) {
-                    metric.metric.metricState = State.closed;
-                    this.reduiceActiveMetricCount();
-                }
-                else {
-                    metric.metric.metricState = State.active;
-                    this.currentIssue.activeMetricCount++;
-                }
-            }
-        });
     }
 
     closed() { }
@@ -295,13 +283,6 @@ export class MetricListComponent implements OnInit {
                 return;
             }
         });
-        if (toEditMetric.metricState != this.priviousMetricStatus) {
-            if (toEditMetric.metricState == State.active) {
-                this.currentIssue.activeMetricCount++;
-            } else {
-                this.reduiceActiveMetricCount();
-            }
-        }
     }
     afterDeleteMetric(deletedMetric: Metric) {
         this.modalEditMetric.close();

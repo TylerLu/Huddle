@@ -97,7 +97,7 @@ In this section, we will connect to Microsoft Teams in PowerShell with a Huddle 
 
 > Note: after you finish this section, teams will be created right away. But their owners and members will take up to an hour to show in Teams. Refer to [Add-TeamUser](https://docs.microsoft.com/en-us/powershell/module/teams/add-teamuser?view=teams-ps) for more details.
 
-1. First, let open and edit `/Files/Teams.xlsx`. Input the the teams and related information.
+1. First, let open and edit `/Files/Teams.xlsx`. Input the teams and related information.
 
    > Note: 
    >
@@ -787,3 +787,4 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
 7. Click **Save**. 
 
+**Copyright (c) 2018 Microsoft. All rights reserved.**
