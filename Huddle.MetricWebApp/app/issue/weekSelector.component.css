@@ -1,4 +1,8 @@
 ﻿.date-range{text-align:right;}
 .date-range > *{display:inline-block;}
 .date-range .selector{cursor:pointer;}
-.date-range label.current-date{font-weight:600;}
+    .date-range label.current-date {
+        font-weight: 600;
+        position: relative;
+        top: 2px;
+    }
