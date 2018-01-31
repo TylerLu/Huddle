@@ -1,4 +1,9 @@
-﻿import { Component, OnInit, AfterViewChecked, ViewChild,Input, Output, EventEmitter } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Router } from '@angular/router';
 import { Constants } from '../shared/constants';
@@ -18,17 +23,16 @@ export class CommonConfirmComponent implements OnInit {
     @Input('message') message: string;
     @Input('cancelTxt') cancelTxt: string = "cancel";
     @Input('confirmTxt') confirmTxt: string = "confirm";
+
     @Output() onCancled: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() onConfirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    @ViewChild('modalConfirm')
-    modalConfirm: ModalComponent;
+    @ViewChild('modalConfirm') modalConfirm: ModalComponent;
 
     constructor(private issueService: IssueService, private metricService: MetricService, private reasonService: ReasonService, private router: Router) {
     }
 
     ngOnInit(): void {
-        
     }
 
     open(): void {
@@ -48,5 +52,4 @@ export class CommonConfirmComponent implements OnInit {
         this.onConfirmed.emit(true);
         this.close();
     }
-
 }

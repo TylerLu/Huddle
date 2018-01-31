@@ -1,17 +1,16 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OpenIdConnect;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Huddle.MetricWebApp.Infrastructure
 {
-    /// <summary>
-    /// Handle AdalException and navigate user to the authorize endpoint or /Link/LoginO365Required
-    /// </summary>
     public class HandleAdalExceptionAttribute : ActionFilterAttribute, IExceptionFilter
     {
         public static readonly string ChallengeImmediatelyTempDataKey = "ChallengeImmediately";

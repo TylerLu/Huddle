@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using Microsoft.Owin.Security;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Huddle.MetricWebApp.Controllers
 {
@@ -13,12 +15,8 @@ namespace Huddle.MetricWebApp.Controllers
     {
         public void SignIn(string redirectUri = "/")
         {
-            // Send an OpenID Connect sign-in request.
-            //if (!Request.IsAuthenticated)
-            //{
             HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = redirectUri },
                 OpenIdConnectAuthenticationDefaults.AuthenticationType);
-            //}
         }
 
         public void SignOut()
@@ -37,7 +35,6 @@ namespace Huddle.MetricWebApp.Controllers
                 // Redirect to home page if the user is authenticated.
                 return RedirectToAction("Index", "Home");
             }
-
             return View();
         }
     }

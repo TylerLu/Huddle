@@ -1,5 +1,7 @@
-﻿<form #reasonForm="ngForm" name="reasonForm" novalidate>
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license. -->
+<!-- See LICENSE in the project root for license information -->
 
+<form #reasonForm="ngForm" name="reasonForm" novalidate>
     <div class="huddle-popup-container">
         <div class="new-reason-container ">
             <div class="row">
@@ -19,8 +21,8 @@
                     Reason Name<span class="required">*</span>
                 </div>
                 <div class="col-md-8">
-                    <input class="ms-TextField-field" type="text"  [(ngModel)]="toEditReason.name"name="name" required ngModel #name="ngModel"  >
-                        <show-errors [control]="name"></show-errors>
+                    <input class="ms-TextField-field" type="text" [(ngModel)]="toEditReason.name" name="name" required ngModel #name="ngModel">
+                    <show-errors [control]="name"></show-errors>
                 </div>
                 <div class="col-md-4 item-title">
                     Reason Tracking<span class="required">*</span>
@@ -28,7 +30,6 @@
                 <div class="col-md-8">
                     <input class="ms-TextField-field" type="text" [(ngModel)]="toEditReason.reasonTracking" name="tracking" required ngModel #tracking="ngModel">
                     <show-errors [control]="tracking"></show-errors>
-
                 </div>
             </div>
         </div>
@@ -45,20 +46,17 @@
                     I want to measure this reason in
                 </div>
                 <div class="col-md-6">
-                   {{toEditReason.valueType}}
+                    {{toEditReason.valueType}}
                 </div>
                 <div class="col-md-5">
                     Active
                 </div>
                 <div class="col-md-6">
                     <ui-switch [checked]="toEditReason.reasonState==1?true:false" size="small" [(ngModel)]="toEditReason.reasonState" name="switch" defaultBgColor="red"></ui-switch>
-
                     <span class="on-off-label">{{toEditReason.reasonState==1?"ON":"OFF"}}</span>
-
                 </div>
             </div>
         </div>
-
         <div class="save-container">
             <div class="left">
                 <button class="btn-cancel" (click)="delete()">
@@ -74,7 +72,7 @@
                 </button>
             </div>
         </div>
-        </div>
+    </div>
 </form>
 
 <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop"

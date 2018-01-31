@@ -1,4 +1,9 @@
-﻿import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Issue } from '../shared/models/issue';
@@ -12,10 +17,10 @@ import { ReasonService } from '../services/reason.service';
 import { Constants } from '../shared/constants';
 import { CommonUtil } from '../utils/commonUtil';
 import { IssueListComponent } from '../issueList/issueList.component';
-import { FabricHelper } from '../utils/fabricHelper';
 import { State } from '../shared/models/state';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+
 declare var fabric: any;
 declare var jQuery: any;
 
@@ -30,13 +35,13 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
     @Output() onClosed: EventEmitter<Issue> = new EventEmitter<Issue>();
     @Output() onDeleted: EventEmitter<Issue> = new EventEmitter<Issue>();
 
-    @ViewChild('issueForm')
-    private issueForm: NgForm;
+    @ViewChild('issueForm') private issueForm: NgForm;
+    @ViewChild(ConfirmComponent) private deletePopupComponent: ConfirmComponent;
+    @ViewChild('modalDelete') modalDeletePopupContainer: ModalComponent;
 
     selectedCategory = '';
     selectedUser = '';
     categories = new Array<Category>();
- 
     users = new Array<User>();
     isSaving = false;
     teamId = '1';
@@ -48,7 +53,6 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit(): void {
-       
     }
 
     open(issueId): void {
@@ -68,7 +72,7 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
     initIssue(issueId) {
         if (issueId > 0) {
             this.issueService.getIssueById(issueId)
-                .subscribe(issue => {                   
+                .subscribe(issue => {
                     this.toEditIssue.id = issue.id;
                     this.toEditIssue.name = issue.name;
                     this.toEditIssue.category = issue.category;
@@ -76,7 +80,6 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
                     this.toEditIssue.issueState = issue.issueState;
                     this.initUsers();
                     this.initCategories();
-
                 });
         }
     }
@@ -93,12 +96,10 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
                         }
                     }
                 }
-                
             });
     }
 
     initCategories() {
-      
         this.issueService.getCategories()
             .subscribe(resp => {
                 this.categories = resp;
@@ -114,29 +115,27 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
     initTeamContext() {
         this.teamId = CommonUtil.getTeamId();
     }
- 
 
     selectCategory(categoryName) {
         this.selectedCategory = categoryName;
     }
+
     selectUser(user) {
         this.selectedUser = user;
     }
 
-
     getCategoryByName(categoryName: string) {
-         let filterResult = this.categories.filter(category => category.name == categoryName);
-         if (filterResult.length > 0)
-             return filterResult[0];
-         return new Category(-1, '');
+        let filterResult = this.categories.filter(category => category.name == categoryName);
+        if (filterResult.length > 0)
+            return filterResult[0];
+        return new Category(-1, '');
     }
 
     isSaveDisabled(): boolean {
-        return !this.toEditIssue.name || !this.toEditIssue.metric || this.isSaving; 
+        return !this.toEditIssue.name || !this.toEditIssue.metric || this.isSaving;
     }
 
     saveIssue(): void {
-
         this.isSaving = true;
         this.toEditIssue.owner = this.selectedUser;
         this.toEditIssue.category = this.getCategoryByName(this.selectedCategory);
@@ -148,22 +147,16 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
                 }
             });
     }
-
-    //pop up
-
-    @ViewChild(ConfirmComponent)
-    private deletePopupComponent: ConfirmComponent; 
-
-    @ViewChild('modalDelete')
-    modalDeletePopupContainer: ModalComponent;
-
+    
     delete(): void {
         this.modalDeletePopupContainer.open();
     }
+
     deleteOpened(): void {
         this.deleteTitle = 'DELETE ISSUE: "' + this.toEditIssue.name + '"';
         this.deletePopupComponent.open(Constants.issueListName, this.toEditIssue.id);
     }
+
     deleteDismissed(): void {
     }
 
@@ -175,8 +168,6 @@ export class EditIssueComponent implements OnInit, AfterViewChecked {
         }
     }
 
-
     ngAfterViewChecked() {
-        FabricHelper.initFabricDropdown();
     }
 }

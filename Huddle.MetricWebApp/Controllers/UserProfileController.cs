@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Security.Claims;
-using System.Web;
-using System.Web.Mvc;
-using System.Threading.Tasks;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.MetricWebApp.Models;
 using Microsoft.Azure.ActiveDirectory.GraphClient;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using Huddle.MetricWebApp.Models;
+using System;
+using System.Configuration;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Huddle.MetricWebApp.Controllers
 {
@@ -36,7 +39,6 @@ namespace Huddle.MetricWebApp.Controllers
                       async () => await GetTokenForApplication());
 
                 // use the token for querying the graph to get the user details
-
                 var result = await activeDirectoryClient.Users
                     .Where(u => u.ObjectId.Equals(userObjectID))
                     .ExecuteAsync();

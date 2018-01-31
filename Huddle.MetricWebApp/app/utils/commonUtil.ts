@@ -1,4 +1,9 @@
-﻿import { Router } from '@angular/router';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Router } from '@angular/router';
 import { WeekInputViewModel } from "../shared/models/weekInputViewModel";
 import { Issue } from "../shared/models/issue";
 import { Reason } from "../shared/models/reason";
@@ -7,7 +12,7 @@ declare var jQuery: any;
 
 export class CommonUtil {
 
-    public static readonly teamId: string = "teamId";
+    private static readonly teamId: string = "teamId";
 
     public static isInMsTeam(): boolean {
         var isInIFrame = (window.location != window.parent.location) ? true : false;

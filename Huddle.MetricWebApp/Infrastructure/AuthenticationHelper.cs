@@ -1,9 +1,13 @@
-﻿using Huddle.MetricWebApp.Models;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.MetricWebApp.Models;
 using Microsoft.Azure.ActiveDirectory.GraphClient;
 using Microsoft.Graph;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
@@ -34,19 +38,14 @@ namespace Huddle.MetricWebApp.Infrastructure
     public static class AuthenticationHelper
     {
         public static readonly string AADCertThumbprint = Constants.AADClientCertThumbprint;
-        /// <summary>
-        /// Get an instance of ActiveDirectoryClient
-        /// </summary>
+
         public static async Task<ActiveDirectoryClient> GetActiveDirectoryClientAsync(Permissions permissions = Permissions.Delegated)
         {
             var accessToken = await GetAccessTokenAsync(Constants.Resources.AADGraph, permissions);
             var serviceRoot = new Uri(new Uri(Constants.Resources.AADGraph), ClaimsPrincipal.Current.GetTenantId());
             return new ActiveDirectoryClient(serviceRoot, () => Task.FromResult(accessToken));
         }
-
-        /// <summary>
-        /// Get an instance of GraphServiceClient
-        /// </summary>
+        
         public static async Task<GraphServiceClient> GetGraphServiceClientAsync(Permissions permissions = Permissions.Delegated)
         {
             var accessToken = await GetAccessTokenAsync(Constants.Resources.MSGraph, permissions);
@@ -68,37 +67,12 @@ namespace Huddle.MetricWebApp.Infrastructure
             return GetSharePointClientContext(Constants.BaseSPSiteUrl, token);
         }
 
-
-        ///// <summary>
-        ///// Get an instance of ActiveDirectoryClient from the specified AuthenticationResult
-        ///// </summary>
-        //public static ActiveDirectoryClient GetActiveDirectoryClient(AuthenticationResult result)
-        //{
-        //    var serviceRoot = new Uri(new Uri(Constants.Resources.AADGraph), result.TenantId);
-        //    return new ActiveDirectoryClient(serviceRoot, () => Task.FromResult(result.AccessToken));
-        //}
-
-        ///// <summary>
-        ///// Get an instance of GraphServiceClient from the specified AuthenticationResult
-        ///// </summary>
-        //public static GraphServiceClient GetGraphServiceClient(AuthenticationResult result)
-        //{
-        //    var serviceRoot = Constants.Resources.MSGraph + "/v1.0/" + ClaimsPrincipal.Current.GetTenantId();
-        //    return new GraphServiceClient(serviceRoot, new BearerAuthenticationProvider(result.AccessToken));
-        //}
-
-        /// <summary>
-        /// Get an access token of the specified resource
-        /// </summary>
         public static async Task<string> GetAccessTokenAsync(string resource, Permissions permissions = Permissions.Delegated)
         {
             var result = await GetAuthenticationResult(resource, permissions);
             return result.AccessToken;
         }
 
-        /// <summary>
-        /// Get an AuthenticationResult of the specified resource
-        /// </summary>
         public static Task<AuthenticationResult> GetAuthenticationResult(string resource, Permissions permissions)
         {
             var context = GetAuthenticationContext(ClaimsPrincipal.Current.Identity as ClaimsIdentity, permissions);
@@ -123,9 +97,6 @@ namespace Huddle.MetricWebApp.Infrastructure
                 throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Get an instance of AuthenticationContext
-        /// </summary>
         public static AuthenticationContext GetAuthenticationContext(ClaimsIdentity claimsIdentity, Permissions permissions)
         {
             var tenantID = claimsIdentity.GetTenantId();
@@ -137,9 +108,6 @@ namespace Huddle.MetricWebApp.Infrastructure
             return new AuthenticationContext(authority, tokenCache);
         }
 
-        /// <summary>
-        /// Get an AuthenticationResult from the specified authorization code
-        /// </summary>
         public static async Task<AuthenticationResult> GetAuthenticationResultAsync(string authorizationCode)
         {
             var credential = new ClientCredential(Constants.AADClientId, Constants.AADClientSecret);
@@ -148,25 +116,21 @@ namespace Huddle.MetricWebApp.Infrastructure
             return await authContext.AcquireTokenByAuthorizationCodeAsync(authorizationCode, redirectUri, credential);
         }
 
-        /// <summary>
-        /// Get an App-only access token for a daemon app
-        /// </summary>
-        //public static async Task<string> GetAppOnlyAccessTokenForDaemonAppAsync(string resource, string certPath, string certPassword, string tenantId)
-        //{
-        //    var authority = string.Format("{0}{1}", Constants.AADInstance, tenantId);
-        //    var authenticationContext = new AuthenticationContext(authority, false);
-        //    var cert = GetClientAssertionCertificate(certPath, certPassword);
-        //    var authenticationResult = await authenticationContext.AcquireTokenAsync(resource, cert);
-        //    return authenticationResult.AccessToken;
-        //}
+        public static async Task<string> GetAccessTokenForAppAsync(string resource)
+        {
+            var authenticationContext = new AuthenticationContext(Constants.Authority, false);
+            var clientAssertionCertificate = GetClientAssertionCertificate();
+            var authenticationResult = await authenticationContext.AcquireTokenAsync(resource, clientAssertionCertificate);
+            return authenticationResult.AccessToken;
+        }
 
-        //private static ClientAssertionCertificate GetClientAssertionCertificate(string certPath, string certPassword)
-        //{
-        //    var certData = System.IO.File.ReadAllBytes(certPath);
-        //    var flags = X509KeyStorageFlags.Exportable | X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet;
-        //    var cert = new X509Certificate2(certData, certPassword, flags);
-        //    return new ClientAssertionCertificate(Constants.AADClientId, cert);
-        //}
+        internal static ClientAssertionCertificate GetClientAssertionCertificate()
+        {
+            var cert = GetX509Certificate();
+            if (cert == null)
+                throw new Exception("Could not find Client Assertion Certificate with thumbprint " + Constants.AADClientCertThumbprint);
+            return new ClientAssertionCertificate(Constants.AADClientId, cert);
+        }
 
         private static string GetSharePointResourceId(string siteCollectionUrl)
         {
@@ -184,23 +148,6 @@ namespace Huddle.MetricWebApp.Infrastructure
             clientContext.ExecutingWebRequest += (sender, args) =>
                     args.WebRequestExecutor.WebRequest.Headers["Authorization"] = "Bearer " + token;
             return clientContext;
-        }
-
-
-        public static async Task<string> GetAccessTokenForAppAsync(string resource)
-        {
-            var authenticationContext = new AuthenticationContext(Constants.Authority, false);
-            var clientAssertionCertificate = GetClientAssertionCertificate();
-            var authenticationResult = await authenticationContext.AcquireTokenAsync(resource, clientAssertionCertificate);
-            return authenticationResult.AccessToken;
-        }
-
-        internal static ClientAssertionCertificate GetClientAssertionCertificate()
-        {
-            var cert = GetX509Certificate();
-            if (cert == null)
-                throw new Exception("Could not find Client Assertion Certificate with thumbprint " + Constants.AADClientCertThumbprint);
-            return new ClientAssertionCertificate(Constants.AADClientId, cert);
         }
 
         private static X509Certificate2 GetX509Certificate()

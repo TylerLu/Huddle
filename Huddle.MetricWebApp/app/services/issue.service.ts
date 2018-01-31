@@ -1,24 +1,29 @@
-﻿import { Injectable, Inject } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Injectable, Inject } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
-import { DataService} from '../services/data.service';
+import { DataService } from '../services/data.service';
 import { Issue } from '../shared/models/issue';
 import { User } from '../shared/models/user';
 import { IssueViewModel } from '../issueList/issue.viewmodel';
-import { Category} from '../shared/models/category';
-import { Reason} from '../shared/models/reason';
+import { Category } from '../shared/models/category';
+import { Reason } from '../shared/models/reason';
 import { Constants } from '../shared/constants';
 import { ModelConverter } from '../utils/modelConverter';
 import { DateHelper } from '../utils/dateHelper';
-import { HandleError } from '../shared/HandleError';
+import { HandleError } from '../shared/handleError';
 
 @Injectable()
 export class IssueService {
 
     constructor(private dataService: DataService) { }
 
-    public filterIssueList(state:number,teamId:string): Observable<Issue[]> {
+    public filterIssueList(state: number, teamId: string): Observable<Issue[]> {
         let activeObject: ReplaySubject<Issue[]> = new ReplaySubject(1);
-        this.dataService.getArray<Issue>(Constants.webAPI.issuesFilterUrl + "/" + state + "/" + teamId+'/')
+        this.dataService.getArray<Issue>(Constants.webAPI.issuesFilterUrl + "/" + state + "/" + teamId + '/')
             .subscribe((resp) => {
                 let result: Issue[] = [];
                 resp.forEach(function (issue, index) {
@@ -89,8 +94,7 @@ export class IssueService {
             },
             error => {
                 HandleError.handleError(error);
-            }
-            );
+            });
         return activeObject;
     }
 

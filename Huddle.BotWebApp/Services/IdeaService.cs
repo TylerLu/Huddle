@@ -1,4 +1,9 @@
-﻿using Huddle.BotWebApp.Models;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.BotWebApp.Models;
 using Huddle.Common;
 using Microsoft.Graph;
 using System;
@@ -31,12 +36,7 @@ namespace Huddle.BotWebApp.Services
             var members = await teamService.GetTeamMembersAsync(team.Id);
             var membersDict = members.ToDictionary(m => m.Id);
 
-            //await plannerService.GetNewIdeaBucketAsync(plan);
-
             var tasks = await graphServiceClient.Planner.Plans[planId].Tasks.Request().GetAllAsync();
-            // No HTTP resource was found that matches the request URI 'https://tasks.office.com:444/taskapi/v2.0/plans('NST-vWZbOUa-rQAZ6Fp8ymQADbhi')/buckets('CvDR5JNrfkOHYzsG7KWDI2QAENg7')/tasks
-            // await graphServiceClient.Planner.Plans[planId].Buckets[bucket.Id].Tasks.Request().GetAllAsync();
-
             if (bucket != null)
                 tasks = tasks.Where(i => i.BucketId == bucket.Id).ToArray();
 
@@ -67,7 +67,6 @@ namespace Huddle.BotWebApp.Services
             };
             plannerTask.Assignments.AddAssignee(ownerId);
             plannerTask = await graphServiceClient.Planner.Tasks.Request().AddAsync(plannerTask);
-            //await Task.Delay(3000);
 
             var planerTaskDetails = new PlannerTaskDetails { Description = description };
             var plannerTaskRequestBuilder = graphServiceClient.Planner.Tasks[plannerTask.Id];
@@ -104,7 +103,6 @@ namespace Huddle.BotWebApp.Services
             var details = await graphServiceClient.Planner.Tasks[idea.Id].Details.Request().GetAsync();
             if (details != null)
                 idea.Description = details.Description;
-
         }
 
         public string GetIdeaUrl(string groupId, string planId, string taskId)

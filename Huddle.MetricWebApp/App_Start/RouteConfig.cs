@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -30,7 +31,7 @@ namespace Huddle.MetricWebApp
                 url: "Admin/{action}",
                 defaults: new { controller = "Admin", action = "Index" }
             );
-            
+
             routes.MapRoute(
                 name: "HomeError",
                 url: "Home/Error",

@@ -1,4 +1,9 @@
-﻿using Microsoft.Azure;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Microsoft.Azure;
 
 namespace Huddle.WebJob
 {
@@ -18,9 +23,7 @@ namespace Huddle.WebJob
         public static readonly string Authority = AADInstance + AADTenantId;
 
         public static readonly string BaseSPSiteUrl = CloudConfigurationManager.GetSetting("BaseSPSiteUrl");
-
-        public static object ConfigurationManager { get; private set; }
-
+        
         public static class LogicAppUrls
         {
             public static readonly string GetJoinedTeams = CloudConfigurationManager.GetSetting("LogicApp_GetJoinedTeams");

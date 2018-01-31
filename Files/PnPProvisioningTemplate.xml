@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license. -->
+<!-- See LICENSE in the project root for license information. -->
 <pnp:Provisioning xmlns:pnp="http://schemas.dev.office.com/PnP/2017/05/ProvisioningSchema">
   <pnp:Preferences Generator="OfficeDevPnP.Core, Version=2.20.1711.0, Culture=neutral, PublicKeyToken=3751622786b357c2" />
   <pnp:Templates ID="CONTAINER-TEMPLATE-851DADA8EC80445998442630FEF36D08">
@@ -107,7 +109,7 @@
         <pnp:ListInstance Title="Categories" TemplateType="100" Url="Lists/Categories" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" OnQuickLaunch="true" ContentTypesEnabled="true" EnableAttachments="false" EnableFolderCreation="false" >
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x01007FB81E7B5451B440ADCF586174ABA29D" Default="true" />
-           <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
           </pnp:ContentTypeBindings>
           <pnp:Views>
             <View Name="{371EF7AD-3437-4C1F-9A20-4D1D1CC97CEB}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Level="1" BaseViewID="1" ContentTypeID="0x">
@@ -129,7 +131,7 @@
         <pnp:ListInstance Title="Issues" TemplateType="100" Url="Lists/Issues" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" OnQuickLaunch="true" ContentTypesEnabled="true" EnableAttachments="false" EnableFolderCreation="false">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x010092DEC58FDBD0D446A14F47912C7EE2FB" Default="true" />
-           <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
           </pnp:ContentTypeBindings>
           <pnp:Views>
             <View Name="{0533730C-4AD1-4F1B-8B93-7855429310BC}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Level="1" BaseViewID="1" ContentTypeID="0x">
@@ -162,7 +164,7 @@
         <pnp:ListInstance Title="Metrics" TemplateType="100" Url="Lists/Metrics" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" OnQuickLaunch="true" ContentTypesEnabled="true" EnableAttachments="false" EnableFolderCreation="false">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x01001C27F98103CE4566A6C42FCC51BD6A3A" Default="true" />
-           <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
           </pnp:ContentTypeBindings>
           <pnp:Views>
             <View Name="{0533730C-4AD1-4F1B-8B93-7855429310BC}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Level="1" BaseViewID="1" ContentTypeID="0x">
@@ -195,7 +197,7 @@
         <pnp:ListInstance Title="Reasons" TemplateType="100" Url="Lists/Reasons" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" OnQuickLaunch="true" ContentTypesEnabled="true" EnableAttachments="false" EnableFolderCreation="false">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x010066635468CA38C24BA3270BF4F9F1C6DD" Default="true" />
-           <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
           </pnp:ContentTypeBindings>
           <pnp:Views>
             <View Name="{BAB18049-38C3-4A1F-813E-E43705AEE6AB}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Url="/sites/huddle/Lists/Reasons/AllItems.aspx" Level="1" BaseViewID="1" ContentTypeID="0x" ImageUrl="/_layouts/15/images/generic.png?rev=44">
@@ -230,7 +232,7 @@
         <pnp:ListInstance Title="Metric Values" TemplateType="100" Url="Lists/Metric Values" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" OnQuickLaunch="true" ContentTypesEnabled="true" EnableAttachments="false" EnableFolderCreation="false">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x01005A829A59DC99074882B4D3D3BB5DDB53" Default="true" />
-           <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
           </pnp:ContentTypeBindings>
           <pnp:Views>
             <View Name="{322A098F-1638-4482-B6B6-D1ADE88BDC29}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Level="1" BaseViewID="1" ContentTypeID="0x">
@@ -260,7 +262,7 @@
         <pnp:ListInstance Title="Reason Values" TemplateType="100" Url="Lists/Reason Values" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" OnQuickLaunch="true" ContentTypesEnabled="true" EnableAttachments="false" EnableFolderCreation="false">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x01006B1F2C62DC44F0428A00D3C4AAC49454" Default="true" />
-           <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
           </pnp:ContentTypeBindings>
           <pnp:Views>
             <View Name="{BD7EC26D-D3B3-4B64-B1F8-B0838BDFDB45}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Level="1" BaseViewID="1" ContentTypeID="0x">
@@ -290,7 +292,7 @@
         <pnp:ListInstance Title="Metric Ideas" TemplateType="100" Url="Lists/Metric Ideas" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" OnQuickLaunch="true" ContentTypesEnabled="true" EnableAttachments="false" EnableFolderCreation="false">
           <pnp:ContentTypeBindings>
             <pnp:ContentTypeBinding ContentTypeID="0x0100F247923794C63A4A875209B980C77798" Default="true" />
-           <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
           </pnp:ContentTypeBindings>
           <pnp:Views>
             <View Name="{1D2E3F15-3483-47EE-99E7-2A560FC2F1D7}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Level="1" BaseViewID="1" ContentTypeID="0x">

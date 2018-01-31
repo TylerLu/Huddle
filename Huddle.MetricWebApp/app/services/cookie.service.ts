@@ -1,4 +1,9 @@
-﻿import { Injectable, Inject } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Injectable, Inject } from '@angular/core';
 import { CookieService as NGCookieService, CookieOptions } from 'ngx-cookie';
 
 @Injectable()

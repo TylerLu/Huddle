@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
 using System.Web.Http;
 
 namespace Huddle.MetricWebApp
@@ -9,9 +11,6 @@ namespace Huddle.MetricWebApp
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
-            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
@@ -23,7 +22,7 @@ namespace Huddle.MetricWebApp
             config.Routes.MapHttpRoute(
                 name: "DoubleParamsApi",
                 routeTemplate: "api/{controller}/{id1}/{id2}",
-                defaults: new { id1 = RouteParameter.Optional,id2 = RouteParameter.Optional }
+                defaults: new { id1 = RouteParameter.Optional, id2 = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(

@@ -1,4 +1,9 @@
-﻿using Huddle.MetricWebApp.Models;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.MetricWebApp.Models;
 using Huddle.MetricWebApp.SharePoint;
 using Huddle.MetricWebApp.Util;
 using Newtonsoft.Json.Linq;
@@ -7,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace Huddle.MetricWebApp.Controllers
@@ -15,25 +19,23 @@ namespace Huddle.MetricWebApp.Controllers
     public class MetricValuesController : BaseAPIController
     {
         [Route("api/metricvalues/{metricIds}/{reasonIds}/{weekStartDay}")]
-        public async Task<HttpResponseMessage> Get(string metricIds,string reasonIds,DateTime weekStartDay)
+        public async Task<HttpResponseMessage> Get(string metricIds, string reasonIds, DateTime weekStartDay)
         {
             var metricValues = new List<MetricValue[]>();
-            var metricIdList= metricIds.Split(new char[] { '-' }).ToList();
+            var metricIdList = metricIds.Split(new char[] { '-' }).ToList();
             metricValues = await MetricValuesService.GetItemsAsync(metricIdList, weekStartDay);
 
             var reasonValues = new List<ReasonValue[]>();
-            var reasonIdList= reasonIds.Split(new char[] { '-' }).ToList();
+            var reasonIdList = reasonIds.Split(new char[] { '-' }).ToList();
             reasonValues = await ReasonValuesService.GetItemsAsync(reasonIdList, weekStartDay);
 
             var metricValsData = metricValues.Select(mv => mv.ToJson()).ToList();
             var reasonValsData = reasonValues.Select(rv => rv.ToJson()).ToList();
 
             metricValsData.AddRange(reasonValsData);
-
             return ToJson(metricValsData);
         }
 
-        // POST api/<controller>
         public async Task<HttpResponseMessage> Post(JObject objData)
         {
             dynamic jsonData = objData;
@@ -63,8 +65,7 @@ namespace Huddle.MetricWebApp.Controllers
                     }
                 });
             });
-
-
+            
             toAddReasonValues.ForEach(reasonValueList =>
             {
                 reasonValueList.ForEach(async reasonValue =>
@@ -84,6 +85,5 @@ namespace Huddle.MetricWebApp.Controllers
                 success = true
             });
         }
-
     }
 }

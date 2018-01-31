@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.IdentityModel.Claims;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.BotWebApp.Utils;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Owin;
-using Huddle.BotWebApp.Models;
-using Huddle.BotWebApp.Utils;
+using System;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace Huddle.BotWebApp
 {
@@ -20,8 +19,6 @@ namespace Huddle.BotWebApp
     {
         public void ConfigureAuth(IAppBuilder app)
         {
-            // ApplicationDbContext db = new ApplicationDbContext();
-
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions());

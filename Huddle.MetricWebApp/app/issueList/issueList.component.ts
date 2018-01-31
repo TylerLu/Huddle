@@ -1,10 +1,15 @@
-﻿import { Component, OnInit, AfterViewChecked,Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from '../services/cookie.service';
 import { IssueService } from '../services/issue.service';
 import { Issue } from '../shared/models/issue';
-import { Metric} from '../shared/models/metric';
+import { Metric } from '../shared/models/metric';
 import { Reason } from '../shared/models/reason';
 import { Category } from '../shared/models/category';
 import { IssueState } from '../shared/models/issueState';
@@ -12,21 +17,20 @@ import { IssueViewModel } from './issue.viewmodel';
 import { AllowIssueClick } from '../shared/models/allowIssueClick';
 import { IssueStateViewModel } from '../shared/models/issueState.viewmodel';
 import { Constants } from '../shared/constants';
-import { FabricHelper } from '../utils/fabricHelper';
 import { CommonUtil } from '../utils/commonUtil';
 import { AddIssueComponent } from '../issue/addIssue.component';
 import { EditIssueComponent } from '../issue/editIssue.component';
-import { HeaderComponent} from '../header/header.component';
-import { QueryResult} from '../shared/models/queryResult';
+import { HeaderComponent } from '../header/header.component';
+import { QueryResult } from '../shared/models/queryResult';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { MetricListComponent } from '../metric/metricList.component';
 import { WeekSelectorService } from '../services/weekSelector.service';
 import { WeekDay } from '../shared/models/weekDay';
 import { MetricValueService } from '../services/metricValue.service';
-import { CommonConfirmComponent} from '../confirm/common.confirm.component';
+import { CommonConfirmComponent } from '../confirm/common.confirm.component';
+
 declare var microsoftTeams: any;
 declare var jQuery: any;
-
 
 @Component({
     templateUrl: './issueList.component.html',
@@ -35,58 +39,34 @@ declare var jQuery: any;
 })
 
 export class IssueListComponent implements OnInit, AfterViewChecked {
+    @Input('allowClick') allowClick: AllowIssueClick;
+    @Output() afterCheckAllowClick: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     issueArray = new Array<IssueViewModel>();
     selectedIssueState = new IssueStateViewModel();
     isCreateBtnVisible = true;
     selectedIssue: IssueViewModel;
     teamId = Constants.teamId;
-    @Input('allowClick') allowClick: AllowIssueClick;
-    @Output() afterCheckAllowClick: EventEmitter<boolean> = new EventEmitter<boolean>();
     isNewIssueButtonClicked: boolean;
     toEditIssue: Issue;
-
-
     isRequestCompleted: boolean;
-
-    @ViewChild(AddIssueComponent)
-    private addIssue: AddIssueComponent; 
-
-    @ViewChild(EditIssueComponent)
-    private editIssue: EditIssueComponent; 
-
-    @ViewChild(HeaderComponent)
-    private header: HeaderComponent;
-
-    @ViewChildren('metricLists')
-    metricLists:QueryList<MetricListComponent>;
-
-    @ViewChild('modalAddIssue')
-    modalAddIssue: ModalComponent;
-
-    @ViewChild('modalEditIssue')
-    modalEditIssue: ModalComponent;
-
-    @ViewChild(CommonConfirmComponent)
-    confirmPopup: CommonConfirmComponent;
-
-    @ViewChild('expandConfirm')
-    confirmExpandPopup: CommonConfirmComponent;
-
-    @ViewChild('filterConfirm')
-    confirmFilterPopup: CommonConfirmComponent;
-
-    @ViewChild('queryConfirm')
-    confirmQueryPopup: CommonConfirmComponent;
-
     enable: boolean;
-
     toExpandIssue: IssueViewModel;
     isDefaultExpanded: boolean = false;
-
     toSelectedQuery: QueryResult;
 
-    constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService,private cdRef:ChangeDetectorRef,private weekSelectorService: WeekSelectorService,private metricValueService:MetricValueService) {
+    @ViewChild(AddIssueComponent) private addIssue: AddIssueComponent;
+    @ViewChild(EditIssueComponent) private editIssue: EditIssueComponent;
+    @ViewChild(HeaderComponent) private header: HeaderComponent;
+    @ViewChildren('metricLists') metricLists: QueryList<MetricListComponent>;
+    @ViewChild('modalAddIssue') modalAddIssue: ModalComponent;
+    @ViewChild('modalEditIssue') modalEditIssue: ModalComponent;
+    @ViewChild(CommonConfirmComponent) confirmPopup: CommonConfirmComponent;
+    @ViewChild('expandConfirm') confirmExpandPopup: CommonConfirmComponent;
+    @ViewChild('filterConfirm') confirmFilterPopup: CommonConfirmComponent;
+    @ViewChild('queryConfirm') confirmQueryPopup: CommonConfirmComponent;
+
+    constructor(private issueService: IssueService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService, private cdRef: ChangeDetectorRef, private weekSelectorService: WeekSelectorService, private metricValueService: MetricValueService) {
     }
 
     ngOnInit(): void {
@@ -106,7 +86,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         this.cdRef.detectChanges();
     }
 
-    initIssues() {        
+    initIssues() {
         this.initIssueStates();
     }
 
@@ -121,16 +101,13 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         return 0;
     }
 
-
     initTeamContext() {
         this.teamId = CommonUtil.getTeamId();
         this.initIssues();
     }
 
-
     initIssueStates() {
         this.selectedIssueState = this.header.selectedIssueState;
-         
         let issueId = this.getIssueId();
         if (issueId > 0) {
             this.issueService.getIssueById(issueId)
@@ -146,13 +123,9 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         }
     }
 
-
-    doNavigateIssue(item?: IssueViewModel){
+    doNavigateIssue(item?: IssueViewModel) {
         if (item && item.Issue) {
             this.cookieService.put("issueId", item.Issue.id.toString());
-            //open issue
-        } else {
-            //open first issue;
         }
     }
 
@@ -166,7 +139,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     doFilterIssues(state: number) {
         this.issueService.filterIssueList(state, this.teamId)
             .subscribe(resp => {
-                this.issueArray = resp.map( (issue,index) => {
+                this.issueArray = resp.map((issue, index) => {
                     let issueModel = new IssueViewModel();
                     issueModel.Issue = issue;
                     issueModel.IsSelected = false;
@@ -184,12 +157,10 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         }
     }
 
-
-
     updateIssue(updatedIssue: Issue) {
         let findResult = this.issueArray.filter(issue => issue.Issue.id == updatedIssue.id);
-        if (findResult.length == 0)
-            return;
+        if (findResult.length == 0) return;
+
         findResult[0].Issue.name = updatedIssue.name;
         findResult[0].Issue.metric = updatedIssue.metric;
     }
@@ -202,10 +173,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         } else {
             this.doFilterIssues(issueState.value);
         }
-        
     }
-
-
 
     afterQuerySelected(selectedItem: QueryResult) {
         if (this.detectInputValueChange()) {
@@ -220,27 +188,26 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
 
     doSelectQueryResult(selectedItem: QueryResult) {
         let selectedIssue: IssueViewModel;
-        if (selectedItem['category'] !== undefined) {//issue
+        if (selectedItem['category'] !== undefined) { //issue
             let searchedIssues = this.issueArray.filter((issue, index) => {
                 return issue.Issue.id == selectedItem.id;
             });
             if (searchedIssues.length > 0) {
                 selectedIssue = searchedIssues[0];
             }
-        } else if (selectedItem['issue'] !== undefined) {//metric
+        } else if (selectedItem['issue'] !== undefined) { //metric
             this.issueArray.forEach(issue => {
                 if (issue.Issue.id == selectedItem['issue'].id) {
                     selectedIssue = issue;
                 }
             });
-        } else {//reason
+        } else { //reason
             this.issueArray.forEach(issue => {
                 if (issue.Issue.id == selectedItem['metric'].issue.id) {
                     selectedIssue = issue;
                 }
             });
         }
-
         if (selectedIssue != null) {
             this.expandIssueWithoutCheck(selectedIssue);
             this.scrollScreen();
@@ -260,11 +227,11 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
                 this.doSelectQueryResult(this.toSelectedQuery);
             });
     }
-
-    //popup issue
+    
     addIssueClick() {
         this.modalAddIssue.open();
     }
+
     closed() {
     }
 
@@ -278,8 +245,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
     editIssueOpened() {
         this.editIssue.open(this.toEditIssue.id);
     }
-
-    //switch
+    
     onSwitch(a: any) {
         console.log(a);
     }
@@ -295,14 +261,14 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
             this.expandIssue(this.issueArray[0]);
             this.isDefaultExpanded = true;
         }
-
     }
 
-    hideIssueRelatedMetricList(issue:IssueViewModel) {
+    hideIssueRelatedMetricList(issue: IssueViewModel) {
         let metricList = this.getRelatedMetricList(issue);
         if (metricList !== null)
             metricList.hide();
     }
+
     showIssueRelatedMetricList(issue: IssueViewModel) {
         let currentMetricList = this.getRelatedMetricList(issue);
         if (currentMetricList !== null)
@@ -338,9 +304,8 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         this.showIssueRelatedMetricList(issue);
     }
 
-
     detectInputValueChange() {
-        if (this.selectedIssue === null || this.selectedIssue === undefined )
+        if (this.selectedIssue === null || this.selectedIssue === undefined)
             return false;
         let currentMetricList = this.getRelatedMetricList(this.selectedIssue);
         if (currentMetricList === null || currentMetricList === undefined)
@@ -351,7 +316,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         let isReasonValueChanged = currentMetricList.reasonLists
             .map(reasonList => reasonList.isInputValueChanged())
             .reduce((x, y) => x || y);
-        return isMetricValueChanged || isReasonValueChanged;                                                     
+        return isMetricValueChanged || isReasonValueChanged;
     }
 
     afterSaveChangesCancelExpand() {
@@ -389,22 +354,18 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
         return null;
     }
 
-
     scrollScreen(): void {
-
         setTimeout(function () {
             let expandedIssue = jQuery("div.issue-section.expanded");
             if (expandedIssue.offset()) {
                 let top = expandedIssue.offset().top;
                 jQuery("html").animate({ scrollTop: top }, 600);
             }
-            
         }, 1500);
     }
 
     subscribeWeekSelector() {
         this.weekSelectorService.selectWeek.subscribe(weekDay => {
-            //this.confirmPopup.open();
         });
         this.weekSelectorService.selectClick.subscribe(checkClick => {
             let self = this;
@@ -422,6 +383,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
             self.weekSelectorService.continueChangeWeek();
         }, 1500);
     }
+
     afterSaveChangesConfirm() {
         this.saveIssueClick(this.selectedIssue)
             .subscribe(results => {
@@ -452,7 +414,7 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
 
     afterCloseEditIssue(toEditIssue: Issue) {
         this.modalEditIssue.close();
-        this.issueArray.forEach((issue,index) => {
+        this.issueArray.forEach((issue, index) => {
             if (issue.Issue.id == toEditIssue.id) {
                 if (issue.Issue.issueState != toEditIssue.issueState) {
                     this.issueArray.splice(index, 1);
@@ -465,7 +427,6 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
                 return;
             }
         });
-
     }
 
     afterDeleteIssue(deletedIssue: Issue) {
@@ -477,5 +438,4 @@ export class IssueListComponent implements OnInit, AfterViewChecked {
             }
         });
     }
-
 }

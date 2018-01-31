@@ -1,5 +1,7 @@
-﻿<form #reasonForm="ngForm" name="reasonForm" novalidate>
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license. -->
+<!-- See LICENSE in the project root for license information -->
 
+<form #reasonForm="ngForm" name="reasonForm" novalidate>
     <div class="huddle-popup-container">
         <div class="new-reason-container ">
             <div class="row">
@@ -19,8 +21,8 @@
                     Reason Name<span class="required">*</span>
                 </div>
                 <div class="col-md-8">
-                    <input class="ms-TextField-field" type="text" [(ngModel)]="toAddReason.name" name="name" required ngModel #name="ngModel"  >
-                        <show-errors [control]="name"></show-errors>
+                    <input class="ms-TextField-field" type="text" [(ngModel)]="toAddReason.name" name="name" required ngModel #name="ngModel">
+                    <show-errors [control]="name"></show-errors>
                 </div>
                 <div class="col-md-4 item-title">
                     Reason Tracking<span class="required">*</span>
@@ -38,20 +40,19 @@
                     How often is this reason tracked?<span class="required">*</span>
                 </div>
                 <div class="col-md-6">
-                    <input type="radio" (click)="updateTrackingFrequency('Daily')" name="trackingFrequency"  [checked]='toAddReason.trackingFrequency==="Daily"'  /><span>Daily  </span>
+                    <input type="radio" (click)="updateTrackingFrequency('Daily')" name="trackingFrequency" [checked]='toAddReason.trackingFrequency==="Daily"' /><span>Daily  </span>
                     <input type="radio" (click)="updateTrackingFrequency('Weekly')" name="trackingFrequency" [checked]='toAddReason.trackingFrequency==="Weekly"' /><span>Weekly  </span>
                 </div>
                 <div class="col-md-5">
                     I want to measure this reason in<span class="required">*</span>
                 </div>
                 <div class="col-md-6">
-                    <input type="radio" value="Numbers" (click)="updateValueType('Numbers')"  [checked]='toAddReason.valueType==="Numbers"' name="metricvalueType"  /><span>Numbers  </span>
+                    <input type="radio" value="Numbers" (click)="updateValueType('Numbers')" [checked]='toAddReason.valueType==="Numbers"' name="metricvalueType" /><span>Numbers  </span>
                     <input type="radio" value="Percentages" (click)="updateValueType('Percentages')" [checked]='toAddReason.valueType==="Percentages"' name="metricvalueType" /><span>Percentages  </span>
                     <input type="radio" value="Dollars" (click)="updateValueType('Dollars')" [checked]='toAddReason.valueType==="Dollars"' name="metricvalueType" /> <span>Dollars</span>
                 </div>
             </div>
         </div>
-
         <div class="save-container">
             <button class="btn-cancel" (click)="close()">
                 <span class="">Cancel</span>

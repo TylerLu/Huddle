@@ -65,7 +65,7 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 :: Deployment
 :: ----------
 
-:: 0. Install npm dependencies and build
+:: 0. Install npm dependencies and ng build
 IF EXIST "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp\package.json" (  
   pushd "%DEPLOYMENT_SOURCE%\Huddle.MetricWebApp"
 

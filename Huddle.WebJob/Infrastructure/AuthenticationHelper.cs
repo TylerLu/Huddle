@@ -1,4 +1,9 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -25,7 +30,7 @@ namespace Huddle.WebJob.Infrastructure
 
             return GetSharePointClientContext(Constants.BaseSPSiteUrl, result.AccessToken);
         }
-        
+
         private static string GetSharePointResourceId(string siteCollectionUrl)
         {
             var url = new Uri(siteCollectionUrl);

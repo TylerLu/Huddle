@@ -1,4 +1,9 @@
-﻿import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Router } from '@angular/router';
@@ -13,7 +18,7 @@ import { ReasonService } from '../services/reason.service';
 import { Constants } from '../shared/constants';
 import { CommonUtil } from '../utils/commonUtil';
 import { IssueListComponent } from '../issueList/issueList.component';
-import { FabricHelper } from '../utils/fabricHelper';
+
 declare var fabric: any;
 declare var jQuery: any;
 
@@ -26,9 +31,8 @@ declare var jQuery: any;
 export class AddIssueComponent implements OnInit, AfterViewChecked {
     @Output() afterAddedIssue: EventEmitter<Issue> = new EventEmitter<Issue>();
     @Output() onClosed: EventEmitter<Issue> = new EventEmitter<Issue>();
-    
-    @ViewChild('issueForm')
-    private issueForm: NgForm;
+
+    @ViewChild('issueForm') private issueForm: NgForm;
 
     selectedCategory = '';
     selectedUser = '';
@@ -43,15 +47,13 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit(): void {
-        //this.initTeamContext();
-        //this.initCategoriesAndReasons();
     }
 
     open(): void {
         this.initTeamContext();
         jQuery("div.add-issue-dialog").find("li.ms-Dropdown-item").removeClass('is-selected');
         jQuery("div.add-issue-dialog").find('span.ms-Dropdown-title').html('');
-        
+
         this.toAddIssue = new Issue();
         this.initCategories();
         this.initUsers();
@@ -65,7 +67,6 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     }
 
     initUsers() {
-
         this.issueService.getUsers(this.teamId)
             .subscribe(resp => {
                 this.users = resp;
@@ -77,7 +78,6 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     }
 
     initCategories() {
-      
         this.issueService.getCategories()
             .subscribe(resp => {
                 this.categories = resp;
@@ -91,34 +91,31 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     initTeamContext() {
         this.teamId = CommonUtil.getTeamId();
     }
- 
 
     selectCategory(categoryName) {
         this.selectedCategory = categoryName;
     }
+
     selectUser(user) {
         this.selectedUser = user;
         this.toAddIssue.owner = this.selectedUser;
     }
 
-
     getCategoryByName(categoryName: string) {
-         let filterResult = this.categories.filter(category => category.name == categoryName);
-         if (filterResult.length > 0)
-             return filterResult[0];
-         return new Category(-1, '');
+        let filterResult = this.categories.filter(category => category.name == categoryName);
+        if (filterResult.length > 0)
+            return filterResult[0];
+        return new Category(-1, '');
     }
 
     isSaveDisabled(): boolean {
-        return !this.toAddIssue.name || !this.toAddIssue.metric || this.isSaving; 
+        return !this.toAddIssue.name || !this.toAddIssue.metric || this.isSaving;
     }
 
     saveIssue(): void {
-
         this.isSaving = true;
         this.toAddIssue.category = this.getCategoryByName(this.selectedCategory);
-
-        this.issueService.addIssue(this.toAddIssue,  this.teamId)
+        this.issueService.addIssue(this.toAddIssue, this.teamId)
             .subscribe(result => {
                 if (result) {
                     this.toAddIssue = result;
@@ -128,6 +125,5 @@ export class AddIssueComponent implements OnInit, AfterViewChecked {
     }
 
     ngAfterViewChecked() {
-        FabricHelper.initFabricDropdown();
     }
 }

@@ -1,14 +1,17 @@
-﻿import { Component, OnInit,AfterViewChecked } from "@angular/core"
-import { FabricHelper } from './utils/fabricHelper';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked } from "@angular/core"
 
 @Component({
     selector: "app-root",
     templateUrl: './app.component.html',
-    styleUrls:['./app.component.css']
+    styleUrls: ['./app.component.css']
 })
 
 export class AppComponent implements OnInit {
-
     isIssueListVisible: Boolean = true;
 
     ngOnInit() {
@@ -16,23 +19,16 @@ export class AppComponent implements OnInit {
     }
 
     hideIssueListForTeamTab() {
-        if (location.pathname.indexOf('tab') >=0 )
+        if (location.pathname.indexOf('tab') >= 0)
             this.isIssueListVisible = false;
     }
 
     componentActivated(component: Component) {
-        FabricHelper.init();
     }
 
     ngAfterViewChecked(): void {
-        FabricHelper.initToggle();
     }
 
     componentDeactived(component: Component) {
-
     }
-
-    
-    
-
 }

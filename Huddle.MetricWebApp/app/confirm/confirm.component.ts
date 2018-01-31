@@ -1,4 +1,9 @@
-﻿import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Router } from '@angular/router';
 import { Constants } from '../shared/constants';
@@ -18,16 +23,15 @@ export class ConfirmComponent implements OnInit {
     closeParent: boolean = false;
     list: string = '';
     itemToDeleteId: number;
-
     message: string = Constants.deleteConfirmMessage;
+
     constructor(private issueService: IssueService, private metricService: MetricService, private reasonService: ReasonService, private router: Router) {
     }
 
     ngOnInit(): void {
-        
     }
 
-    open(list:string, id:number): void {
+    open(list: string, id: number): void {
         this.list = list;
         this.itemToDeleteId = id;
         this.closeParent = false;
@@ -38,7 +42,6 @@ export class ConfirmComponent implements OnInit {
     }
 
     delete(): void {
-        //delete
         if (this.itemToDeleteId > 0) {
             if (this.list == Constants.issueListName) {
                 this.issueService.deleteIssue(this.itemToDeleteId)
@@ -63,5 +66,4 @@ export class ConfirmComponent implements OnInit {
             this.close();
         }
     }
-
 }

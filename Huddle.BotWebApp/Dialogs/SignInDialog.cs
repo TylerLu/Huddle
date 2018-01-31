@@ -1,4 +1,9 @@
-﻿using Huddle.BotWebApp.Utils;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.BotWebApp.Utils;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Graph;
@@ -31,8 +36,7 @@ namespace Huddle.BotWebApp.Dialogs
             context.Wait(SignInAsync);
             return Task.CompletedTask;
         }
-
-
+        
         private async Task SignInAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
@@ -47,7 +51,7 @@ namespace Huddle.BotWebApp.Dialogs
                 return;
             }
 
-            var signCard = new SigninCard
+            var signinCard = new SigninCard
             {
                 Text = "Authentication Required",
                 Buttons = new List<CardAction>()
@@ -59,7 +63,7 @@ namespace Huddle.BotWebApp.Dialogs
                 }
             };
             var message = context.MakeMessage();
-            message.Attachments.Add(signCard.ToAttachment());
+            message.Attachments.Add(signinCard.ToAttachment());
             await context.PostAsync(message);
 
             await context.SayAsync("Hi There! Nice to meet you. Please click the Sign into Office 365 button above.");
@@ -72,7 +76,7 @@ namespace Huddle.BotWebApp.Dialogs
             catch (TaskCanceledException ex)
             {
                 var exception = new SignTimeoutException("Sign in timeout", ex);
-                context.Fail(exception); // throw exception
+                context.Fail(exception);
                 return;
             }
             

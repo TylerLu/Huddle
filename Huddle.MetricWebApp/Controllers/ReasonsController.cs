@@ -1,29 +1,28 @@
-﻿using Huddle.MetricWebApp.Models;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.MetricWebApp.Models;
 using Huddle.MetricWebApp.SharePoint;
 using Huddle.MetricWebApp.Util;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace Huddle.MetricWebApp.Controllers
 {
-    public class ReasonsController:BaseAPIController
+    public class ReasonsController : BaseAPIController
     {
-        // GET api/<controller>/5
-        //[Route("api/reasons/{reasonId}")]
         [HttpGet]
         public async Task<HttpResponseMessage> Get(int id)
         {
             var reason = await ReasonsService.GetReasonById(id);
             return ToJson(reason.ToJson());
         }
-
-        // POST api/<controller>
+        
         [Route("api/reasons")]
         [HttpPost]
         public async Task<HttpResponseMessage> Post(JObject objData)
@@ -37,8 +36,7 @@ namespace Huddle.MetricWebApp.Controllers
                 issueId = toAddReason.Id
             });
         }
-
-        // PUT api/<controller>/5
+        
         public void Put(int id, [FromBody]string value)
         {
         }
@@ -77,7 +75,6 @@ namespace Huddle.MetricWebApp.Controllers
         [HttpDelete]
         public async Task<HttpResponseMessage> Delete(int id)
         {
-            //Delete reason value and then reason.
             await ReasonsService.DeleteReasonAndReasonValuesAsync(id);
             return ToJson(new
             {
@@ -85,6 +82,4 @@ namespace Huddle.MetricWebApp.Controllers
             });
         }
     }
-
-
 }

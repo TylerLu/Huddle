@@ -1,12 +1,15 @@
-﻿using Huddle.BotWebApp.Infrastructure;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.BotWebApp.Infrastructure;
 using Huddle.BotWebApp.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
-using Microsoft.Bot.Connector.Teams.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,15 +22,14 @@ namespace Huddle.BotWebApp.Dialogs
     {
         public RootDialog() :
           base(new LuisService(new LuisModelAttribute(Constants.LuisAppId, Constants.LuisAPIKey, domain: Constants.LuisAPIDomain)))
-        {
-        }
+        { }
 
         #region Create Idea
 
         [LuisIntent("Idea.Create")]
         public async Task CreateIdeaAsync(IDialogContext context, LuisResult result)
         {
-            await context.Forward(new CreateIdeaDialog2(), IdeaCreated, context.Activity, CancellationToken.None);
+            await context.Forward(new CreateIdeaDialog(), IdeaCreated, context.Activity, CancellationToken.None);
         }
 
         private async Task IdeaCreated(IDialogContext context, IAwaitable<object> result)
@@ -133,7 +135,7 @@ namespace Huddle.BotWebApp.Dialogs
             var tokenCache = ADALTokenCache.Create(user.ObjectId);
             tokenCache.Clear();
 
-            await context.SayAsync("Bot User & Conversation data were cleared. Token cache were cleared");
+            await context.SayAsync("User & Conversation data were cleared. Token cache was cleared");
             context.Wait(MessageReceived);
         }
 
@@ -144,7 +146,7 @@ namespace Huddle.BotWebApp.Dialogs
         [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)
         {
-            await context.ChoiceAsync("I'm the Ideas bot. You can tell me:", new[] { "New Idea", "List Ideas" });
+            await context.ChoiceAsync("I'm the Ideas Bot. You can tell me:", new[] { "New Idea", "List Ideas" });
             context.Wait(MessageReceived);
         }
 
@@ -161,6 +163,5 @@ namespace Huddle.BotWebApp.Dialogs
         }
 
         #endregion
-        
     }
 }

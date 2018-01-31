@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using System;
+using System.Runtime.Serialization;
 
 namespace Huddle.BotWebApp.Dialogs
 {
@@ -6,21 +12,23 @@ namespace Huddle.BotWebApp.Dialogs
     public class SignTimeoutException : TimeoutException
     {
         public SignTimeoutException() { }
+
         public SignTimeoutException(string message) : base(message) { }
+
         public SignTimeoutException(string message, Exception inner) : base(message, inner) { }
-        protected SignTimeoutException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+
+        protected SignTimeoutException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
     [Serializable]
     public class ActionCancelledException : Exception
     {
         public ActionCancelledException() { }
+
         public ActionCancelledException(string message) : base(message) { }
+
         public ActionCancelledException(string message, Exception inner) : base(message, inner) { }
-        protected ActionCancelledException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+
+        protected ActionCancelledException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

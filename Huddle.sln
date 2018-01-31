@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huddle.BotWebApp", "Huddle.BotWebApp\Huddle.BotWebApp.csproj", "{9435FB1C-2D34-4FA2-B1E8-EBD612BC60C8}"
 EndProject
@@ -10,7 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{78819653-F89B-4130-93C2-03124AD6707F}"
 	ProjectSection(SolutionItems) = preProject
 		Files\HuddleBotIcon.png = Files\HuddleBotIcon.png
-		Files\LogicApps.json = Files\LogicApps.json
 		Files\LUISApp.json = Files\LUISApp.json
 		Files\PnPProvisioningTemplate.xml = Files\PnPProvisioningTemplate.xml
 		Files\Teams.xlsx = Files\Teams.xlsx
@@ -58,23 +57,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7CBBB511-499D-4A15-92D1-CCD534B213B9}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://canviz.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Huddle.BotWebApp\\Huddle.BotWebApp.csproj
-		SccProjectName1 = Huddle.BotWebApp
-		SccLocalPath1 = Huddle.BotWebApp
-		SccProjectUniqueName2 = Huddle.MetricWebApp\\Huddle.MetricWebApp.csproj
-		SccProjectName2 = Huddle.MetricWebApp
-		SccLocalPath2 = Huddle.MetricWebApp
-		SccProjectUniqueName3 = Huddle.WebJob\\Huddle.WebJob.csproj
-		SccProjectName3 = Huddle.WebJob
-		SccLocalPath3 = Huddle.WebJob
-		SccProjectUniqueName4 = Huddle.Common\\Huddle.Common.csproj
-		SccProjectName4 = Huddle.Common
-		SccLocalPath4 = Huddle.Common
 	EndGlobalSection
 EndGlobal

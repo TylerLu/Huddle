@@ -1,4 +1,9 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Teams;
 using Microsoft.Bot.Connector.Teams.Models;
@@ -21,12 +26,7 @@ namespace Huddle.BotWebApp
                 .Where(i => i.Id == activity.From.Id)
                 .AsTeamsChannelAccounts()
                 .FirstOrDefault();
-#if DEBUG
-            if (member.ObjectId == null)
-                member.ObjectId = "cdea7eed-b192-49b9-812b-151725d03227"; // admin@cand3.onmicrosoft.com
-#endif
             return member;
-
         }
 
         public static string GetTrimmedText(this IMessageActivity activity)
@@ -53,7 +53,5 @@ namespace Huddle.BotWebApp
             message.AddHeroCard(text, options);
             await context.PostAsync(message);
         }
-
-
     }
 }

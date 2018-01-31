@@ -1,4 +1,7 @@
-﻿<div class="metric-list-section" [ngClass]="{'hidden': ifHidden}">
+﻿<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license. -->
+<!-- See LICENSE in the project root for license information -->
+
+<div class="metric-list-section" [ngClass]="{'hidden': isHidden}">
     <div class="metric-header">
         <ul class="ul-metric">
             <li class="icon-click hidden"></li>
@@ -27,11 +30,9 @@
                 <li>{{getDisplayTargetGoal(item)}}</li>
                 <li><week-input (inputValueChange)="afterInputValueChange($event)" [rowIndex]="0" [weekInputViewModel]="metricWeekInputViewModelArray[i]" [valueType]="getDisplayValueType(item.metric)"></week-input></li>
                 <li>
-                   
-                        <ui-switch (change)="onSwitch(item.metric.id)" [checked]="item.metric.metricState==1?true:false" size="small" defaultBgColor="red"></ui-switch>
-                        <span class="on-off-label">{{item.metric.metricState==1?"ON":"OFF"}}</span>
-                        <a class="action" (click)="editMetricClick(item.metric)">edit</a>
-                   
+                    <ui-switch (change)="onSwitch(item.metric.id)" [checked]="item.metric.metricState==1?true:false" size="small" defaultBgColor="red"></ui-switch>
+                    <span class="on-off-label">{{item.metric.metricState==1?"ON":"OFF"}}</span>
+                    <a class="action" (click)="editMetricClick(item.metric)">edit</a>
                 </li>
             </ul>
         </div>
@@ -46,7 +47,6 @@
         <modal-body>
             <add-metric [issueId]="currentIssueId" (onClosed)="afterCloseNewMetric($event)"></add-metric>
         </modal-body>
-
     </modal>
 
     <modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
@@ -57,6 +57,5 @@
         <modal-body>
             <edit-metric [issueId]="currentIssueId" (onClosed)="afterCloseEditMetric($event)" (onDeleted)="afterDeleteMetric($event)"></edit-metric>
         </modal-body>
-
     </modal>
 </div>

@@ -1,4 +1,9 @@
-﻿using Huddle.BotWebApp.Models;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.BotWebApp.Models;
 using Huddle.BotWebApp.SharePoint;
 using Huddle.BotWebApp.Utils;
 using Microsoft.Bot.Connector;
@@ -44,7 +49,6 @@ namespace Huddle.BotWebApp.Services
 
             else
                 throw new NotImplementedException($"Unknown action {data.ActionId}.");
-
         }
 
         public async Task<Activity> SaveIdeaAsyncAsync(Activity activity, string body)
@@ -67,13 +71,13 @@ namespace Huddle.BotWebApp.Services
             var plannerTask = await ideaService.CreateAsync(plan.Id, model.Title, model.StartDate, model.Owner.Id, description);
             var plannerTaskUrl = ideaService.GetIdeaUrl(model.Team.Id, plan.Id, plannerTask.Id);
 
-            Activity replyActivity = activity.CreateReply();
+            var replyActivity = activity.CreateReply();
             try
             {
                 var clientContext = await AuthenticationHelper.GetAppOnlySharePointClientContextAsync();
                 var metricsService = new MetricsService(clientContext);
                 await metricsService.CreateMetricIdeaAsync(model.Metric.Id, plannerTask, Constants.IdeasPlan.Buckets.NewIdea, plannerTaskUrl);
-       
+
             }
             catch (Exception ex)
             {
@@ -92,7 +96,7 @@ namespace Huddle.BotWebApp.Services
                         })
                 });
             replyActivity.Attachments.Add(card.ToAttachment());
-            return replyActivity;            
+            return replyActivity;
         }
     }
 }

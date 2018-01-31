@@ -1,4 +1,9 @@
-﻿using System.Security.Claims;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using System.Security.Claims;
 using System.Security.Principal;
 
 namespace Huddle.MetricWebApp.Infrastructure
@@ -8,7 +13,6 @@ namespace Huddle.MetricWebApp.Infrastructure
         static readonly string TenantId = "http://schemas.microsoft.com/identity/claims/tenantid";
 
         static readonly string ObjectIdentifier = "http://schemas.microsoft.com/identity/claims/objectidentifier";
-
 
         public static string GetTenantId(this ClaimsIdentity identity)
         {
@@ -26,7 +30,7 @@ namespace Huddle.MetricWebApp.Infrastructure
             if (claimsIdentity == null) return null;
             return GetTenantId(claimsIdentity);
         }
-        
+
         public static string GetObjectIdentifier(this IPrincipal user)
         {
             var claimsIdentity = user.Identity as ClaimsIdentity;

@@ -282,8 +282,11 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseAPIController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\IssuesFilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssuesController.cs" />
+    <Compile Include="Controllers\MetricController.cs" />
+    <Compile Include="Controllers\MetricEditController.cs" />
     <Compile Include="Controllers\MetricsController.cs" />
     <Compile Include="Controllers\MetricValuesController.cs" />
     <Compile Include="Controllers\QueryController.cs" />
@@ -319,6 +322,7 @@
     <Compile Include="SharePoint\ReasonValuesService.cs" />
     <Compile Include="SharePoint\ReasonsService.cs" />
     <Compile Include="SharePoint\SharePointExtensions.cs" />
+    <Compile Include="SharePoint\SharePointHelper.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Util\Extensions.cs" />
   </ItemGroup>
@@ -354,9 +358,6 @@
     <Content Include="app\reason\reasonList.component.css" />
     <Content Include="app\shared\shared.css" />
     <Content Include="app\styles.css" />
-    <Content Include="app\teamTab\teamTab.privacy.component.html" />
-    <Content Include="app\teamTab\teamTab.signIn.component.html" />
-    <Content Include="app\teamTab\teamTab.terms.component.html" />
     <Content Include="App_Data\TokenCache\PlaceHolder" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -487,7 +488,7 @@
     <TypeScriptCompile Include="app\services\metric.service.ts" />
     <TypeScriptCompile Include="app\services\query.service.ts" />
     <TypeScriptCompile Include="app\services\weekSelector.service.ts" />
-    <TypeScriptCompile Include="app\shared\HandleError.ts" />
+    <TypeScriptCompile Include="app\shared\handleError.ts" />
     <TypeScriptCompile Include="app\shared\models\allowClick.ts" />
     <TypeScriptCompile Include="app\shared\models\issueState.viewmodel.ts" />
     <TypeScriptCompile Include="app\issue\addIssue.component.ts" />
@@ -514,25 +515,15 @@
     <TypeScriptCompile Include="app\shared\models\user.ts" />
     <TypeScriptCompile Include="app\shared\models\weekInputViewModel.ts" />
     <TypeScriptCompile Include="app\shared\models\weekDay.ts" />
-    <TypeScriptCompile Include="app\teamTab\teamTab.component.ts" />
-    <TypeScriptCompile Include="app\teamTab\teamTab.configure.component.ts" />
-    <TypeScriptCompile Include="app\teamTab\teamTab.privacy.component.ts" />
-    <TypeScriptCompile Include="app\teamTab\teamTab.signIn.callback.component.ts" />
-    <TypeScriptCompile Include="app\teamTab\teamTab.signIn.component.ts" />
-    <TypeScriptCompile Include="app\teamTab\teamTab.terms.component.ts" />
     <TypeScriptCompile Include="app\utils\commonUtil.ts" />
     <TypeScriptCompile Include="app\utils\dateHelper.ts" />
-    <TypeScriptCompile Include="app\utils\fabricHelper.ts" />
     <TypeScriptCompile Include="app\utils\modelConverter.ts" />
     <TypeScriptCompile Include="app\validate\validate.component.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Metic\" />
-    <Folder Include="Views\Teams\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -548,7 +539,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50565</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

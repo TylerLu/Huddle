@@ -1,4 +1,9 @@
-﻿namespace Huddle.Common
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+namespace Huddle.Common
 {
     public class SPLists
     {
@@ -8,7 +13,6 @@
         public const string Created = "Created";
         public const string Issue = "Issue";
         public const string Reason = "Reason";
-        public const string InputDate = "Input_x0020_Date";
         public const string TargetGoal = "HuddleTargetGoal";
         public const string ValueType = "HuddleValueType";
 

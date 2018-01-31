@@ -1,4 +1,9 @@
-﻿using Huddle.Common;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.Common;
 using Huddle.WebJob.Infrastructure;
 using Huddle.WebJob.Services;
 using Microsoft.Azure.WebJobs;
@@ -13,7 +18,6 @@ namespace Huddle.WebJob
         {
             var operation = "Move shareable ideas";
             LogService.LogOperationStarted(operation);
-
             using (var spClientContext = await AuthenticationHelper.GetSharePointClientAppOnlyContextAsync())
             {
                 var plannerService = new PlannerService(spClientContext);
@@ -26,7 +30,6 @@ namespace Huddle.WebJob
                     LogService.LogError(ex);
                 }
             }
-
             LogService.LogOperationEnded(operation);
         }
 
@@ -46,15 +49,13 @@ namespace Huddle.WebJob
                     LogService.LogError(ex);
                 }
             }
-
             LogService.LogOperationEnded(operation);
         }
 
         public async static Task SyncMetricIdeaList([TimerTrigger("0 30 * * * *")] TimerInfo timerInfo)
         {
             var operation = $"Sync SharePoint list {SPLists.MetricIdeas.Title}";
-            Console.WriteLine($"{operation} started.");
-
+            LogService.LogOperationStarted($"{operation} started.");
             using (var spClientContext = await AuthenticationHelper.GetSharePointClientAppOnlyContextAsync())
             {
                 var metricIdeaService = new MetricIdeaService(spClientContext);
@@ -67,7 +68,6 @@ namespace Huddle.WebJob
                     LogService.LogError(ex);
                 }
             }
-
             LogService.LogOperationEnded(operation);
         }
     }

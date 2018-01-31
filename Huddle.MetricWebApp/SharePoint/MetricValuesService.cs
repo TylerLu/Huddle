@@ -1,4 +1,9 @@
-﻿using Huddle.Common;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.Common;
 using Huddle.MetricWebApp.Infrastructure;
 using Huddle.MetricWebApp.Models;
 using Microsoft.SharePoint.Client;
@@ -11,7 +16,6 @@ namespace Huddle.MetricWebApp.SharePoint
 {
     public class MetricValuesService
     {
-
         public static async Task<List<MetricValue[]>> GetItemsAsync(List<string> metricIds, DateTime weekStartDate)
         {
             if (!metricIds.Any())
@@ -21,15 +25,17 @@ namespace Huddle.MetricWebApp.SharePoint
             {
                 var startUTC = weekStartDate.ToISO8601DateTimeString();
                 var endUTC = weekStartDate.AddDays(7).ToISO8601DateTimeString();
-                var reasonIdQuery = @"<In>
-                                             <FieldRef Name='{0}' LookupId='TRUE'/>
-                                             <Values>"
-                                            + string.Join("",metricIds.Select(metricId=>{ return @"<Value Type='Lookup'>" + metricId + "</Value>"; }))
-                                            +@"</Values>
-                                    </In>";
-                var filter = string.Format(@"<And>"
-                        +reasonIdQuery
-                        +@"<And>
+                var reasonIdQuery =
+                    @"<In>
+                        <FieldRef Name='{0}' LookupId='TRUE'/>
+                        <Values>"
+                        + string.Join("", metricIds.Select(metricId => @"<Value Type='Lookup'>" + metricId + "</Value>"))
+                        + @"</Values>
+                    </In>";
+                var filter = string.Format(
+                    @"<And>"
+                        + reasonIdQuery
+                        + @"<And>
                             <Geq>
                                 <FieldRef Name='{1}' />
                                 <Value IncludeTimeValue='TRUE' StorageTZ='TRUE' Type='DateTime'>{2}</Value>
@@ -39,16 +45,17 @@ namespace Huddle.MetricWebApp.SharePoint
                                 <Value IncludeTimeValue='TRUE' StorageTZ='TRUE' Type='DateTime'>{3}</Value>
                             </Leq>
                         </And>
-                </And>", SPLists.MetricValuess.Columns.Metric,SPLists.MetricValuess.Columns.Date, startUTC, endUTC);
+                    </And>",
+                    SPLists.MetricValuess.Columns.Metric, SPLists.MetricValuess.Columns.Date, startUTC, endUTC);
 
                 var query = new CamlQuery();
                 query.ViewXml = string.Format("<View><Query><Where>{0}</Where></Query></View>", filter);
 
                 var items = clientContext.GetItems(SPLists.MetricValuess.Title, query);
                 return items.Select(item => item.ToMetricValue())
-                            .GroupBy(item => item.Metric.Id)
-                            .Select(grp => grp.ToArray())
-                            .ToList();
+                    .GroupBy(item => item.Metric.Id)
+                    .Select(grp => grp.ToArray())
+                    .ToList();
             }
         }
 
@@ -85,10 +92,10 @@ namespace Huddle.MetricWebApp.SharePoint
                             </Where>
                          </Query>
                     </View>";
-                var items = clientContext.GetItems(SPLists.MetricValuess.Title,query);
+                var items = clientContext.GetItems(SPLists.MetricValuess.Title, query);
                 var queryItem = items.FirstOrDefault();
-                if (queryItem == null)
-                    return;
+                if (queryItem == null) return;
+
                 queryItem[SPLists.MetricValuess.Columns.Value] = item.Value;
                 queryItem.Update();
                 clientContext.ExecuteQuery();
@@ -101,8 +108,8 @@ namespace Huddle.MetricWebApp.SharePoint
                     <Eq>
                         <FieldRef Name='{0}' LookupId='TRUE'/>
                         <Value Type='Lookup'>{1}</Value> 
-                    </Eq>                   
-                ", SPLists.MetricValuess.Columns.Metric, metricId);
+                    </Eq>",
+                    SPLists.MetricValuess.Columns.Metric, metricId);
 
             var query = new CamlQuery();
             query.ViewXml = string.Format("<View><Query><Where>{0}</Where></Query></View>", filter);

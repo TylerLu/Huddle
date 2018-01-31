@@ -1,13 +1,15 @@
-﻿using Microsoft.Bot.Builder.Scorables.Internals;
-using Microsoft.Bot.Connector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Threading;
-using System.Threading.Tasks;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Scorables.Internals;
+using Microsoft.Bot.Connector;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Huddle.BotWebApp.Dialogs
 {
@@ -41,17 +43,14 @@ namespace Huddle.BotWebApp.Dialogs
             return 1.0;
         }
 
-
         protected override async Task PostAsync(IActivity item, string state, CancellationToken token)
         {
             task.Fail(new ActionCancelledException());
         }
 
-
         protected override Task DoneAsync(IActivity item, string state, CancellationToken token)
         {
             return Task.CompletedTask;
         }
-
     }
 }

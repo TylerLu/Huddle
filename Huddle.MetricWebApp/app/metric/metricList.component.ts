@@ -1,10 +1,15 @@
-﻿import { Component, OnInit, AfterViewChecked, Input, Output, EventEmitter, ViewChild,ViewChildren,QueryList } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from '../services/cookie.service';
 import { MetricService } from '../services/metric.service';
 import { Issue } from '../shared/models/issue';
-import { Metric} from '../shared/models/metric';
-import { Reason} from '../shared/models/reason';
+import { Metric } from '../shared/models/metric';
+import { Reason } from '../shared/models/reason';
 import { IssueState } from '../shared/models/issueState';
 import { IssueViewModel } from '../issueList/issue.viewmodel';
 import { MetricViewModel } from './metric.viewmodel';
@@ -21,6 +26,7 @@ import { WeekSelectorService } from '../services/weekSelector.service';
 import { MetricValueService } from '../services/metricValue.service';
 import { State } from '../shared/models/state';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
+
 declare var microsoftTeams: any;
 
 @Component({
@@ -30,38 +36,26 @@ declare var microsoftTeams: any;
 })
 
 export class MetricListComponent implements OnInit {
+    @Input('currentIssue') currentIssue: Issue;
 
     metricArray = new Array<MetricViewModel>();
     teamId = Constants.teamId;
-
-    ifHidden: boolean = true;
+    isHidden: boolean = true;
     currentIssueId: number = 0;
     currentMetricId: number = 0;
-    creentMetric: Metric = null;
+    currentMetric: Metric = null;
     priviousMetricStatus: State;
-
-    @Input('currentIssue') currentIssue: Issue;
-
-    @ViewChildren('reasonLists')
-    reasonLists:QueryList<ReasonListComponent>;
-
     currentWeekDays = new Array<Date>();
     selectWeekDay: WeekDay;
     weekInputviewModel: WeekInputViewModel;
-
     metricWeekInputViewModelArray = new Array<WeekInputViewModel>();
-
     currentMetricValues: string;
 
-    @ViewChild('modalAddMetric')
-    modalAddMetric: ModalComponent;
-    @ViewChild(AddMetricComponent)
-    addMetricPopUp: AddMetricComponent;
-
-    @ViewChild('modalEditMetric')
-    modalEditMetric: ModalComponent;
-    @ViewChild(EditMetricComponent)
-    editMetricPopUp: EditMetricComponent;
+    @ViewChildren('reasonLists') reasonLists: QueryList<ReasonListComponent>;
+    @ViewChild('modalAddMetric') modalAddMetric: ModalComponent;
+    @ViewChild(AddMetricComponent) addMetricPopUp: AddMetricComponent;
+    @ViewChild('modalEditMetric') modalEditMetric: ModalComponent;
+    @ViewChild(EditMetricComponent) editMetricPopUp: EditMetricComponent;
 
     constructor(private metricService: MetricService, private router: Router, private activateRoute: ActivatedRoute, private cookieService: CookieService, private weekSelectorService: WeekSelectorService, private metricValueService: MetricValueService) {
     }
@@ -73,7 +67,7 @@ export class MetricListComponent implements OnInit {
     }
 
     show() {
-        this.ifHidden = false;
+        this.isHidden = false;
         this.currentIssueId = this.currentIssue.id;
         this.metricService.getMetricsByIssueId(this.currentIssue.id)
             .subscribe(resp => {
@@ -89,9 +83,8 @@ export class MetricListComponent implements OnInit {
     }
 
     hide() {
-        this.ifHidden = true;
+        this.isHidden = true;
     }
-
 
     initTeamContext() {
         this.teamId = CommonUtil.getTeamId();
@@ -100,15 +93,16 @@ export class MetricListComponent implements OnInit {
     reduiceActiveMetricCount() {
         this.currentIssue.activeMetricCount--;
         if (this.currentIssue.activeMetricCount < 0) {
-            this.currentIssue.activeMetricCount=0;
+            this.currentIssue.activeMetricCount = 0;
         }
     }
 
-    onSwitch(id:number) {
+    onSwitch(id: number) {
         this.metricService.updateMetricStatus(id);
     }
 
-    closed() { }
+    closed() {
+    }
 
     getDisplayTargetGoal(metric: MetricViewModel) {
         let displayValType = CommonUtil.getDisplayValueType(metric.metric.valueType);
@@ -116,6 +110,7 @@ export class MetricListComponent implements OnInit {
             return displayValType + metric.metric.targetGoal;
         return metric.metric.targetGoal + displayValType;
     }
+
     getDisplayValueType(metric: Metric) {
         return CommonUtil.getDisplayValueType(metric.valueType);
     }
@@ -133,8 +128,8 @@ export class MetricListComponent implements OnInit {
                 if (metricList !== null)
                     metricList.hide();
             });
-             metric.expanded = true;
-            if (currentReasonList!==null)
+            metric.expanded = true;
+            if (currentReasonList !== null)
                 currentReasonList.show();
         }
     }
@@ -145,9 +140,7 @@ export class MetricListComponent implements OnInit {
             return result[0];
         return null;
     }
-
-
-
+    
     rebuildWeekInputViewModel() {
         this.selectWeekDay = this.weekSelectorService.getCurrentWeek();
         if (this.metricArray.length > 0) {
@@ -168,19 +161,19 @@ export class MetricListComponent implements OnInit {
             .subscribe(resp => {
                 //refill metric values with xhr result
                 resp.forEach(weekInputWM => {
-                        if (weekInputWM.metricValueArray.length > 0) {
-                            let targetMetricWeekInputVM = self.metricWeekInputViewModelArray.find(metricWeekInputVm => metricWeekInputVm.metricValueArray[0].metric.id == weekInputWM.metricValueArray[0].metric.id);
-                            if (targetMetricWeekInputVM) {
-                                targetMetricWeekInputVM.metricValueArray.forEach((metricValue, index) => {
-                                    let backendMetricValue = weekInputWM.metricValueArray.find(mv => DateHelper.isDateEqual(metricValue.inputDate, mv.inputDate));
-                                    if (backendMetricValue) {
-                                        metricValue.metricValues = backendMetricValue.metricValues;
-                                        metricValue.id = backendMetricValue.id;
-                                        metricValue.inputDate = DateHelper.UTCToLocal(metricValue.inputDate);
-                                    }
-                                });
-                            }
+                    if (weekInputWM.metricValueArray.length > 0) {
+                        let targetMetricWeekInputVM = self.metricWeekInputViewModelArray.find(metricWeekInputVm => metricWeekInputVm.metricValueArray[0].metric.id == weekInputWM.metricValueArray[0].metric.id);
+                        if (targetMetricWeekInputVM) {
+                            targetMetricWeekInputVM.metricValueArray.forEach((metricValue, index) => {
+                                let backendMetricValue = weekInputWM.metricValueArray.find(mv => DateHelper.isDateEqual(metricValue.inputDate, mv.inputDate));
+                                if (backendMetricValue) {
+                                    metricValue.metricValues = backendMetricValue.metricValues;
+                                    metricValue.id = backendMetricValue.id;
+                                    metricValue.inputDate = DateHelper.UTCToLocal(metricValue.inputDate);
+                                }
+                            });
                         }
+                    }
                 });
                 this.currentMetricValues = this.recalcMetricValues();
             });
@@ -192,7 +185,6 @@ export class MetricListComponent implements OnInit {
             this.rebuildWeekInputViewModel();
         });
         this.weekSelectorService.selectClick.subscribe(checkClick => {
-            
         });
     }
 
@@ -204,7 +196,7 @@ export class MetricListComponent implements OnInit {
     }
 
     isInputValueChanged() {
-        if(this.currentMetricValues)
+        if (this.currentMetricValues)
             return this.currentMetricValues !== this.recalcMetricValues();
         return false;
     }
@@ -236,20 +228,18 @@ export class MetricListComponent implements OnInit {
                         activeObject.next(true);
                     });
             });
-         return activeObject;
+        return activeObject;
     }
-
-
+    
     recalcMetricValues() {
-        return this.metricValueService.getMetricReasonValuesJSON(this.metricWeekInputViewModelArray,[]);
+        return this.metricValueService.getMetricReasonValuesJSON(this.metricWeekInputViewModelArray, []);
     }
 
     editMetricClick(metric: Metric) {
         this.currentMetricId = metric.id;
         this.priviousMetricStatus = metric.metricState;
-        this.creentMetric = metric;
+        this.currentMetric = metric;
         this.modalEditMetric.open();
-
     }
 
     addMetricClick() {
@@ -261,7 +251,7 @@ export class MetricListComponent implements OnInit {
     }
 
     editMetricOpened() {
-        this.editMetricPopUp.open(this.currentIssue, this.creentMetric);
+        this.editMetricPopUp.open(this.currentIssue, this.currentMetric);
     }
 
     afterCloseNewMetric(toAddMetric: Metric) {
@@ -275,6 +265,7 @@ export class MetricListComponent implements OnInit {
         this.rebuildWeekInputViewModel();
         this.currentIssue.activeMetricCount++;
     }
+
     afterCloseEditMetric(toEditMetric: Metric) {
         this.modalEditMetric.close();
         this.metricArray.forEach(metric => {
@@ -284,9 +275,10 @@ export class MetricListComponent implements OnInit {
             }
         });
     }
+
     afterDeleteMetric(deletedMetric: Metric) {
         this.modalEditMetric.close();
-        this.metricArray.forEach((metric,index) => {
+        this.metricArray.forEach((metric, index) => {
             if (metric.metric.id == deletedMetric.id) {
                 this.metricArray.splice(index, 1);
                 return;

@@ -1,8 +1,13 @@
-﻿using System.Web.Mvc;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using System.Web.Mvc;
 
 namespace Huddle.MetricWebApp.Infrastructure
 {
-    public class AddContentSecurityPolicyAttribute: ActionFilterAttribute
+    public class AddContentSecurityPolicyAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {

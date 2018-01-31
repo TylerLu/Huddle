@@ -1,4 +1,9 @@
-﻿using Huddle.MetricWebApp.Infrastructure;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.MetricWebApp.Infrastructure;
 using Huddle.MetricWebApp.SharePoint;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +13,6 @@ namespace Huddle.MetricWebApp.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
         public ActionResult Consent()
         {
             return RedirectToAction("SignIn", "Account", new { prompt = "admin_consent", redirectUri = "/Admin/Consented" });
@@ -24,7 +28,7 @@ namespace Huddle.MetricWebApp.Controllers
         {
             return View();
         }
-        
+
         [AdminOnly, HttpPost]
         public async Task<ActionResult> ClearDataPost()
         {

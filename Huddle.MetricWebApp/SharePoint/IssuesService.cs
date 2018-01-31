@@ -1,4 +1,9 @@
-﻿using Huddle.Common;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.Common;
 using Huddle.MetricWebApp.Infrastructure;
 using Huddle.MetricWebApp.Models;
 using Microsoft.SharePoint.Client;
@@ -9,7 +14,7 @@ namespace Huddle.MetricWebApp.SharePoint
 {
     public class IssuesService
     {
-        public static async Task<Issue[]> GetItemsAsync(int state,string teamId)
+        public static async Task<Issue[]> GetItemsAsync(int state, string teamId)
         {
             var filter = string.Format(@"<And>
                     <Eq>
@@ -43,12 +48,12 @@ namespace Huddle.MetricWebApp.SharePoint
                 clientContext.ExecuteQuery();
                 FieldUserValue userValue = new FieldUserValue();
                 userValue.LookupId = newUser.Id;
-                var list = clientContext.Web.Lists.GetByTitle(SPLists.Issues.Title); 
+                var list = clientContext.Web.Lists.GetByTitle(SPLists.Issues.Title);
                 ListItem listItem = list.AddItem(new ListItemCreationInformation());
-                listItem[SPLists.Issues.Columns.Category] = SharePointHelper.BuildSingleLookFieldValue(item.Category.Id,item.Category.Name);
+                listItem[SPLists.Issues.Columns.Category] = SharePointHelper.BuildSingleLookFieldValue(item.Category.Id, item.Category.Name);
                 listItem[SPLists.Issues.Columns.Title] = item.Name;
                 listItem[SPLists.Issues.Columns.State] = item.State;
-                listItem[SPLists.Issues.Columns.TeamId] = item.MSTeamId;               
+                listItem[SPLists.Issues.Columns.TeamId] = item.MSTeamId;
                 listItem[SPLists.Issues.Columns.Owner] = userValue;
                 listItem.Update();
                 clientContext.Load(listItem);
@@ -81,12 +86,10 @@ namespace Huddle.MetricWebApp.SharePoint
                 issue = queryItem.ToIssue();
                 return issue;
             }
-
         }
 
         public static async Task<int> DeleteItemAsync(int id)
         {
-            
             using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
             {
                 var query = new CamlQuery();
@@ -109,14 +112,11 @@ namespace Huddle.MetricWebApp.SharePoint
                 clientContext.ExecuteQuery();
                 return id;
             }
-
         }
 
         public static async Task DeleteIssueAndRelatedItemsAsync(int id)
         {
-            //delete metric related
             await MetricsService.DeleteMetricAndRelatedItemsByIssueId(id);
-            //delete issue.
             await DeleteItemAsync(id);
         }
 
@@ -142,7 +142,7 @@ namespace Huddle.MetricWebApp.SharePoint
                             </Where>
                          </Query>
                     </View>";
-                var items = clientContext.GetItems(SPLists.Issues.Title,query);
+                var items = clientContext.GetItems(SPLists.Issues.Title, query);
                 var queryItem = items.FirstOrDefault();
                 if (queryItem == null)
                     return;

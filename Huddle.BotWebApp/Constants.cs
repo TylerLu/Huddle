@@ -1,4 +1,9 @@
-﻿using System.Configuration;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using System.Configuration;
 
 namespace Huddle.BotWebApp
 {
@@ -12,15 +17,11 @@ namespace Huddle.BotWebApp
         public static readonly string AADInstance = "https://login.microsoftonline.com/";
         public static readonly string Authority = AADInstance + AADTenantId;
 
-        // public const string GraphResourceRootUrl = "https://graph.windows.net";
-
         public static readonly string LuisAppId = ConfigurationManager.AppSettings["LuisAppId"];
         public static readonly string LuisAPIKey = ConfigurationManager.AppSettings["LuisAPIKey"];
         public static readonly string LuisAPIDomain = ConfigurationManager.AppSettings["LuisAPIDomain"];
 
-
         public static readonly string BaseSPSiteUrl = ConfigurationManager.AppSettings["BaseSPSiteUrl"];
-
 
         public static class Resources
         {
@@ -30,15 +31,12 @@ namespace Huddle.BotWebApp
 
         public static class IdeasPlan
         {
-            public static readonly string Name = "Idear";
-
             public static class Buckets
             {
                 public static readonly string NewIdea = "New Idea";
                 public static readonly string Shareable = "Shareable";
                 public static readonly string InProgress = "In Progress";
                 public static readonly string Completed = "Completed";
-                
                 public static readonly string[] All = { NewIdea, InProgress, Completed, Shareable };
             }
         }

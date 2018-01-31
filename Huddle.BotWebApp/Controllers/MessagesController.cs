@@ -1,4 +1,9 @@
-﻿using Huddle.BotWebApp.Dialogs;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.BotWebApp.Dialogs;
 using Huddle.BotWebApp.Services;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -13,8 +18,6 @@ using System.Web.Http;
 
 namespace Huddle.BotWebApp.Controllers
 {
-
-    //[Route("api/[controller]")]
     [BotAuthentication]
     public class MessagesController : ApiController
     {
@@ -27,7 +30,8 @@ namespace Huddle.BotWebApp.Controllers
                 new Uri("https://smba.trafficmanager.net/amer-client-ss.msg/"),
                 ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppIdKey],
                 ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppPasswordKey]);
-            this.connectorClient.SetRetryPolicy(RetryHelpers.DefaultPolicyBuilder.WaitAndRetryAsync(new[] { TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10) }));
+            this.connectorClient.SetRetryPolicy(
+                RetryHelpers.DefaultPolicyBuilder.WaitAndRetryAsync(new[] { TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10) }));
             this.invokeProcessor = new InvokeProcessor(connectorClient);
         }
 
@@ -44,7 +48,7 @@ namespace Huddle.BotWebApp.Controllers
             if (activity?.Type == ActivityTypes.Message)
                 await Conversation.SendAsync(activity, () => new RootDialog());
             else if (activity?.Type == ActivityTypes.Invoke)
-               await invokeProcessor.ProcessAsync(activity);
+                await invokeProcessor.ProcessAsync(activity);
             else
                 HandleSystemMessage(activity);
             return new HttpResponseMessage(HttpStatusCode.OK);
@@ -70,7 +74,7 @@ namespace Huddle.BotWebApp.Controllers
             }
             else if (message.Type == ActivityTypes.Typing)
             {
-                // Handle knowing tha the user is typing
+                // Handle knowing that the user is typing
             }
             else if (message.Type == ActivityTypes.Ping)
             {

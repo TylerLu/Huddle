@@ -1,4 +1,9 @@
-﻿using Huddle.Common;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.Common;
 using Huddle.MetricWebApp.Infrastructure;
 using Huddle.MetricWebApp.Models;
 using Microsoft.SharePoint.Client;
@@ -13,21 +18,21 @@ namespace Huddle.MetricWebApp.SharePoint
     {
         public static async Task<List<ReasonValue[]>> GetItemsAsync(List<string> reasonIds, DateTime weekStartDate)
         {
-
-
             using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
             {
                 var startUTC = weekStartDate.ToISO8601DateTimeString();
                 var endUTC = weekStartDate.AddDays(7).ToISO8601DateTimeString();
-                var reasonIdQuery = @"<In>
-                                             <FieldRef Name='{0}' LookupId='TRUE'/>
-                                             <Values>"
-                                            + string.Join("",reasonIds.Select(readId=>{ return @"<Value Type='Lookup'>" + readId + "</Value>"; }))
-                                            +@"</Values>
-                                    </In>";
-                var filter = string.Format(@"<And>"
-                        +reasonIdQuery
-                        +@"<And>
+                var reasonIdQuery =
+                    @"<In>
+                        <FieldRef Name='{0}' LookupId='TRUE'/>
+                        <Values>"
+                        + string.Join("", reasonIds.Select(readId => { return @"<Value Type='Lookup'>" + readId + "</Value>"; }))
+                        + @"</Values>
+                    </In>";
+                var filter = string.Format(
+                    @"<And>"
+                        + reasonIdQuery
+                        + @"<And>
                             <Geq>
                                 <FieldRef Name='{1}' />
                                 <Value IncludeTimeValue='TRUE' StorageTZ='TRUE' Type='DateTime'>{2}</Value>
@@ -37,16 +42,17 @@ namespace Huddle.MetricWebApp.SharePoint
                                 <Value IncludeTimeValue='TRUE' StorageTZ='TRUE' Type='DateTime'>{3}</Value>
                             </Leq>
                         </And>
-                </And>", SPLists.ReasonValues.Columns.Reason,SPLists.ReasonValues.Columns.Date, startUTC, endUTC);
+                    </And>",
+                    SPLists.ReasonValues.Columns.Reason, SPLists.ReasonValues.Columns.Date, startUTC, endUTC);
 
                 var query = new CamlQuery();
                 query.ViewXml = string.Format("<View><Query><Where>{0}</Where></Query></View>", filter);
 
                 var items = clientContext.GetItems(SPLists.ReasonValues.Title, query);
                 return items.Select(item => item.ToReasonValue())
-                            .GroupBy(item => item.Reason.Id)
-                            .Select(grp => grp.ToArray())
-                            .ToList();
+                    .GroupBy(item => item.Reason.Id)
+                    .Select(grp => grp.ToArray())
+                    .ToList();
             }
         }
 
@@ -85,8 +91,8 @@ namespace Huddle.MetricWebApp.SharePoint
                     </View>";
                 var items = clientContext.GetItems(SPLists.ReasonValues.Title, query);
                 var queryItem = items.FirstOrDefault();
-                if (queryItem == null)
-                    return;
+                if (queryItem == null) return;
+
                 queryItem[SPLists.ReasonValues.Columns.Value] = item.Value;
                 queryItem.Update();
                 clientContext.ExecuteQuery();
@@ -95,12 +101,12 @@ namespace Huddle.MetricWebApp.SharePoint
 
         public static async Task DeleteReasonValuesByReasonId(int reasonId)
         {
-            var filter = string.Format(@"
-                    <Eq>
-                        <FieldRef Name='{0}' LookupId='TRUE'/>
-                        <Value Type='Lookup'>{1}</Value> 
-                    </Eq>                   
-                ", SPLists.ReasonValues.Columns.Reason, reasonId);
+            var filter = string.Format(
+                @"<Eq>
+                    <FieldRef Name='{0}' LookupId='TRUE'/>
+                    <Value Type='Lookup'>{1}</Value> 
+                </Eq>",
+                SPLists.ReasonValues.Columns.Reason, reasonId);
 
             var query = new CamlQuery();
             query.ViewXml = string.Format("<View><Query><Where>{0}</Where></Query></View>", filter);
@@ -108,7 +114,6 @@ namespace Huddle.MetricWebApp.SharePoint
             using (var clientContext = await (AuthenticationHelper.GetSharePointClientContextAsync(Permissions.Application)))
             {
                 var items = clientContext.GetItems(SPLists.ReasonValues.Title, query);
-
                 for (int i = items.Count - 1; i > -1; i--)
                 {
                     items[i].DeleteObject();

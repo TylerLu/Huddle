@@ -1,20 +1,20 @@
-﻿using Huddle.MetricWebApp.Infrastructure;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.MetricWebApp.Infrastructure;
 using Huddle.MetricWebApp.Services;
-using System;
-using System.Collections.Generic;
+using Huddle.MetricWebApp.Util;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using Huddle.MetricWebApp.Util;
 
 namespace Huddle.MetricWebApp.Controllers
 {
     public class TeamsController : BaseAPIController
     {
-        // GET: Teams
-    
         [HttpGet]
         public async Task<HttpResponseMessage> Get(string id)
         {

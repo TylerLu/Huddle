@@ -1,4 +1,9 @@
-﻿using Huddle.BotWebApp.Infrastructure;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.BotWebApp.Infrastructure;
 using Microsoft.Graph;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
@@ -30,16 +35,13 @@ namespace Huddle.BotWebApp.Utils
     /// </summary>
     public static class AuthenticationHelper
     {
-        /// <summary>
-        /// Get an instance of GraphServiceClient
-        /// </summary>
         public static async Task<GraphServiceClient> GetGraphServiceClientAsync(string userObjectId, Permissions permissions = Permissions.Delegated)
         {
             var accessToken = await GetAccessTokenAsync(userObjectId, Constants.Resources.MSGraph, permissions);
             var serviceRoot = Constants.Resources.MSGraph + "/v1.0/" + ClaimsPrincipal.Current.GetTenantId();
             return new GraphServiceClient(serviceRoot, new BearerAuthenticationProvider(accessToken));
         }
-        
+
         public static async Task<GraphServiceClient> GetGraphServiceClientSafeAsync(string userObjectId, Permissions permissions = Permissions.Delegated)
         {
             try
@@ -59,18 +61,12 @@ namespace Huddle.BotWebApp.Utils
             return GetSharePointClientContext(Constants.BaseSPSiteUrl, token);
         }
 
-        /// <summary>
-        /// Get an access token of the specified resource
-        /// </summary>
         public static async Task<string> GetAccessTokenAsync(string userObjectId, string resource, Permissions permissions = Permissions.Delegated)
         {
             var result = await GetAuthenticationResult(userObjectId, resource, permissions);
             return result.AccessToken;
         }
 
-        /// <summary>
-        /// Get an AuthenticationResult of the specified resource
-        /// </summary>
         public static Task<AuthenticationResult> GetAuthenticationResult(string userObjectId, string resource, Permissions permissions)
         {
             var context = GetAuthenticationContext(userObjectId, permissions);
@@ -94,9 +90,6 @@ namespace Huddle.BotWebApp.Utils
                 throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Get an instance of AuthenticationContext
-        /// </summary>
         public static AuthenticationContext GetAuthenticationContext(ClaimsIdentity claimsIdentity, Permissions permissions)
         {
             var userObjectId = claimsIdentity.GetObjectIdentifier();
@@ -110,14 +103,6 @@ namespace Huddle.BotWebApp.Utils
             var tokenCache = ADALTokenCache.Create(signedInUserID);
             return new AuthenticationContext(Constants.Authority, tokenCache);
         }
-
-        //internal static ClientAssertionCertificate GetClientAssertionCertificate()
-        //{
-        //    var cert = GetX509Certificate();
-        //    if (cert == null)
-        //        throw new Exception("Could not find Client Assertion Certificate with thumbprint " + Constants.AADClientCertThumbprint);
-        //    return new ClientAssertionCertificate(Constants.AADClientId, cert);
-        //}
 
         private static X509Certificate2 GetX509Certificate()
         {

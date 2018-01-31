@@ -1,15 +1,16 @@
-﻿using Huddle.MetricWebApp.Models;
-using Microsoft.Azure.ActiveDirectory.GraphClient;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.MetricWebApp.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Huddle.MetricWebApp.Util
 {
     public static class Extensions
     {
-
         public static object ToJson(this Category category)
         {
             return new
@@ -28,7 +29,6 @@ namespace Huddle.MetricWebApp.Util
                 mail = user.Mail
             };
         }
-
 
         public static object ToJson(this Issue issue)
         {
@@ -50,7 +50,7 @@ namespace Huddle.MetricWebApp.Util
             return new
             {
                 id = metric.Id,
-                issue = metric.Issue!=null? metric.Issue.ToJson():metric.Issue,
+                issue = metric.Issue != null ? metric.Issue.ToJson() : metric.Issue,
                 name = metric.Name,
                 targetGoal = metric.TargetGoal,
                 valueType = metric.ValueType,
@@ -65,7 +65,7 @@ namespace Huddle.MetricWebApp.Util
             {
                 id = reason.Id,
                 name = reason.Name,
-                metric = reason.Metric!=null?reason.Metric.ToJson():reason.Metric,
+                metric = reason.Metric != null ? reason.Metric.ToJson() : reason.Metric,
                 startDate = reason.StartDate,
                 reasonState = reason.State,
                 reasonTracking = reason.ReasonTracking,
@@ -79,7 +79,8 @@ namespace Huddle.MetricWebApp.Util
             return new
             {
                 isMetricValue = true,
-                metricValueArray = issueMetrics.Select(im => new {
+                metricValueArray = issueMetrics.Select(im => new
+                {
                     id = im.Id,
                     metric = im.Metric.ToJson(),
                     metricValues = im.Value,
@@ -93,9 +94,10 @@ namespace Huddle.MetricWebApp.Util
             return new
             {
                 isMetricValue = false,
-                reasonValueArray = reasonMetrics.Select(im => new {
+                reasonValueArray = reasonMetrics.Select(im => new
+                {
                     id = im.Id,
-                    reason= im.Reason.ToJson(),
+                    reason = im.Reason.ToJson(),
                     reasonMetricValues = im.Value,
                     inputDate = im.InputDate
                 })
@@ -109,6 +111,5 @@ namespace Huddle.MetricWebApp.Util
                 return result;
             return null;
         }
-
     }
 }

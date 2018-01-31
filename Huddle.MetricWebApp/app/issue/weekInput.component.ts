@@ -1,4 +1,9 @@
-﻿import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WeekDay } from '../shared/models/weekDay';
 import { WeekInputViewModel } from '../shared/models/weekInputViewModel';
 import { DateHelper } from '../utils/dateHelper';
@@ -16,24 +21,25 @@ import { Constants } from '../shared/constants';
 })
 
 export class WeekInputComponent implements OnInit {
-    currentWeekDays: Array<Date>;
     @Input('rowIndex') rowIndex: number;
-    @Input('weekInputViewModel') weekInputViewModel: WeekInputViewModel;
-    @Output() inputValueChange: EventEmitter<number> = new EventEmitter<number>();
     @Input('valueType') valueType: string;
-    errorMessage: string = '';
+    @Input('weekInputViewModel') weekInputViewModel: WeekInputViewModel;
 
+    @Output() inputValueChange: EventEmitter<number> = new EventEmitter<number>();
+
+    currentWeekDays: Array<Date>;
+    errorMessage: string = '';
     currentValues: string;
+
     constructor(private weekSelectorService: WeekSelectorService, private metricValueService: MetricValueService) {
     }
+
     ngOnInit(): void {
         this.subscribeWeekSelector();
         this.currentWeekDays = this.weekSelectorService.getCurrentWeekDays();
         this.subscribeGetMetricReasonValues();
-        
     }
 
-    
     subscribeWeekSelector() {
         this.weekSelectorService.selectWeek.subscribe(weekDay => {
             this.currentWeekDays = this.weekSelectorService.getCurrentWeekDays();
@@ -53,7 +59,7 @@ export class WeekInputComponent implements OnInit {
             let metricVal = ModelConverter.toMetricValueFrontend(valModel);
             if (metricVal.metricValues.toString() === '')
                 metricVal.metricValues = null;
-            
+
             let checkResult = this.checkInput(metricVal.metricValues);
             if (!checkResult)
                 return;
@@ -64,26 +70,25 @@ export class WeekInputComponent implements OnInit {
         }
         if (ModelConverter.isReasonValueFrontend(valModel)) {
             let reasonVal = ModelConverter.toReasonValueFrontend(valModel);
-             if (reasonVal.reasonMetricValues.toString() === '')
+            if (reasonVal.reasonMetricValues.toString() === '')
                 reasonVal.reasonMetricValues = null;
 
-             let checkResult = this.checkInput(reasonVal.reasonMetricValues);
-             if (!checkResult)
-                 return;
+            let checkResult = this.checkInput(reasonVal.reasonMetricValues);
+            if (!checkResult)
+                return;
             if (reasonVal.reasonMetricValues)
                 reasonVal.reasonMetricValues = parseFloat(reasonVal.reasonMetricValues.toString());
             this.inputValueChange.emit(reasonVal.reasonMetricValues);
             valueUpdated = (this.currentValues !== this.recalcMetricValues());
-
         }
         if (valueUpdated === true) {
             this.weekInputViewModel.metricValueArray.forEach(metricVal => metricVal.isUpdated = false);
             this.weekInputViewModel.reasonValueArray.forEach(reasonVal => reasonVal.isUpdated = false);
             let updatedMetrics: Array<MetricValue[]> = this.metricValueService.getToPostMetricVals([this.weekInputViewModel.metricValueArray], this.currentValues);
             let updatedReasons: Array<ReasonValue[]> = this.metricValueService.getToPostReasonVals([this.weekInputViewModel.reasonValueArray], this.currentValues);
-            if (updatedMetrics.length > 0 && updatedMetrics[0].length >0)
+            if (updatedMetrics.length > 0 && updatedMetrics[0].length > 0)
                 updatedMetrics[0].forEach(metricVal => metricVal.isUpdated = true);
-            if (updatedReasons.length > 0 && updatedReasons[0].length>0)
+            if (updatedReasons.length > 0 && updatedReasons[0].length > 0)
                 updatedReasons[0].forEach(reasonVal => reasonVal.isUpdated = true);
         } else {
             this.weekInputViewModel.metricValueArray.forEach(metricVal => metricVal.isUpdated = false);
@@ -92,11 +97,10 @@ export class WeekInputComponent implements OnInit {
     }
 
     recalcMetricValues() {
-        return this.metricValueService.getMetricReasonValuesJSON([this.weekInputViewModel], [this.weekInputViewModel],['isUpdated']);
+        return this.metricValueService.getMetricReasonValuesJSON([this.weekInputViewModel], [this.weekInputViewModel], ['isUpdated']);
     }
 
-    checkInput(inputValue:any) {
-
+    checkInput(inputValue: any) {
         if (!inputValue) {
             this.errorMessage = '';
             return false;

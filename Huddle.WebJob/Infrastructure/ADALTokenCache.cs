@@ -1,4 +1,9 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace Huddle.WebJob.Infrastructure
 {
@@ -8,7 +13,6 @@ namespace Huddle.WebJob.Infrastructure
         public static readonly ADALTokenCache Instances = new ADALTokenCache();
 
         private byte[] cacheData;
-
 
         private ADALTokenCache()
         {
@@ -26,8 +30,8 @@ namespace Huddle.WebJob.Infrastructure
         {
             if (cacheData != null)
                 this.Deserialize(cacheData);
-
         }
+
         private void AfterAccessNotification(TokenCacheNotificationArgs args)
         {
             if (!this.HasStateChanged) return;

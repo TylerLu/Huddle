@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.WebJob.Models;
 using Microsoft.SharePoint.Client;
 using Newtonsoft.Json.Linq;
-using Huddle.WebJob.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Huddle.WebJob.Services
 {
@@ -24,7 +28,7 @@ namespace Huddle.WebJob.Services
             this.teamService = teamService;
         }
 
-        public PlannerService(ClientContext spClientContext): this()
+        public PlannerService(ClientContext spClientContext) : this()
         {
             metricIdeaService = new MetricIdeaService(spClientContext);
         }
@@ -41,6 +45,7 @@ namespace Huddle.WebJob.Services
                 LogService.LogInfo("Failed to get the global bucket.");
                 return movedIdeas;
             }
+
             var nonGlobalTeams = await teamService.GetNonGlobalTeamsAsync();
             foreach (var team in nonGlobalTeams)
             {
@@ -63,9 +68,7 @@ namespace Huddle.WebJob.Services
                     }
                 }
                 else
-                {
                     LogService.LogInfo($"Failed to get the plan of the team.");
-                }
                 LogService.LogOperationEnded(operation);
             }
             return movedIdeas;
@@ -79,25 +82,21 @@ namespace Huddle.WebJob.Services
             var globalBucket = await GetShareableBucketAsync(globalPlan);
             var lifeSpan = 0d;
             var gotLifeSpan = double.TryParse(Constants.GlobalTaskLifeSpan, out lifeSpan);
+
             LogService.LogInfo($"Remove ideas more than {lifeSpan} days on board in bucket: {globalBucket?.Name}, team: { globalTeam?.DisplayName}.");
             if (globalBucket == null || !gotLifeSpan)
-            {
                 return removedIdeas;
-            }
+
             var ideas = (await GetIdeasInBucketAsync(globalBucket));
             foreach (var idea in ideas)
             {
-                if (!idea.CreatedDateTime.HasValue ||
-                    (DateTime.UtcNow - idea.CreatedDateTime.Value.UtcDateTime).TotalDays <= lifeSpan)
-                {
+                if (!idea.CreatedDateTime.HasValue || (DateTime.UtcNow - idea.CreatedDateTime.Value.UtcDateTime).TotalDays <= lifeSpan)
                     continue;
-                }
+
                 await DeleteIdea(idea);
                 removedIdeas.Add(idea);
                 if (metricIdeaService != null)
-                {
                     metricIdeaService.DeleteIdeaInMetricIdeaList(idea);
-                }
             }
             return removedIdeas;
         }
@@ -117,10 +116,7 @@ namespace Huddle.WebJob.Services
 
         private async Task<Plan> GetTeamPlanAsync(Team team)
         {
-            if (team == null)
-            {
-                return null;
-            }
+            if (team == null) return null;
 
             var parameters = new JObject();
             parameters.Add("groupId", team.Id);
@@ -130,10 +126,7 @@ namespace Huddle.WebJob.Services
 
         private async Task<IEnumerable<Bucket>> GetBucketsInPlanAsync(Plan plan)
         {
-            if (plan == null)
-            {
-                return new Bucket[0];
-            }
+            if (plan == null) return new Bucket[0];
 
             var parameters = new JObject();
             parameters.Add("planId", plan.Id);
@@ -149,19 +142,14 @@ namespace Huddle.WebJob.Services
         private async Task<IEnumerable<Idea>> GetIdeasInShareableBucketAsync(Plan plan)
         {
             var bucket = await GetShareableBucketAsync(plan);
-            if (bucket == null)
-            {
-                return new Idea[0];
-            }
+            if (bucket == null) return new Idea[0];
+
             return await GetIdeasInBucketAsync(bucket);
         }
 
         private async Task<IEnumerable<Idea>> GetIdeasInPlanAsync(Plan plan)
         {
-            if (plan == null)
-            {
-                return new Idea[0];
-            }
+            if (plan == null) return new Idea[0];
 
             var parameters = new JObject();
             parameters.Add("planId", plan.Id);
@@ -171,10 +159,7 @@ namespace Huddle.WebJob.Services
 
         private async Task<IEnumerable<Idea>> GetIdeasInBucketAsync(Bucket bucket)
         {
-            if (bucket == null)
-            {
-                return new Idea[0];
-            }
+            if (bucket == null) return new Idea[0];
 
             var parameters = new JObject();
             parameters.Add("bucketId", bucket.Id);

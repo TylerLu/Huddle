@@ -1,4 +1,9 @@
-﻿using Microsoft.SharePoint.Client;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Microsoft.SharePoint.Client;
 
 namespace Huddle.BotWebApp.SharePoint
 {

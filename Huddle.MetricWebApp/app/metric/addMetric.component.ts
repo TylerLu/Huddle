@@ -1,4 +1,9 @@
-﻿import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Router } from '@angular/router';
@@ -24,8 +29,7 @@ export class AddMetricComponent implements OnInit, AfterViewChecked {
     toAddMetric = new Metric();
     issue = new Issue();
 
-    @ViewChild('metricForm')
-    private metricForm: NgForm;
+    @ViewChild('metricForm') private metricForm: NgForm;
 
     constructor(private metricService: MetricService, private issueService: IssueService, private router: Router) {
     }
@@ -36,13 +40,13 @@ export class AddMetricComponent implements OnInit, AfterViewChecked {
     open(issueId): void {
         this.isShown = true;
         this.toAddMetric = new Metric();
-        if (issueId>0) {
+        if (issueId > 0) {
             this.issueService.getIssueById(issueId)
                 .subscribe(issue => {
                     this.issue.id = issue.id;
                     this.issue.name = issue.name;
                     this.toAddMetric.issue = issue;
-            });
+                });
         }
         this.toAddMetric.valueType = "Numbers";
     }
@@ -57,17 +61,15 @@ export class AddMetricComponent implements OnInit, AfterViewChecked {
         this.toAddMetric.valueType = valueType;
     }
 
-
     saveMetric(): void {
         this.isSaving = true;
         this.metricService.addMetric(this.toAddMetric)
             .subscribe(result => {
                 this.toAddMetric = result;
-                    this.close();
+                this.close();
             });
     }
 
     ngAfterViewChecked() {
-        
     }
 }

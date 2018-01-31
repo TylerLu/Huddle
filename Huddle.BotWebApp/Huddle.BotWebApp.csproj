@@ -307,12 +307,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\CancelScorable.cs" />
-    <Compile Include="Dialogs\CreateIdeaDialog2.cs" />
+    <Compile Include="Dialogs\CreateIdeaDialog.cs" />
     <Compile Include="Dialogs\ListIdeasDialog.cs" />
     <Compile Include="Dialogs\Exceptions.cs" />
     <Compile Include="Dialogs\SelectTeamMemberDialog.cs" />
     <Compile Include="Dialogs\SelectTeamDialog.cs" />
-    <Compile Include="Dialogs\CreateIdeaDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Dialogs\SignInDialog.cs" />
     <Compile Include="Dialogs\TeamDialog.cs" />
@@ -390,9 +389,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>

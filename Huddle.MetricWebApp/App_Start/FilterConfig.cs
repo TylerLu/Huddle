@@ -1,5 +1,9 @@
-﻿using Huddle.MetricWebApp.Infrastructure;
-using System.Web;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.MetricWebApp.Infrastructure;
 using System.Web.Mvc;
 
 namespace Huddle.MetricWebApp

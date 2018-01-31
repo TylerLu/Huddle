@@ -1,9 +1,13 @@
-﻿using System;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.WebJob.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Huddle.WebJob.Models;
 
 namespace Huddle.WebJob.Services
 {
@@ -15,9 +19,7 @@ namespace Huddle.WebJob.Services
         public async Task<IEnumerable<Team>> GetJoinedTeamsAsync()
         {
             if (joinedTeams == null)
-            {
                 joinedTeams = (await HttpHelper.Request<Array<Team>>(Constants.LogicAppUrls.GetJoinedTeams, null)).Value;
-            }
             return joinedTeams;
         }
 

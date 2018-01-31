@@ -1,4 +1,9 @@
-﻿import { Issue } from '../shared/models/issue';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Issue } from '../shared/models/issue';
 import { Category } from '../shared/models/category';
 import { Reason } from '../shared/models/reason';
 import { Metric } from '../shared/models/metric';
@@ -8,16 +13,13 @@ import { DateHelper } from '../utils/dateHelper';
 
 export class ModelConverter {
 
-    public static ToReasonListBackend(reasons: Array<Reason>,)
-    {
+    public static ToReasonListBackend(reasons: Array<Reason>, ) {
         return reasons.map(reason => this.ToReasonBackend(reason));
     }
 
-    public static ToReasonBackend(reason: Reason): any {        
+    public static ToReasonBackend(reason: Reason): any {
         return {
             Id: reason.id,
-            //issue is removed from reason
-            //Issue: this.ToIssueBackend(reason.issue),
             Name: reason.name,
             State: reason.reasonState,
             ReasonTracking: reason.reasonTracking,
@@ -50,8 +52,8 @@ export class ModelConverter {
             Issue: {
                 Id: metric.issue.id,
                 Name: metric.issue.name
-            }       ,   
-            TargetGoal: metric.targetGoal,            
+            },
+            TargetGoal: metric.targetGoal,
             ValueType: metric.valueType,
             State: metric.metricState
         };
@@ -59,8 +61,8 @@ export class ModelConverter {
 
     public static toCategoryBackend(category: Category): any {
         return {
-            Id: category==null?0:category.id,
-            Name: category==null?'':category.name
+            Id: category == null ? 0 : category.id,
+            Name: category == null ? '' : category.name
         };
     }
 
@@ -90,14 +92,14 @@ export class ModelConverter {
         return reasonValue.constructor.name === 'ReasonValue';
     }
 
-    public static toMetricValueFrontend(metricValue: object): MetricValue{
+    public static toMetricValueFrontend(metricValue: object): MetricValue {
         if (this.isMetricValueFrontend(metricValue)) {
             return metricValue as MetricValue;
         }
         return null;
     }
 
-    public static toReasonValueFrontend(reasonValue: object): ReasonValue{
+    public static toReasonValueFrontend(reasonValue: object): ReasonValue {
         if (this.isReasonValueFrontend(reasonValue)) {
             return reasonValue as ReasonValue;
         }

@@ -1,9 +1,12 @@
-﻿using Microsoft.Graph;
-using System;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Microsoft.Graph;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Huddle.Common
 {
@@ -13,7 +16,7 @@ namespace Huddle.Common
         {
             var collectionPage = await request.GetAsync();
             return await GetAllAsync(collectionPage)
-                .ContinueWith(i=>i.Result.OfType<User>().ToArray());
+                .ContinueWith(i => i.Result.OfType<User>().ToArray());
         }
 
         public static async Task<PlannerTask[]> GetAllAsync(this IPlannerPlanTasksCollectionRequest request)
@@ -33,7 +36,6 @@ namespace Huddle.Common
             var collectionPage = await request.GetAsync();
             return await GetAllAsync(collectionPage);
         }
-                
 
         private static async Task<TItem[]> GetAllAsync<TItem>(ICollectionPage<TItem> collectionPage)
         {
@@ -49,16 +51,5 @@ namespace Huddle.Common
 
             return list.ToArray();
         }
-
-        //private static async Task<bool> AnyAsync<TItem>(ICollectionPage<TItem> collectionPage, Func<TItem, bool> predicate)
-        //{
-        //    dynamic page = collectionPage;
-        //    while (true)
-        //    {
-        //        if (Enumerable.Any(page.CurrentPage, predicate)) return true;
-        //        if (page.NextPageRequest == null) return false;
-        //        page = await page.NextPageRequest.GetAsync();
-        //    }
-        //}
     }
 }

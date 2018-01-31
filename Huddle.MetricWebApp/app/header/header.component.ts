@@ -1,14 +1,19 @@
-﻿import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { IssueState } from '../shared/models/issueState';
 import { IssueStateViewModel } from '../shared/models/issueState.viewmodel';
 import { IssueViewModel } from '../issueList/issue.viewmodel';
 import { Issue } from '../shared/models/issue';
 import { Metric } from '../shared/models/metric';
-import { QueryResult} from '../shared/models/queryResult';
-import { Constants} from '../shared/constants';
+import { QueryResult } from '../shared/models/queryResult';
+import { Constants } from '../shared/constants';
 import { QueryService } from '../services/query.service';
-import { DataService} from '../services/data.service';
+import { DataService } from '../services/data.service';
 import { CommonUtil } from '../utils/commonUtil';
 import { AllowClick } from '../shared/models/allowClick';
 import { WeekDay } from '../shared/models/weekDay';
@@ -25,23 +30,20 @@ export class HeaderComponent implements OnInit {
     @Output() filterIssueState: EventEmitter<IssueStateViewModel> = new EventEmitter<IssueStateViewModel>();
     @Output() selectQuery: EventEmitter<QueryResult> = new EventEmitter<QueryResult>();
 
+    teamId: string;
     issueStates = new Array<IssueStateViewModel>();
     selectedIssueState: IssueStateViewModel;
-
-    teamId: string;
-
     selectedQueryResult: QueryResult;
-    //suggestedIssues: Observable<IssueViewModel>;
 
     allowWeekClick: AllowClick = new AllowClick(true);
 
     constructor(private queryService: QueryService, private dataService: DataService) {
         this.initIssueStates();
     }
+
     ngOnInit(): void {
         this.initTeamId();
     }
-
 
     initIssueStates() {
         let issueActive = new IssueStateViewModel();
@@ -56,7 +58,6 @@ export class HeaderComponent implements OnInit {
 
         this.selectedIssueState = issueActive;
     }
-
 
     initTeamId() {
         this.teamId = CommonUtil.getTeamId();
@@ -73,9 +74,9 @@ export class HeaderComponent implements OnInit {
     suggestedQueryResultList = (keyword: any): Observable<QueryResult[]> => {
         keyword = keyword.trim();
         if (keyword && keyword.length >= Constants.suggestCharNum) {
-            return this.queryService.searchQuery(this.selectedIssueState.value, keyword,this.teamId);
+            return this.queryService.searchQuery(this.selectedIssueState.value, keyword, this.teamId);
         } else {
-          return Observable.of([]);
+            return Observable.of([]);
         }
     }
 
@@ -86,5 +87,4 @@ export class HeaderComponent implements OnInit {
     checkAllowWeekClick(event: boolean) {
         return this.allowWeekClick;
     }
-
 }

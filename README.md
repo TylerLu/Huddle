@@ -106,8 +106,8 @@ In this section, we will connect to Microsoft Teams in PowerShell with a Huddle 
    >   * Public: public teams are visible to everyone from the teams gallery and you can join them without getting approval from the team owner.
    > * Owners and Members:
    >   * Please use UPN (User Principle Name) instead of email.
-   >   * Use ";" to separate multi users. 
-   >   * The Huddle work account used to connect to Microsoft Teams will be added as owner of each team automatically, no matter it is in the owners column or not.
+   >   * Use ";" to separate multi-users. 
+   >   * The Huddle work account used to connect to Microsoft Teams will be added as the owner of each team automatically, no matter it is in the owners column or not.
 
 2. Run PowerShell as Administrator, and execute the commands below to install required modules:
 
@@ -337,7 +337,7 @@ The keyCredential is in the generated file, and will be used to create App Regis
 
 ### Export the Certificate and Convert to Base64 String
 
-The following commands will export the certificate and convert it to base64 string.
+The following commands will export the certificate and convert it to a base64 string.
 
 ~~~powershell
 $password = Read-Host -Prompt "Enter password" -AsSecureString
@@ -375,7 +375,7 @@ The **Directory ID** will be used as the value of  **Tenant Id** parameter of th
 
       | API                                      | Permission Type | Permissions                              |
       | ---------------------------------------- | --------------- | ---------------------------------------- |
-      | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site  collections |
+      | Office 365 SharePoint Online<br />(Microsoft.SharePoint) | Application     | Read and write items and lists in all site collections |
       | Microsoft  Graph                         | Delegated       | Read and write all groups<br />Read all users' full profiles |
 
 2. Copy aside the **Application Id**. It will be used as the values of **Bot Client Id** parameter of the ARM Template.

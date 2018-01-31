@@ -1,4 +1,9 @@
-﻿using Huddle.BotWebApp.Models;
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+using Huddle.BotWebApp.Models;
 using Huddle.BotWebApp.Utils;
 using Huddle.Common;
 using Microsoft.Graph;
@@ -34,24 +39,27 @@ namespace Huddle.BotWebApp.SharePoint
                SPLists.Issues.States.Active,
                SPLists.Issues.Columns.TeamId,
                teamId);
+
             var query = new CamlQuery();
             query.ViewXml = string.Format("<View><Query><Where>{0}</Where></Query></View>", filter);
 
             using (var clientContext = await AuthenticationHelper.GetAppOnlySharePointClientContextAsync())
             {
-                var issues = clientContext.GetItems(SPLists.Issues.Title, query).Select(s => s[SPLists.Issues.Columns.ID] as int?).ToArray();
+                var issues = clientContext.GetItems(SPLists.Issues.Title, query)
+                    .Select(s => s[SPLists.Issues.Columns.ID] as int?)
+                    .ToArray();
                 if (issues.Length > 0)
                 {
                     filter = string.Format(@"<And>
-                        <Eq>
-                            <FieldRef Name='{0}' />
-                            <Value Type='Choice'>{1}</Value>
-                        </Eq>
-                        <In>
-                            <FieldRef Name='{2}' LookupId='True' />
-                            <Values><Value Type='LookUp'>{3}</Value></Values>
-                        </In>
-                    </And>",
+                            <Eq>
+                                <FieldRef Name='{0}' />
+                                <Value Type='Choice'>{1}</Value>
+                            </Eq>
+                            <In>
+                                <FieldRef Name='{2}' LookupId='True' />
+                                <Values><Value Type='LookUp'>{3}</Value></Values>
+                            </In>
+                        </And>",
                        SPLists.Metrics.Columns.State,
                        SPLists.Issues.States.Active,
                        SPLists.Metrics.Columns.Issue,
@@ -66,7 +74,6 @@ namespace Huddle.BotWebApp.SharePoint
                     return new Metric[0];
             }
         }
-
 
         public async Task CreateMetricIdeaAsync(int? metricId, PlannerTask task, string bucket, string taskURL)
         {

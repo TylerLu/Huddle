@@ -1,4 +1,8 @@
-﻿
+﻿@*
+    *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+    *   * See LICENSE in the project root for license information.
+*@
+
 @{
     ViewBag.Title = "SignIn";
     Layout = "~/Views/Shared/_TeamsTabLayout.cshtml";
@@ -13,10 +17,8 @@
 
 }
 
-
 <p>Signing in ...</p>
 <iframe src="@embedAuthUrl" style="display:none"></iframe>
-
 
 @section scripts{
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>

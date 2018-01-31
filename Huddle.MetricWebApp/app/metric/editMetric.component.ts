@@ -1,4 +1,9 @@
-﻿import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter, Input } from '@angular/core';
+﻿/*   
+ *   * Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.  
+ *   * See LICENSE in the project root for license information.  
+ */
+
+import { Component, OnInit, AfterViewChecked, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Metric } from '../shared/models/metric';
@@ -26,8 +31,11 @@ export class EditMetricComponent implements OnInit, AfterViewChecked {
     isShown = false;
     toEditMetric = new Metric();
     issue = new Issue();
-    @ViewChild('metricForm')
-    private metricForm: NgForm;
+    deleteTitle: string = '';
+
+    @ViewChild(ConfirmComponent) private deletePopupComponent: ConfirmComponent;
+    @ViewChild('modalDelete') modalDeletePopupContainer: ModalComponent;
+    @ViewChild('metricForm') private metricForm: NgForm;
 
     constructor(private metricService: MetricService, private issueService: IssueService, private router: Router) {
     }
@@ -38,11 +46,10 @@ export class EditMetricComponent implements OnInit, AfterViewChecked {
     open(issue: Issue, metric: Metric): void {
         this.isShown = true;
         this.isSaving = false;
-
         this.issue = issue;
         this.toEditMetric.issue = issue;
         this.toEditMetric = metric;
-        
+
     }
 
     close(): void {
@@ -55,35 +62,24 @@ export class EditMetricComponent implements OnInit, AfterViewChecked {
         this.toEditMetric.valueType = valueType;
     }
 
-
     saveMetric(): void {
         this.isSaving = true;
         this.toEditMetric.metricState = ((this.toEditMetric.metricState.toLocaleString() === 'false' || this.toEditMetric.metricState.toLocaleString() === '0') ? State.closed : State.active);
-
         this.metricService.editMetric(this.toEditMetric)
             .subscribe(result => {
-                    this.close();
+                this.close();
             });
     }
 
-    //pop up
-
-    @ViewChild(ConfirmComponent)
-    private deletePopupComponent: ConfirmComponent;
-
-    deleteTitle: string = '';
-
-
-    @ViewChild('modalDelete')
-    modalDeletePopupContainer: ModalComponent;
-
     delete(): void {
-        this.modalDeletePopupContainer.open();5
+        this.modalDeletePopupContainer.open();
     }
+
     deleteOpened(): void {
         this.deleteTitle = 'DELETE METRIC: "' + this.toEditMetric.name + '"';
         this.deletePopupComponent.open(Constants.metricListName, this.toEditMetric.id);
     }
+
     deleteDismissed(): void {
     }
 
@@ -96,6 +92,5 @@ export class EditMetricComponent implements OnInit, AfterViewChecked {
     }
 
     ngAfterViewChecked() {
-        
     }
 }
