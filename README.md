@@ -60,7 +60,7 @@
 * [Create Teams App Package and Side-load It](#create-teams-app-package-and-side-load-it)
 * [Add Metric Input Tab](#add-metric-input-tab)
 * [Add Idea Board Tab](#add-idea-board-tab)
-* [Add Issue Metrics Tab](add-issue-metrics-tab)
+* [Add Issue Metrics Tab](#add-issue-metrics-tab)
 
 ## Foreword
 
