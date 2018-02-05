@@ -22,7 +22,7 @@ import { IssueState } from '../shared/models/issueState';
 @Injectable()
 export class MetricValueService {
     @Output() getMetricReasonValuesEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
-
+    @Output() updateMetricReasonValuesEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
     constructor(private dataService: DataService) {
     }
 
@@ -60,7 +60,8 @@ export class MetricValueService {
         this.dataService.post(Constants.webAPI.metricValuesUrl, { metricValues: toPostMetricVals.map(mvArray => mvArray.map(mv => ModelConverter.toMetricValueBackend(mv))), reasonValues: toPostReasonVals.map(rvArray => rvArray.map(rv => ModelConverter.toReasonValueBackend(rv))) })
             .subscribe(
             resp => {
-                activeObject.next(true);
+                activeObject.next(resp);
+                this.updateMetricReasonValuesEvent.emit(true);
             },
             error => HandleError.handleError(error));
         return activeObject;
@@ -75,9 +76,8 @@ export class MetricValueService {
             let tempMvArray = mvArray.filter((metricValue, index2) => {
                 return originalMetricVals[index1][index2].metricValues != metricValue.metricValues;
             });
-            if (tempMvArray.length == 0)
-                tempMvArray = [mvArray[0]];
-            toPostMetricVals.push(tempMvArray);
+            if (tempMvArray.length > 0)
+                toPostMetricVals.push(tempMvArray);
         });
         return toPostMetricVals;
     }
@@ -91,9 +91,8 @@ export class MetricValueService {
             let tempRmArray = rmArray.filter((reasonMetric, index2) => {
                 return originalReasonVals[index1][index2].reasonMetricValues != reasonMetric.reasonMetricValues;
             });
-            if (tempRmArray.length == 0)
-                tempRmArray = [rmArray[0]];
-            toPostReasonVals.push(tempRmArray);
+            if (tempRmArray.length > 0)
+                toPostReasonVals.push(tempRmArray);
         });
         return toPostReasonVals;
     }

@@ -7,6 +7,7 @@
     <pnp:ProvisioningTemplate ID="TEMPLATE-851DADA8EC80445998442630FEF36D08" Version="1" BaseSiteTemplate="STS#0" Scope="RootSite">
       <pnp:SiteFields>
         <Field ID="{4a4b8741-8e3f-4a03-a49c-1cc2f3ca2c78}" Type="Text" DisplayName="Team Id" StaticName="HuddleTeamId" Name="HuddleTeamId" Required="TRUE" Indexed="TRUE" MaxLength="255" Group="Huddle" />
+        <Field ID="{ef8c2ba3-24e5-45e3-9862-38abe74d35ec}" Type="Text" DisplayName="User Id" StaticName="HuddleUserId" Name="HuddleUserId" Required="TRUE" Indexed="TRUE" MaxLength="255" Group="Huddle" />
         <Field ID="{c9b5a030-81df-4a3f-b755-14659d0fce3e}" Type="Text" DisplayName="Task Id" StaticName="HuddleTaskId" Name="HuddleTaskId" Required="TRUE" Indexed="TRUE" MaxLength="255" Group="Huddle" />
         <Field ID="{988bc34a-1334-449d-a90e-543524519b66}" Type="Text" DisplayName="Task Status" StaticName="HuddleTaskStatus" Name="HuddleTaskStatus"  Required="TRUE" Indexed="TRUE" MaxLength="255" Group="Huddle" />
         <Field ID="{b374f4c1-6e46-48f0-b341-5d69a418da41}" Type="Text" DisplayName="Task Name" StaticName="HuddleTaskName" Name="HuddleTaskName" Required="TRUE" Indexed="FALSE" MaxLength="255" Group="Huddle" />
@@ -102,6 +103,13 @@
             <pnp:FieldRef ID="8bd1fd35-c4c2-4f01-9ce1-1fa757685714" Name="HuddleTaskStartDate" Required="true" />
             <pnp:FieldRef ID="988bc34a-1334-449d-a90e-543524519b66" Name="HuddleTaskStatus" Required="true" />
             <pnp:FieldRef ID="29be82fe-bd0c-464b-8116-37194db7afa2" Name="HuddleTaskCompletedDate" Required="false" />
+          </pnp:FieldRefs>
+        </pnp:ContentType>
+        <pnp:ContentType ID="0x0100ACE6EE0C27D74D7BA5600F860FF76F30" Name="HuddleDefaultTeam" Group="Huddle">
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="fa564e0f-0c70-4ab9-b863-0177e6ddd247" Name="Title" Hidden="true" />
+            <pnp:FieldRef ID="ef8c2ba3-24e5-45e3-9862-38abe74d35ec" Name="HuddleUserId" Required="true" />
+            <pnp:FieldRef ID="4a4b8741-8e3f-4a03-a49c-1cc2f3ca2c78" Name="HuddleTeamId" Required="true" />
           </pnp:FieldRefs>
         </pnp:ContentType>
       </pnp:ContentTypes>
@@ -326,6 +334,33 @@
             <pnp:FieldRef ID="8bd1fd35-c4c2-4f01-9ce1-1fa757685714" Name="HuddleTaskStartDate" DisplayName="Task Start Date" Required="true" />
             <pnp:FieldRef ID="988bc34a-1334-449d-a90e-543524519b66" Name="HuddleTaskStatus" DisplayName="Task Status" Required="true" />
             <pnp:FieldRef ID="29be82fe-bd0c-464b-8116-37194db7afa2" Name="HuddleTaskCompletedDate" DisplayName="Task Completed Date" />
+          </pnp:FieldRefs>
+        </pnp:ListInstance>
+        <pnp:ListInstance Title="Default Teams" TemplateType="100" Url="Lists/Default Teams" TemplateFeatureID="00bfea71-de22-43b2-a848-c05709900100" OnQuickLaunch="false" ContentTypesEnabled="true" EnableAttachments="false" EnableFolderCreation="false">
+          <pnp:ContentTypeBindings>
+            <pnp:ContentTypeBinding ContentTypeID="0x0100ACE6EE0C27D74D7BA5600F860FF76F30" Default="true" />
+            <pnp:ContentTypeBinding ContentTypeID="0x01" Hidden="true" />
+          </pnp:ContentTypeBindings>
+          <pnp:Views>
+            <View Name="{3045bb0f-7601-4a8f-9ea9-5a2f4a19d271}" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" Type="HTML" DisplayName="All Items" Level="1" BaseViewID="1" ContentTypeID="0x">
+              <Query>
+                <OrderBy>
+                  <FieldRef Name="ID" />
+                </OrderBy>
+              </Query>
+              <ViewFields>
+                <FieldRef Name="ID" />
+                <FieldRef Name="HuddleUserId" />
+                <FieldRef Name="HuddleTeamId" />
+              </ViewFields>
+              <RowLimit Paged="TRUE">30</RowLimit>
+              <Aggregations Value="Off" />
+              <JSLink>clienttemplates.js</JSLink>
+            </View>
+          </pnp:Views>
+          <pnp:FieldRefs>
+            <pnp:FieldRef ID="ef8c2ba3-24e5-45e3-9862-38abe74d35ec" Name="HuddleUserId" DisplayName="User Id" Required="true" />
+            <pnp:FieldRef ID="4a4b8741-8e3f-4a03-a49c-1cc2f3ca2c78" Name="HuddleTeamId" DisplayName="Team Id" Required="true" />
           </pnp:FieldRefs>
         </pnp:ListInstance>
       </pnp:Lists>

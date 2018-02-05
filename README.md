@@ -60,6 +60,7 @@
 * [Create Teams App Package and Side-load It](#create-teams-app-package-and-side-load-it)
 * [Add Metric Input Tab](#add-metric-input-tab)
 * [Add Idea Board Tab](#add-idea-board-tab)
+* [Add Issue Metrics Tab](add-issue-metrics-tab)
 
 ## Foreword
 
@@ -786,5 +787,61 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
    Input: IdeaBoard
 
 7. Click **Save**. 
+
+### Add Issue Metrics Tab
+
+#### Import the Issue Metrics App
+
+1. Open https://web.powerapps.com/apps, then sign in with the Huddle work account.
+
+   ![](Images/power-app-01.png)
+
+2. Click **Import package**.
+
+   ![](Images/power-app-02.png)
+
+3. Select `/Files/IssueMetrics.zip`.
+
+   ![](Images/power-app-03.png)
+
+4. Click **Import**.
+
+#### Share the Issue Metrics App
+
+1. Click **Apps** at the left bar.
+
+   ![](Images/power-app-04.png)
+
+2. Find the Issue Metrics App, click **...** -> **Share**.
+
+   ![](Images/power-app-05.png)
+
+3. Enter names, email addresses, or user groups. Or click **Add everyone in my org**.
+
+4. Click **Save**.
+
+#### Add Issue Metrics tab
+
+1. Click a team.
+
+   ![](Images/ms-teams-06.png)        
+
+2. Click **+**
+
+   ![](Images/ms-teams-15.png)
+
+3. Click **PowerApps**.
+
+   > Note: if it is the first time to Add PowerApps tab to the team. Please click Install on the popup.
+   >
+   > ![](Images/ms-teams-16.png)
+
+4. Select the **Issue Metrics** app.
+
+   ![](Images/ms-teams-17.png)
+
+   Click **Save**.
+
+   ​
 
 **Copyright (c) 2018 Microsoft. All rights reserved.**

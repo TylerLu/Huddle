@@ -74,6 +74,28 @@ namespace Huddle.MetricWebApp.Util
             };
         }
 
+        public static object ToJson(this MetricValue metricValue)
+        {
+            return new
+            {
+                id = metricValue.Id,
+                metric = metricValue.Metric.ToJson(),
+                metricValues = metricValue.Value,
+                inputDate = metricValue.InputDate
+            };
+        }
+
+        public static object ToJson(this ReasonValue reasonValue)
+        {
+            return new
+            {
+                id = reasonValue.Id,
+                reason = reasonValue.Reason.ToJson(),
+                reasonMetricValues = reasonValue.Value,
+                inputDate = reasonValue.InputDate
+            };
+        }
+
         public static object ToJson(this MetricValue[] issueMetrics)
         {
             return new

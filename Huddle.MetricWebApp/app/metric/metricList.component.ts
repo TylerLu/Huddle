@@ -26,7 +26,8 @@ import { WeekSelectorService } from '../services/weekSelector.service';
 import { MetricValueService } from '../services/metricValue.service';
 import { State } from '../shared/models/state';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
-
+import { MetricValue } from '../shared/models/metricValue';
+import { ReasonValue } from '../shared/models/reasonValue';
 declare var microsoftTeams: any;
 
 @Component({
@@ -214,6 +215,7 @@ export class MetricListComponent implements OnInit {
             [],
             this.currentMetricValues)
             .subscribe(resp => {
+                this.assignCreatedMetricValues(resp, this.metricWeekInputViewModelArray);
                 this.removeAllUpdatedFlags();
                 this.currentMetricValues = this.recalcMetricValues();
                 this.weekSelectorService.allowSelectForMetric();
@@ -221,6 +223,7 @@ export class MetricListComponent implements OnInit {
                 Observable.combineLatest(updatedReasonList)
                     .subscribe(resp => {
                         this.reasonLists.forEach(rl => {
+                            this.assignCreatedReasonValues(resp, rl.reasonWeekInputViewModelArray);
                             rl.removeAllUpdatedFlags();
                             rl.currentReasonValues = rl.recalcMetricValues();
                             this.weekSelectorService.allowSelectForReason();
@@ -229,6 +232,43 @@ export class MetricListComponent implements OnInit {
                     });
             });
         return activeObject;
+    }
+
+    assignCreatedMetricValues(resp: any, metricWeekInputModelArray: WeekInputViewModel[]) {
+        let respMetricValues: Array<MetricValue[]> = resp['metricValues'] as Array<MetricValue[]>;
+        this.metricWeekInputViewModelArray.forEach(metricWeekInputVM => {
+            metricWeekInputVM.metricValueArray.forEach(metricVal => {
+                respMetricValues.forEach(metricArray => {
+                    metricArray.forEach(respMetricVal => {
+                        if (respMetricVal.metric.id === metricVal.metric.id) {
+                            let respDate = new Date(respMetricVal.inputDate);
+                            if (respDate.getMonth() === metricVal.inputDate.getMonth() && respDate.getDate() === metricVal.inputDate.getDate() && metricVal.id === 0)
+                                metricVal.id = respMetricVal.id;
+                        }
+                    });
+                });
+            });
+        });
+    }
+
+    assignCreatedReasonValues(resp: any, reasonWeekInputModelArray: WeekInputViewModel[]) {
+        let respReason = resp.filter(r => r !== undefined);
+        if (respReason.length === 0)
+            return;
+        let respReasonValues: Array<ReasonValue[]> = respReason[0]['reasonValues'] as Array<ReasonValue[]>;
+        reasonWeekInputModelArray.forEach(reasonWeekInputVM => {
+            reasonWeekInputVM.reasonValueArray.forEach(reasonVal => {
+                respReasonValues.forEach(reasonArray => {
+                    reasonArray.forEach(respReasonVal => {
+                        if (respReasonVal.reason.id === reasonVal.reason.id) {
+                            let respDate = new Date(respReasonVal.inputDate);
+                            if (respDate.getMonth() === reasonVal.inputDate.getMonth() && respDate.getDate() === reasonVal.inputDate.getDate() && reasonVal.id === 0)
+                                reasonVal.id = respReasonVal.id;
+                        }
+                    });
+                });
+            });
+        });
     }
     
     recalcMetricValues() {

@@ -82,7 +82,9 @@ namespace Huddle.MetricWebApp.Controllers
 
             return ToJson(new
             {
-                success = true
+                success = true,
+                metricValues = toAddMetricValues.Select(metricList => metricList.Select(metricVal => metricVal.ToJson())),
+                reasonValues = toAddReasonValues.Select(reasonList => reasonList.Select(reasonVal => reasonVal.ToJson()))
             });
         }
     }

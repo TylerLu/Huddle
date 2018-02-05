@@ -38,6 +38,7 @@ export class WeekInputComponent implements OnInit {
         this.subscribeWeekSelector();
         this.currentWeekDays = this.weekSelectorService.getCurrentWeekDays();
         this.subscribeGetMetricReasonValues();
+        this.subscribeUpdateMetricReasonValues();
     }
 
     subscribeWeekSelector() {
@@ -48,6 +49,12 @@ export class WeekInputComponent implements OnInit {
 
     subscribeGetMetricReasonValues() {
         this.metricValueService.getMetricReasonValuesEvent.subscribe(done => {
+            this.currentValues = this.recalcMetricValues();
+        });
+    }
+
+    subscribeUpdateMetricReasonValues() {
+        this.metricValueService.updateMetricReasonValuesEvent.subscribe(done => {
             this.currentValues = this.recalcMetricValues();
         });
     }
