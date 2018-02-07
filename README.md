@@ -36,7 +36,7 @@
 * [Create App Registration for the MS Graph Connector](#create-app-registration-for-the-ms-graph-connector)
 * [Add keyCredential to App Registrations](#add-keycredential-to-app-registrations)
 
-[Register app for Bot Registration](#register-app-for-bot-registration)
+[Register Microsoft App for Bot Registration](#register-microsoft-app-for-bot-registration)
 
 [Deploy Azure Components with ARM Template](#deploy-azure-components-with-arm-template)
 
@@ -440,7 +440,7 @@ Follow the steps below to add keyCredential to App Registrations of the Bot Web 
 3. Insert the keyCredential into the square brackets of the **keyCredentials** node.
 4. Click **Save**.
 
-## Register app for Bot Registration
+## Register Microsoft App for Bot Registration
 
 1. Open [https://apps.dev.microsoft.com/portal/register-app](https://apps.dev.microsoft.com/portal/register-app) in a browser, then sign in with the Huddle work account.
 
@@ -711,7 +711,7 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
 2. Replace the following 2 placeholders with the corresponding values you got in previous guides:
 
-   * `<MicrosoftAppId>`: the App Id of the Microsoft App registered when creating the Bot
+   * `<MicrosoftAppId>`: the Application Id of the Microsoft App registered for Bot Registration.
 
      ![](Images/ms-teams-01.png)
 
@@ -731,11 +731,11 @@ Another way to start 1:1 talk is using the **MicrosoftAppId** of the Bot:
 
    ![](Images/ms-teams-04.png)
 
-6. Click the **Bots** tab.
+6. Click the **Apps** tab.
 
    ![](Images/ms-teams-05.png)
 
-7. Then click **Sideload a bot or tab**.
+7. Then click **Upload a custom app**.
 8. Select the *HuddleTeamsApp.zip*.
 
 ### Add Metric Input Tab
