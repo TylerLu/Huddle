@@ -915,9 +915,23 @@
                 "statusCode": 200
               }
             },
-            "Update_task_details": {
+            "Wait_Until_Task_Created": {
+              "inputs": {
+                "interval": {
+                  "count": 3,
+                  "unit": "Second"
+                }
+              },
               "runAfter": {
                 "Create_a_task": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Wait"
+            },
+            "Update_task_details": {
+              "runAfter": {
+                "Wait_Until_Task_Created": [
                   "Succeeded"
                 ]
               },
